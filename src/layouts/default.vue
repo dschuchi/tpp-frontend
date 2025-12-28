@@ -1,5 +1,7 @@
 <template>
-  <v-app-bar title="Farmacoop" />
+  <v-app-bar title="Farmacoop">
+    <user-information />
+  </v-app-bar>
 
   <v-navigation-drawer>
     <v-list nav>
