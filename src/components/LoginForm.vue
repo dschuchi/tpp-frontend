@@ -6,13 +6,13 @@
 
         <v-container class="px-16">
           <v-text-field placeholder="Correo electronico" prepend-inner-icon="mdi-email-outline"
-          variant="outlined"></v-text-field>
-          
+            variant="outlined"></v-text-field>
+
           <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
-          placeholder="Contraseña" prepend-inner-icon="mdi-lock-outline" variant="outlined"
-          @click:append-inner="visible = !visible"></v-text-field>
-          
-          <v-btn class="mb-8" color="blue" size="large" variant="tonal" block>
+            placeholder="Contraseña" prepend-inner-icon="mdi-lock-outline" variant="outlined"
+            @click:append-inner="visible = !visible"></v-text-field>
+
+          <v-btn class="mb-8" color="blue" size="x-large" variant="tonal" block :to="{ name: '/' }">
             Iniciar sesión
           </v-btn>
         </v-container>
