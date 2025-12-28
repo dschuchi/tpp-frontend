@@ -1,5 +1,10 @@
 <template>
-  <v-app-bar title="Farmacoop">
+  <v-app-bar>
+    <template v-slot:prepend>
+      <div class="ms-5">
+        <v-img width="210px" src="/farmacoop-text-logo.png"></v-img>
+      </div>
+    </template>
     <user-information />
   </v-app-bar>
 
