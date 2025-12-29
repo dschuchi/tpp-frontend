@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-  //
+definePage({
+  meta: {
+    layout: 'blank',
+    public: true
+  }
+})
 </script>
-
-<route lang="yaml">
-meta:
-  layout: blank
-</route>
