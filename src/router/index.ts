@@ -40,7 +40,7 @@ router.beforeEach((to) => {
   const authStore = useAuthStore()
 
   const isPublic = to.meta.public === true
-  const isAuthenticated = !!authStore.token
+  const isAuthenticated = authStore.isAuthenticated
 
   if (!isPublic && !isAuthenticated) {
     return {
