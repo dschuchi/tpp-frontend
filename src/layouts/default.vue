@@ -8,7 +8,7 @@
     <user-information />
   </v-app-bar>
 
-  <v-navigation-drawer>
+  <v-navigation-drawer permanent>
     <v-list :items="menuItems">
     </v-list>
   </v-navigation-drawer>
