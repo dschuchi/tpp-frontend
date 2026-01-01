@@ -11,10 +11,19 @@ import router from '../router'
 
 // Types
 import type { App } from 'vue'
+import { useAuthStore } from '@/stores/auth.store'
 
-export function registerPlugins (app: App) {
+export async function registerPlugins(app: App) {
   app
     .use(vuetify)
     .use(pinia)
-    .use(router)
+
+  const authStore = useAuthStore()
+  if (authStore.token) {
+    await authStore.me()
+  } else {
+    authStore.hydrated = true
+  }
+
+  app.use(router)
 }

@@ -39,6 +39,10 @@ router.isReady().then(() => {
 router.beforeEach((to) => {
   const authStore = useAuthStore()
 
+  if (!authStore.hydrated) {
+    return false
+  }
+
   const isPublic = to.meta.public === true
   const isAuthenticated = authStore.isAuthenticated
 

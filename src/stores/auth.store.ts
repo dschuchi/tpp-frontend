@@ -4,13 +4,15 @@ import { usersApi } from '@/api/auth.api'
 
 interface AuthState {
   token: string | null
-  loading: boolean
+  loading: boolean,
+  hydrated: boolean
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     token: localStorage.getItem('token'),
     loading: false,
+    hydrated: false
   }),
 
   getters: {
@@ -32,6 +34,18 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.token = null
       localStorage.removeItem('token')
+    },
+
+    async me() {
+      this.loading = true
+      try {
+        await usersApi.me()
+      } catch {
+        this.logout()
+      } finally {
+        this.loading = false
+        this.hydrated = true
+      }
     }
   }
 })

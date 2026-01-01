@@ -16,8 +16,12 @@ import { createApp } from 'vue'
 // Styles
 import 'unfonts.css'
 
-const app = createApp(App)
+async function bootstrap() {
+  const app = createApp(App)
 
-registerPlugins(app)
+  await registerPlugins(app)
 
-app.mount('#app')
+  app.mount('#app')
+}
+
+bootstrap()
