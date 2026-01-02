@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { LoginRequest } from '@/types/users.types'
-import { usersApi } from '@/api/auth.api'
+import { authApi } from '@/api/auth.api'
 
 interface AuthState {
   token: string | null
@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
     async login(credentials: LoginRequest) {
       this.loading = true
       try {
-        const response = await usersApi.login(credentials)
+        const response = await authApi.login(credentials)
         this.token = response.accessToken
         localStorage.setItem('token', response.accessToken)
       } finally {
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
     async me() {
       this.loading = true
       try {
-        await usersApi.me()
+        await authApi.me()
       } catch {
         this.logout()
       } finally {
