@@ -6,10 +6,14 @@
 
         <v-form ref="form" @submit.prevent="submit">
           <v-container class="px-16">
-            <v-text-field class="pb-4" label="Correo electronico" prepend-inner-icon="mdi-email-outline"
+            <v-alert v-if="loginError" type="error" variant="tonal" class="mb-6">
+              {{ loginError }}
+            </v-alert>
+
+            <v-text-field class="mb-1" label="Correo electronico" prepend-inner-icon="mdi-email-outline"
               variant="outlined" v-model="email" :rules="[requiredRule]"></v-text-field>
 
-            <v-text-field class="pb-4" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            <v-text-field class="mb-1" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
               :type="visible ? 'text' : 'password'" label="Contraseña" prepend-inner-icon="mdi-lock-outline"
               variant="outlined" @click:append-inner="visible = !visible" v-model="password"
               :rules="[requiredRule]"></v-text-field>
@@ -35,10 +39,13 @@ const visible = ref(false)
 const email = ref()
 const password = ref()
 const form = ref()
+const loginError = ref('')
 
 const requiredRule = v => !!v || 'Campo obligatorio'
 
 const submit = async () => {
+  loginError.value = ''
+
   const { valid } = await form.value.validate()
   if (!valid) return
 
@@ -51,6 +58,7 @@ const submit = async () => {
     )
     router.replace('/')
   } catch {
+    loginError.value = 'Correo o contraseña incorrectos'
   }
 }
 </script>
