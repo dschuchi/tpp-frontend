@@ -4,14 +4,15 @@
       <v-card class="pa-12 pb-8" elevation="8" rounded="lg" min-width="640px">
         <v-img class="mx-auto my-6" src="/farmacoop-text-logo.png"></v-img>
 
-        <v-form @submit.prevent="submit">
+        <v-form ref="form" @submit.prevent="submit">
           <v-container class="px-16">
-            <v-text-field placeholder="Correo electronico" prepend-inner-icon="mdi-email-outline" variant="outlined"
-              v-model="email"></v-text-field>
+            <v-text-field class="pb-4" label="Correo electronico" prepend-inner-icon="mdi-email-outline"
+              variant="outlined" v-model="email" :rules="[requiredRule]"></v-text-field>
 
-            <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
-              placeholder="Contraseña" prepend-inner-icon="mdi-lock-outline" variant="outlined"
-              @click:append-inner="visible = !visible" v-model="password"></v-text-field>
+            <v-text-field class="pb-4" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+              :type="visible ? 'text' : 'password'" label="Contraseña" prepend-inner-icon="mdi-lock-outline"
+              variant="outlined" @click:append-inner="visible = !visible" v-model="password"
+              :rules="[requiredRule]"></v-text-field>
 
             <v-btn class="mb-8" type="submit" color="blue" size="x-large" variant="tonal" block>
               Iniciar sesión
@@ -33,8 +34,14 @@ const authStore = useAuthStore()
 const visible = ref(false)
 const email = ref()
 const password = ref()
+const form = ref()
+
+const requiredRule = v => !!v || 'Campo obligatorio'
 
 const submit = async () => {
+  const { valid } = await form.value.validate()
+  if (!valid) return
+
   try {
     await authStore.login(
       {
