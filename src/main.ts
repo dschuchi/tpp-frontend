@@ -15,6 +15,8 @@ import { createApp } from 'vue'
 
 // Styles
 import 'unfonts.css'
+import "./assets/general.css";
+import "./assets/typography.css";
 
 async function bootstrap() {
   const app = createApp(App)

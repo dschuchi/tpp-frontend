@@ -1,5 +1,7 @@
 <template>
-  <LoginForm />
+  <v-container fluid class="pa-0 fill-height fill-width">
+    <LoginForm />
+  </v-container>
 </template>
 
 <script lang="ts" setup>

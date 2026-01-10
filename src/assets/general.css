@@ -1,0 +1,7 @@
+.border-default {
+    border: 1px solid rgb(var(--v-theme-outline));
+}
+
+.minus-btn {
+    text-transform: none !important;
+}

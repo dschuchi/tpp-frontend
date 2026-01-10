@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    tty: true
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "5173:5173"
+    working_dir: /var/www/html
+    command: >
+      sh -c "npm install && npm run dev"
+    networks:
+      - tpp-app-network
+
+networks:
+  tpp-app-network:
+    name: tpp-app-network
+    driver: bridge
