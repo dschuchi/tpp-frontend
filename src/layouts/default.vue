@@ -1,17 +1,17 @@
 <template>
-  <v-app-bar>
-    <template v-slot:prepend>
-      <div class="ms-5">
-        <v-img width="210px" src="/farmacoop-text-logo.png"></v-img>
-      </div>
-    </template>
-    <user-information />
-  </v-app-bar>
-
   <v-navigation-drawer permanent>
+    <div class="justify-items-center mt-3">
+      <v-img width="210px" src="/farmacoop-text-logo.png"></v-img>
+    </div>
     <v-list :items="menuItems">
     </v-list>
   </v-navigation-drawer>
+
+  <v-app-bar elevation="0" class="border-b-thin">
+    <template v-slot:append>
+      <user-information />
+    </template>
+  </v-app-bar>
 
   <v-main>
     <router-view />
