@@ -14,52 +14,73 @@
   </v-app-bar>
 
   <v-main>
-    <router-view />
+    <v-container>
+      <router-view />
+    </v-container>
   </v-main>
 </template>
 
 <script lang="ts" setup>
 const menuItems = [
   {
-    title: 'Inicio',
-    value: 'inicio',
+    title: 'Panel',
+    value: 'Panel',
     props: {
-      prependIcon: 'mdi-view-dashboard'
+      prependIcon: 'mdi-view-dashboard',
+      to: '/',
     }
   },
   {
     title: 'Producción',
     value: 'production',
     props: {
-      prependIcon: 'mdi-factory'
+      prependIcon: 'mdi-factory',
+      to: '/produccion',
+      disabled: true
     }
   },
   {
     title: 'Clientes',
     value: 'clients',
     props: {
-      prependIcon: 'mdi-account'
+      prependIcon: 'mdi-account',
+      to: '/clientes',
+      disabled: true
     }
   },
   {
     title: 'Productos',
     value: 'products',
     props: {
-      prependIcon: 'mdi-package-variant-closed'
+      prependIcon: 'mdi-package-variant-closed',
+      to: '/productos',
+      disabled: true
     }
   },
   {
     title: 'Materia Prima',
     value: 'rawMaterials',
     props: {
-      prependIcon: 'mdi-shape'
+      prependIcon: 'mdi-shape',
+      to: '/materia-prima',
+      disabled: true
     }
   },
   {
     title: 'Usuarios',
     value: 'users',
     props: {
-      prependIcon: 'mdi-account-group'
+      prependIcon: 'mdi-account-group',
+      to: '/usuarios',
+      disabled: true
+    }
+  },
+  {
+    title: 'Roles',
+    value: 'roles',
+    props: {
+      prependIcon: 'mdi-card-account-details',
+      to: '/roles',
     }
   }
 ]
