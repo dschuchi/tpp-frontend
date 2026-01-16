@@ -18,6 +18,12 @@
   <v-row>
     <v-col cols="12">
       <v-data-table :headers="headers" :items="roles">
+        <template v-slot:item.is_active="{ value }">
+          <v-chip :color="value ? 'success' : 'error'" size="small">
+            {{ value ? 'Activo' : 'Inactivo' }}
+          </v-chip>
+        </template>
+
         <template v-slot:item.actions="{ item }">
           <div class="d-flex ga-2 justify-end">
             <v-btn disabled @click=" deleteRole(item.id)">
