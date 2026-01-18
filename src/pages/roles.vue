@@ -26,8 +26,12 @@
 
         <template v-slot:item.actions="{ item }">
           <div class="d-flex ga-2 justify-end">
-            <v-btn disabled @click=" deleteRole(item.id)">
+            <v-btn v-if="item.is_active" @click="deactivateRole(item.id)">
               <v-icon icon="mdi-delete"></v-icon>
+            </v-btn>
+
+            <v-btn v-if="!item.is_active" @click="activateRole(item.id)">
+              <v-icon icon="mdi-delete-restore"></v-icon>
             </v-btn>
 
             <v-btn disabled @click="editRole(item.id)">
@@ -66,5 +70,6 @@ const headers: DataTableHeader[] = [
 
 const getRole = (id: number) => { }
 const editRole = (id: number) => { }
-const deleteRole = (id: number) => { }
+const deactivateRole = (id: number) => { rolesStore.deactivateRole(id) }
+const activateRole = (id: number) => { rolesStore.activateRole(id) }
 </script>

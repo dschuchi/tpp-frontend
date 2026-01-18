@@ -15,6 +15,14 @@ export const useRolesStore = defineStore('roles', {
     async getRoles() {
       const response: RolesResponse = await http.get(ROLES_ENDPOINTS.ROLES)
       this.roles = response.roles
+    },
+    async deactivateRole(id: number) {
+      await http.delete(ROLES_ENDPOINTS.ROLE_BY_ID(id))
+      this.getRoles()
+    },
+    async activateRole(id: number) {
+      await http.patch(ROLES_ENDPOINTS.ACTIVATE_ROLE_BY_ID(id))
+      this.getRoles()
     }
   }
 })
