@@ -5,6 +5,13 @@
     </div>
     <v-list :items="menuItems">
     </v-list>
+    <template v-slot:append>
+      <v-list>
+        <v-list-item to="/login" prepend-icon="mdi-logout" @click="logout">
+          Cerrar sesión
+        </v-list-item>
+      </v-list>
+    </template>
   </v-navigation-drawer>
 
   <v-app-bar elevation="0" class="border-b-thin">
@@ -21,6 +28,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useAuthStore } from '@/stores/auth.store';
+
 const menuItems = [
   {
     title: 'Panel',
@@ -84,4 +93,9 @@ const menuItems = [
     }
   }
 ]
+
+const authStore = useAuthStore()
+
+const logout = authStore.logout
+
 </script>
