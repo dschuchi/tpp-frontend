@@ -6,7 +6,7 @@ export const authApi = {
   login(payload: LoginRequest): Promise<LoginResponse> {
     return http.post(USERS_ENDPOINTS.LOGIN, payload)
   },
-  me() {
+  me(): Promise<LoginResponse> {
     return http.get(USERS_ENDPOINTS.ME)
   }
 }
