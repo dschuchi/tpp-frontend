@@ -1,9 +1,16 @@
 <template>
-  <v-card title="Juan Perez" subtitle="Administrador" variant="flat">
+  <v-card :title="userStore.fullname" subtitle="TBD" variant="flat">
     <template v-slot:append>
       <v-avatar color="blue">
-        JP
+        {{ avatarText }}
       </v-avatar>
     </template>
   </v-card>
 </template>
+
+<script setup lang="ts">
+import { useUserStore } from '@/stores/user.store';
+
+const userStore = useUserStore()
+const avatarText = computed(() => userStore.name.charAt(0) + userStore.lastname.charAt(0))
+</script>
