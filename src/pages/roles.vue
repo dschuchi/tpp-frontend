@@ -58,7 +58,6 @@ onMounted(() => {
 const roles = computed(() => rolesStore.roles)
 
 const headers: DataTableHeader[] = [
-  { title: 'ID', key: 'id' },
   { title: 'Rol', key: 'name' },
   { title: 'Descripción', key: 'description' },
   { title: 'Estado', key: 'is_active' },
