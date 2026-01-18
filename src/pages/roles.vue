@@ -26,13 +26,14 @@
 
         <template v-slot:item.actions="{ item }">
           <div class="d-flex ga-2 justify-end">
-            <v-btn v-if="item.is_active" @click="deactivateRole(item.id)">
-              <v-icon icon="mdi-delete"></v-icon>
+            <v-btn v-if="item.is_active" @click="openConfirm('deactivate', item.id)">
+              <v-icon icon="mdi-delete" />
             </v-btn>
 
-            <v-btn v-if="!item.is_active" @click="activateRole(item.id)">
-              <v-icon icon="mdi-delete-restore"></v-icon>
+            <v-btn v-else @click="openConfirm('activate', item.id)">
+              <v-icon icon="mdi-delete-restore" />
             </v-btn>
+
 
             <v-btn disabled @click="editRole(item.id)">
               <v-icon icon=" mdi-pencil"></v-icon>
@@ -46,6 +47,30 @@
       </v-data-table>
     </v-col>
   </v-row>
+
+  <v-dialog v-model="confirmDialog" max-width="420">
+    <v-card>
+      <v-card-title class="text-h6">
+        {{ dialogTitle }}
+      </v-card-title>
+
+      <v-card-text>
+        {{ dialogMessage }}
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer />
+
+        <v-btn variant="text" @click="closeConfirm">
+          Cancelar
+        </v-btn>
+
+        <v-btn :color="confirmColor" @click="confirmAction">
+          Confirmar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -70,6 +95,52 @@ const headers: DataTableHeader[] = [
 
 const getRole = (id: number) => { }
 const editRole = (id: number) => { }
-const deactivateRole = (id: number) => { rolesStore.deactivateRole(id) }
-const activateRole = (id: number) => { rolesStore.activateRole(id) }
+
+type RoleAction = 'activate' | 'deactivate'
+
+const confirmDialog = ref(false)
+const selectedRoleId = ref<number | null>(null)
+const pendingAction = ref<RoleAction | null>(null)
+
+const dialogTitle = computed(() => {
+  return pendingAction.value === 'deactivate'
+    ? 'Desactivar rol'
+    : 'Activar rol'
+})
+
+const dialogMessage = computed(() => {
+  return pendingAction.value === 'deactivate'
+    ? '¿Estás seguro de que querés desactivar este rol?'
+    : '¿Estás seguro de que querés activar este rol?'
+})
+
+const confirmColor = computed(() => {
+  return pendingAction.value === 'deactivate'
+    ? 'error'
+    : 'success'
+})
+
+const openConfirm = (action: RoleAction, id: number) => {
+  pendingAction.value = action
+  selectedRoleId.value = id
+  confirmDialog.value = true
+}
+
+const closeConfirm = () => {
+  confirmDialog.value = false
+  pendingAction.value = null
+  selectedRoleId.value = null
+}
+
+const confirmAction = () => {
+  if (!selectedRoleId.value || !pendingAction.value) return
+
+  if (pendingAction.value === 'deactivate') {
+    rolesStore.deactivateRole(selectedRoleId.value)
+  } else {
+    rolesStore.activateRole(selectedRoleId.value)
+  }
+
+  closeConfirm()
+}
 </script>
