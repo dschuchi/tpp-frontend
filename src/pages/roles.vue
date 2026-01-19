@@ -26,16 +26,20 @@
 
         <template v-slot:item.actions="{ item }">
           <div class="d-flex ga-2 justify-end">
-            <v-btn disabled @click=" deleteRole(item.id)">
-              <v-icon icon="mdi-delete"></v-icon>
+            <v-btn v-if="item.is_active" @click="confirmDeactivate(item.id)">
+              <v-icon icon="mdi-delete" />
+            </v-btn>
+
+            <v-btn v-else @click="confirmActivate(item.id)">
+              <v-icon icon="mdi-delete-restore" />
             </v-btn>
 
             <v-btn disabled @click="editRole(item.id)">
-              <v-icon icon=" mdi-pencil"></v-icon>
+              <v-icon icon="mdi-pencil"></v-icon>
             </v-btn>
 
             <v-btn disabled @click="getRole(item.id)">
-              <v-icon icon=" mdi-eye"></v-icon>
+              <v-icon icon="mdi-eye"></v-icon>
             </v-btn>
           </div>
         </template>
@@ -48,6 +52,7 @@
 import { onMounted, computed } from 'vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
+import { useConfirm } from '@/composables/useConfirm'
 
 const rolesStore = useRolesStore()
 
@@ -66,5 +71,30 @@ const headers: DataTableHeader[] = [
 
 const getRole = (id: number) => { }
 const editRole = (id: number) => { }
-const deleteRole = (id: number) => { }
+
+const { confirm } = useConfirm()
+
+const confirmActivate = async (id: number) => {
+  const ok = await confirm({
+    title: 'Activar rol',
+    message: '¿Estás seguro de que querés activar este rol?',
+    confirmText: 'Activar',
+    confirmColor: 'success'
+  })
+  if (ok) {
+    rolesStore.activateRole(id)
+  }
+}
+
+const confirmDeactivate = async (id: number) => {
+  const ok = await confirm({
+    title: 'Desactivar rol',
+    message: '¿Estás seguro de que querés desactivar este rol?',
+    confirmText: 'Desactivar',
+    confirmColor: 'error'
+  })
+  if (ok) {
+    rolesStore.deactivateRole(id)
+  }
+}
 </script>
