@@ -26,36 +26,33 @@
 
         <template v-slot:item.actions="{ item }">
           <div class="d-flex ga-2 justify-end">
-            <v-btn v-if="item.is_active" @click="openConfirm('deactivate', item.id)">
+            <v-btn v-if="item.is_active" @click="confirmDeactivate(item.id)">
               <v-icon icon="mdi-delete" />
             </v-btn>
 
-            <v-btn v-else @click="openConfirm('activate', item.id)">
+            <v-btn v-else @click="confirmActivate(item.id)">
               <v-icon icon="mdi-delete-restore" />
             </v-btn>
 
-
             <v-btn disabled @click="editRole(item.id)">
-              <v-icon icon=" mdi-pencil"></v-icon>
+              <v-icon icon="mdi-pencil"></v-icon>
             </v-btn>
 
             <v-btn disabled @click="getRole(item.id)">
-              <v-icon icon=" mdi-eye"></v-icon>
+              <v-icon icon="mdi-eye"></v-icon>
             </v-btn>
           </div>
         </template>
       </v-data-table>
     </v-col>
   </v-row>
-
-  <ConfirmDialog v-model="confirmDialog" :title="dialogTitle" :message="dialogMessage"
-    :confirm-text="confirmButtonText" :confirm-color="confirmColor" @confirm="confirmAction" />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, computed } from 'vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
+import { useConfirm } from '@/composables/useConfirm'
 
 const rolesStore = useRolesStore()
 
@@ -75,57 +72,29 @@ const headers: DataTableHeader[] = [
 const getRole = (id: number) => { }
 const editRole = (id: number) => { }
 
-type RoleAction = 'activate' | 'deactivate'
+const { confirm } = useConfirm()
 
-const confirmDialog = ref(false)
-const selectedRoleId = ref<number | null>(null)
-const pendingAction = ref<RoleAction | null>(null)
-
-const dialogTitle = computed(() => {
-  return pendingAction.value === 'deactivate'
-    ? 'Desactivar rol'
-    : 'Activar rol'
-})
-
-const dialogMessage = computed(() => {
-  return pendingAction.value === 'deactivate'
-    ? '¿Estás seguro de que querés desactivar este rol?'
-    : '¿Estás seguro de que querés activar este rol?'
-})
-
-const confirmColor = computed(() => {
-  return pendingAction.value === 'deactivate'
-    ? 'error'
-    : 'success'
-})
-
-const confirmButtonText = computed(() =>
-  pendingAction.value === 'deactivate'
-    ? 'Desactivar'
-    : 'Activar'
-)
-
-const openConfirm = (action: RoleAction, id: number) => {
-  pendingAction.value = action
-  selectedRoleId.value = id
-  confirmDialog.value = true
-}
-
-const closeConfirm = () => {
-  confirmDialog.value = false
-  pendingAction.value = null
-  selectedRoleId.value = null
-}
-
-const confirmAction = () => {
-  if (!selectedRoleId.value || !pendingAction.value) return
-
-  if (pendingAction.value === 'deactivate') {
-    rolesStore.deactivateRole(selectedRoleId.value)
-  } else {
-    rolesStore.activateRole(selectedRoleId.value)
+const confirmActivate = async (id: number) => {
+  const ok = await confirm({
+    title: 'Activar rol',
+    message: '¿Estás seguro de que querés activar este rol?',
+    confirmText: 'Activar',
+    confirmColor: 'success'
+  })
+  if (ok) {
+    rolesStore.activateRole(id)
   }
+}
 
-  closeConfirm()
+const confirmDeactivate = async (id: number) => {
+  const ok = await confirm({
+    title: 'Desactivar rol',
+    message: '¿Estás seguro de que querés desactivar este rol?',
+    confirmText: 'Desactivar',
+    confirmColor: 'error'
+  })
+  if (ok) {
+    rolesStore.deactivateRole(id)
+  }
 }
 </script>

@@ -23,11 +23,13 @@
   <v-main>
     <v-container>
       <router-view />
+      <confirm-dialog-host />
     </v-container>
   </v-main>
 </template>
 
 <script lang="ts" setup>
+import ConfirmDialogHost from '@/components/ConfirmDialogHost.vue';
 import { useAuthStore } from '@/stores/auth.store';
 
 const menuItems = [
