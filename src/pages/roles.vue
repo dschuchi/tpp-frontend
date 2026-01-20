@@ -10,7 +10,7 @@
         </p>
       </div>
 
-      <v-btn disabled>
+      <v-btn to="nuevo-rol">
         Nuevo Rol
       </v-btn>
     </v-col>
