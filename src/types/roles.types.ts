@@ -12,3 +12,8 @@ export interface RolesState {
 export interface RolesResponse {
   roles: Role[]
 }
+
+export interface CreateRoleRequest {
+  name: string,
+  description: string
+}
