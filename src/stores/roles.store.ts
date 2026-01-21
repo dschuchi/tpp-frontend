@@ -1,6 +1,6 @@
 import { ROLES_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
-import type { RolesResponse, RolesState } from "@/types/roles.types"
+import type { CreateRoleRequest, RolesResponse, RolesState } from "@/types/roles.types"
 
 export const useRolesStore = defineStore('roles', {
   state: (): RolesState => ({
@@ -23,6 +23,9 @@ export const useRolesStore = defineStore('roles', {
     async activateRole(id: number) {
       await http.patch(ROLES_ENDPOINTS.ACTIVATE_ROLE_BY_ID(id))
       this.getRoles()
+    },
+    async createRole(role: CreateRoleRequest) {
+     await http.post(ROLES_ENDPOINTS.ROLE, role)
     }
   }
 })
