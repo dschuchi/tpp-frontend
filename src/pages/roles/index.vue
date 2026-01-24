@@ -34,11 +34,11 @@
               <v-icon icon="mdi-delete-restore" />
             </v-btn>
 
-            <v-btn disabled @click="editRole(item.id)">
+            <v-btn @click="editRole(item.id)">
               <v-icon icon="mdi-pencil"></v-icon>
             </v-btn>
 
-            <v-btn disabled @click="getRole(item.id)">
+            <v-btn @click="viewRole(item.id)">
               <v-icon icon="mdi-eye"></v-icon>
             </v-btn>
           </div>
@@ -55,6 +55,8 @@ import type { DataTableHeader } from 'vuetify'
 import { useConfirm } from '@/composables/useConfirm'
 
 const rolesStore = useRolesStore()
+const router = useRouter()
+const { confirm } = useConfirm()
 
 onMounted(() => {
   rolesStore.getRoles()
@@ -69,10 +71,8 @@ const headers: DataTableHeader[] = [
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
 
-const getRole = (id: number) => { }
-const editRole = (id: number) => { }
-
-const { confirm } = useConfirm()
+const viewRole = (id: number) => { router.push({ name: '/roles/[id]/', params: { id } }) }
+const editRole = (id: number) => { router.push({ name: '/roles/[id]/editar', params: { id } }) }
 
 const confirmActivate = async (id: number) => {
   const ok = await confirm({
