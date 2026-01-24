@@ -42,51 +42,6 @@ const menuItems = [
     }
   },
   {
-    title: 'Producción',
-    value: 'production',
-    props: {
-      prependIcon: 'mdi-factory',
-      to: '/produccion',
-      disabled: true
-    }
-  },
-  {
-    title: 'Clientes',
-    value: 'clients',
-    props: {
-      prependIcon: 'mdi-account',
-      to: '/clientes',
-      disabled: true
-    }
-  },
-  {
-    title: 'Productos',
-    value: 'products',
-    props: {
-      prependIcon: 'mdi-package-variant-closed',
-      to: '/productos',
-      disabled: true
-    }
-  },
-  {
-    title: 'Materia Prima',
-    value: 'rawMaterials',
-    props: {
-      prependIcon: 'mdi-shape',
-      to: '/materia-prima',
-      disabled: true
-    }
-  },
-  {
-    title: 'Usuarios',
-    value: 'users',
-    props: {
-      prependIcon: 'mdi-account-group',
-      to: '/usuarios',
-      disabled: true
-    }
-  },
-  {
     title: 'Roles',
     value: 'roles',
     props: {
