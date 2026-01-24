@@ -20,10 +20,10 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
-    '/nuevo-rol': RouteRecordInfo<'/nuevo-rol', '/nuevo-rol', Record<never, never>, Record<never, never>>,
     '/roles/': RouteRecordInfo<'/roles/', '/roles', Record<never, never>, Record<never, never>>,
     '/roles/[id]/': RouteRecordInfo<'/roles/[id]/', '/roles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/[id]/editar': RouteRecordInfo<'/roles/[id]/editar', '/roles/:id/editar', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/roles/nuevo': RouteRecordInfo<'/roles/nuevo', '/roles/nuevo', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -45,10 +45,6 @@ declare module 'vue-router/auto-routes' {
       routes: '/login'
       views: never
     }
-    'src/pages/nuevo-rol.vue': {
-      routes: '/nuevo-rol'
-      views: never
-    }
     'src/pages/roles/index.vue': {
       routes: '/roles/'
       views: never
@@ -59,6 +55,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/roles/[id]/editar.vue': {
       routes: '/roles/[id]/editar'
+      views: never
+    }
+    'src/pages/roles/nuevo.vue': {
+      routes: '/roles/nuevo'
       views: never
     }
   }

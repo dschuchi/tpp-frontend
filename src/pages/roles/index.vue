@@ -10,7 +10,7 @@
         </p>
       </div>
 
-      <v-btn to="nuevo-rol">
+      <v-btn to="/roles/nuevo">
         Nuevo Rol
       </v-btn>
     </v-col>
