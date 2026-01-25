@@ -11,9 +11,7 @@
     <v-col cols="12">
       <v-data-table :headers="headers" :items="roles">
         <template #item.is_active="{ value }">
-          <v-chip :color="value ? 'success' : 'error'" size="small">
-            {{ value ? 'Activo' : 'Inactivo' }}
-          </v-chip>
+          <StatusChip :value="value" />
         </template>
 
         <template v-slot:item.actions="{ item }">
