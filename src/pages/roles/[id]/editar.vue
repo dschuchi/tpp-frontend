@@ -13,45 +13,25 @@
 
   <v-row>
     <v-col cols="12">
-      <v-card title="Datos del rol">
-        <v-card-text>
-          <v-form ref="formRef" v-model="isValid">
-            <v-row>
-              <v-col cols="12">
-                <v-text-field v-model="form.name" label="Nombre del rol" variant="outlined" :rules="[required]" />
-              </v-col>
-
-              <v-col cols="12">
-                <v-textarea v-model="form.description" label="Descripción" variant="outlined" rows="2"
-                  :rules="[required]" />
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-      </v-card>
+      <role-form ref="roleFormRef" v-model="form" />
     </v-col>
   </v-row>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
+import RoleForm from '@/components/RoleForm.vue'
 import type { CreateRoleRequest } from '@/types/roles.types'
-import { reactive, ref, type Reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-definePage({
-  props: true
-})
-
-defineProps<{
-  id: string
-}>()
+definePage({ props: true })
+defineProps<{ id: string }>()
 
 const router = useRouter()
+const roleFormRef = ref()
 
-const formRef = ref()
-const isValid = ref(false)
-const form: Reactive<CreateRoleRequest> = reactive({
+const form = reactive<CreateRoleRequest>({
   name: '',
   description: ''
 })
@@ -61,10 +41,8 @@ onMounted(() => {
   form.description = 'TBD'
 })
 
-const required = (v: string) => !!v || 'Campo requerido'
-
 const handleSave = async () => {
-  const { valid } = await formRef.value.validate()
+  const { valid } = await roleFormRef.value.validate()
   if (!valid) return
 
   alert('TBD')
