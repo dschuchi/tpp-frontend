@@ -15,8 +15,8 @@
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <TableActions :id="item.id" :is-active="item.is_active" :can-soft-delete="true" :can-hard-delete="false"
-            @view="viewRole" @edit="editRole" @soft-delete="toggleStatus(item)" />
+          <TableActions :id="item.id" :is-active="item.is_active" @view="viewRole" @edit="editRole"
+            @soft-delete="toggleStatus(item)" />
         </template>
       </v-data-table>
     </v-col>
