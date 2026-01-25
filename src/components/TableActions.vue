@@ -42,15 +42,19 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="CustomSlots extends string = never">
 import type { PropType } from 'vue'
+
+type StandardAction = 'view' | 'edit' | 'soft-delete' | 'hard-delete'
+
+type ActionItem = StandardAction | CustomSlots
 
 defineProps({
   id: { type: [Number, String], required: true },
   isActive: { type: Boolean, default: true },
 
   order: {
-    type: Array as PropType<string[]>,
+    type: Array as PropType<ActionItem[]>,
     default: () => ['soft-delete', 'edit', 'view']
   }
 })
