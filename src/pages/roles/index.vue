@@ -16,7 +16,7 @@
 
         <template v-slot:item.actions="{ item }">
           <TableActions :id="item.id" :is-active="item.is_active" :can-soft-delete="true" :can-hard-delete="false"
-            @view="viewRole" @edit="editRole" @soft-delete="() => confirmToggleStatus(item)" />
+            @view="viewRole" @edit="editRole" @soft-delete="toggleStatus(item)" />
         </template>
       </v-data-table>
     </v-col>
@@ -52,7 +52,7 @@ const headers: DataTableHeader[] = [
 const viewRole = (id: number) => { router.push({ name: '/roles/[id]/', params: { id } }) }
 const editRole = (id: number) => { router.push({ name: '/roles/[id]/editar', params: { id } }) }
 
-const confirmToggleStatus = async (item: Role) => {
+const toggleStatus = async (item: Role) => {
   const { id } = item
   const isDeactivating = item.is_active
 
