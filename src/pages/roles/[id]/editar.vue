@@ -22,7 +22,6 @@
 import PageHeader from '@/components/PageHeader.vue'
 import RoleForm from '@/components/RoleForm.vue'
 import type { CreateRoleRequest } from '@/types/roles.types'
-import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 definePage({ props: true })
@@ -31,14 +30,14 @@ defineProps<{ id: string }>()
 const router = useRouter()
 const roleFormRef = ref()
 
-const form = reactive<CreateRoleRequest>({
+const form = ref<CreateRoleRequest>({
   name: '',
   description: ''
 })
 
 onMounted(() => {
-  form.name = 'TBD'
-  form.description = 'TBD'
+  form.value.name = 'TBD'
+  form.value.description = 'TBD'
 })
 
 const handleSave = async () => {

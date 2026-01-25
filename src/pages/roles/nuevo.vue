@@ -19,14 +19,13 @@ import PageHeader from '@/components/PageHeader.vue'
 import RoleForm from '@/components/RoleForm.vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { CreateRoleRequest } from '@/types/roles.types'
-import { reactive, ref } from 'vue'
 
 const router = useRouter()
 const rolesStore = useRolesStore()
 
 const roleFormRef = ref()
 
-const form = reactive<CreateRoleRequest>({
+const form = ref<CreateRoleRequest>({
   name: '',
   description: ''
 })
@@ -35,7 +34,7 @@ const handleSave = async () => {
   const { valid } = await roleFormRef.value.validate()
   if (!valid) return
 
-  await rolesStore.createRole(form)
+  await rolesStore.createRole(form.value)
   router.push('/roles')
 }
 

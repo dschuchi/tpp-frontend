@@ -12,18 +12,17 @@
 import PageHeader from '@/components/PageHeader.vue';
 import RoleForm from '@/components/RoleForm.vue';
 import type { CreateRoleRequest } from '@/types/roles.types'
-import { reactive, type Reactive } from 'vue'
 
 definePage({ props: true })
 defineProps<{ id: string }>()
 
-const form = reactive<CreateRoleRequest>({
+const form = ref<CreateRoleRequest>({
   name: '',
   description: ''
 })
 
 onMounted(() => {
-  form.name = 'TBD'
-  form.description = 'TBD'
+  form.value.name = 'TBD'
+  form.value.description = 'TBD'
 })
 </script>
