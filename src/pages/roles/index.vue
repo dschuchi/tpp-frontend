@@ -1,20 +1,12 @@
 <template>
-  <v-row>
-    <v-col cols="12" class="d-flex justify-space-between align-center">
-      <div>
-        <h1>
-          Roles
-        </h1>
-        <p class="text-subtitle-1 font-weight-light text-medium-emphasis">
-          Administra los roles y define los permisos de acceso para los usuarios.
-        </p>
-      </div>
-
+  <page-header title="Roles" subtitle="Administra los roles y define los permisos de acceso para los usuarios.">
+    <template #actions>
       <v-btn to="/roles/nuevo">
         Nuevo Rol
       </v-btn>
-    </v-col>
-  </v-row>
+    </template>
+  </page-header>
+
   <v-row>
     <v-col cols="12">
       <v-data-table :headers="headers" :items="roles">
@@ -53,6 +45,7 @@ import { onMounted, computed } from 'vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
 import { useConfirm } from '@/composables/useConfirm'
+import PageHeader from '@/components/PageHeader.vue'
 
 const rolesStore = useRolesStore()
 const router = useRouter()

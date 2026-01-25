@@ -1,27 +1,15 @@
 <template>
-  <v-row>
-    <v-col cols="12" class="d-flex justify-space-between align-center">
-      <div>
-        <h1>
-          Nuevo Rol
-        </h1>
-        <p class="text-subtitle-1 font-weight-light text-medium-emphasis">
-          Define los detalles del nuevo rol, establece su nivel de acceso y asigna los permisos correspondientes por
-          módulo.
-        </p>
-      </div>
-
-      <div class="d-flex ga-2">
-        <v-btn @click="handleCancel">
-          Cancelar
-        </v-btn>
-        <v-btn @click="handleSave">
-          Guardar
-        </v-btn>
-      </div>
-    </v-col>
-  </v-row>
-
+  <page-header title="Nuevo Rol"
+    subtitle="Define los detalles del nuevo rol, establece su nivel de acceso y asigna los permisos correspondientes por módulo.">
+    <template #actions>
+      <v-btn @click="handleCancel">
+        Cancelar
+      </v-btn>
+      <v-btn @click="handleSave">
+        Guardar
+      </v-btn>
+    </template>
+  </page-header>
 
   <v-row>
     <v-col cols="12">
@@ -34,7 +22,8 @@
               </v-col>
 
               <v-col cols="12">
-                <v-textarea v-model="form.description" label="Descripción" variant="outlined" rows="2" :rules="[required]" />
+                <v-textarea v-model="form.description" label="Descripción" variant="outlined" rows="2"
+                  :rules="[required]" />
               </v-col>
             </v-row>
           </v-form>
@@ -45,6 +34,7 @@
 </template>
 
 <script lang="ts" setup>
+import PageHeader from '@/components/PageHeader.vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { CreateRoleRequest } from '@/types/roles.types'
 import { reactive, ref, type Reactive } from 'vue'
