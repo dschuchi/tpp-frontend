@@ -10,30 +10,15 @@
   <v-row>
     <v-col cols="12">
       <v-data-table :headers="headers" :items="roles">
-        <template v-slot:item.is_active="{ value }">
+        <template #item.is_active="{ value }">
           <v-chip :color="value ? 'success' : 'error'" size="small">
             {{ value ? 'Activo' : 'Inactivo' }}
           </v-chip>
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <div class="d-flex ga-2 justify-end">
-            <v-btn v-if="item.is_active" @click="confirmDeactivate(item.id)">
-              <v-icon icon="mdi-delete" />
-            </v-btn>
-
-            <v-btn v-else @click="confirmActivate(item.id)">
-              <v-icon icon="mdi-delete-restore" />
-            </v-btn>
-
-            <v-btn @click="editRole(item.id)">
-              <v-icon icon="mdi-pencil"></v-icon>
-            </v-btn>
-
-            <v-btn @click="viewRole(item.id)">
-              <v-icon icon="mdi-eye"></v-icon>
-            </v-btn>
-          </div>
+          <TableActions :id="item.id" :is-active="item.is_active" :can-soft-delete="true" :can-hard-delete="false"
+            @view="viewRole" @edit="editRole" @soft-delete="() => confirmToggleStatus(item)" />
         </template>
       </v-data-table>
     </v-col>
@@ -46,6 +31,8 @@ import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
 import { useConfirm } from '@/composables/useConfirm'
 import PageHeader from '@/components/PageHeader.vue'
+import TableActions from '@/components/TableActions.vue'
+import type { Role } from '@/types/roles.types'
 
 const rolesStore = useRolesStore()
 const router = useRouter()
@@ -67,27 +54,19 @@ const headers: DataTableHeader[] = [
 const viewRole = (id: number) => { router.push({ name: '/roles/[id]/', params: { id } }) }
 const editRole = (id: number) => { router.push({ name: '/roles/[id]/editar', params: { id } }) }
 
-const confirmActivate = async (id: number) => {
-  const ok = await confirm({
-    title: 'Activar rol',
-    message: '¿Estás seguro de que querés activar este rol?',
-    confirmText: 'Activar',
-    confirmColor: 'success'
-  })
-  if (ok) {
-    rolesStore.activateRole(id)
-  }
-}
+const confirmToggleStatus = async (item: Role) => {
+  const { id } = item
+  const isDeactivating = item.is_active
 
-const confirmDeactivate = async (id: number) => {
   const ok = await confirm({
-    title: 'Desactivar rol',
-    message: '¿Estás seguro de que querés desactivar este rol?',
-    confirmText: 'Desactivar',
-    confirmColor: 'error'
+    title: isDeactivating ? 'Desactivar rol' : 'Activar rol',
+    message: `¿Estás seguro de que querés ${isDeactivating ? 'desactivar' : 'activar'} este rol?`,
+    confirmText: isDeactivating ? 'Desactivar' : 'Activar',
+    confirmColor: isDeactivating ? 'error' : 'success'
   })
+
   if (ok) {
-    rolesStore.deactivateRole(id)
+    isDeactivating ? rolesStore.deactivateRole(id) : rolesStore.activateRole(id)
   }
 }
 </script>

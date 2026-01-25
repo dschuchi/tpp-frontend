@@ -18,6 +18,7 @@ declare module 'vue' {
     RoleForm: typeof import('./components/RoleForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TableActions: typeof import('./components/TableActions.vue')['default']
     UserInformation: typeof import('./components/UserInformation.vue')['default']
   }
 }
