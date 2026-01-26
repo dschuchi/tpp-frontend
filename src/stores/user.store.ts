@@ -5,6 +5,7 @@ export const useUserStore = defineStore('user', {
     name: '',
     lastname: '',
     email: '',
+    rol_name: '',
     permissions: []
   }),
 
@@ -14,11 +15,12 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     async setUser(loginResponse: LoginResponse) {
-      const { name, lastname, email, permissions } = loginResponse
+      const { name, lastname, email, rol_name, permissions } = loginResponse
       this.$patch({
         name,
         lastname,
         email,
+        rol_name,
         permissions
       })
     },

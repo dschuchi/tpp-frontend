@@ -1,5 +1,5 @@
 <template>
-  <v-card :title="userStore.fullname" subtitle="TBD" variant="flat">
+  <v-card :title="userStore.fullname" :subtitle="userStore.rol_name" variant="flat">
     <template v-slot:append>
       <v-avatar color="blue">
         {{ avatarText }}
