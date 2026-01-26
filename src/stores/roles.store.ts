@@ -1,6 +1,6 @@
 import { ROLES_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
-import type { CreateRoleRequest, RolePermissionsResponse, RolesResponse, RolesState } from "@/types/roles.types"
+import type { CreateRoleRequest, Role, RolesResponse, RolesState } from "@/types/roles.types"
 
 export const useRolesStore = defineStore('roles', {
   state: (): RolesState => ({
@@ -28,17 +28,17 @@ export const useRolesStore = defineStore('roles', {
     async createRole(role: CreateRoleRequest) {
       await http.post(ROLES_ENDPOINTS.ROLE, role)
     },
-    async getRolePermissions(id: number) {
-      const response: RolePermissionsResponse = await http.get(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id))
-      this.permissions = response.permissions
-    },
     async removePermission(id: number, permissionId: number) {
       await http.delete(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { data: { permissionId } })
-      await this.getRolePermissions(id)
+      await this.getRole(id)
     },
     async addPermission(id: number, permissionId: number) {
-      await http.post(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { permissionId })
-      await this.getRolePermissions(id)
+      await http.patch(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { permissionId })
+      await this.getRole(id)
+    },
+    async getRole(id: number) {
+      const response: Role = await http.get(ROLES_ENDPOINTS.ROLE_BY_ID(id))
+      this.permissions = response.permissions
     }
   }
 })

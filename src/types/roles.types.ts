@@ -3,6 +3,7 @@ export interface Role {
   name: string;
   description: string;
   is_active: boolean;
+  permissions: Permission[]
 }
 
 export interface RolesState {
@@ -17,10 +18,6 @@ export interface RolesResponse {
 export interface CreateRoleRequest {
   name: string,
   description: string
-}
-
-export interface RolePermissionsResponse {
-  permissions: Permission[]
 }
 
 export interface Permission {
