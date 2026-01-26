@@ -6,7 +6,8 @@ export interface Role {
 }
 
 export interface RolesState {
-  roles: Role[]
+  roles: Role[],
+  permissions: Permission[]
 }
 
 export interface RolesResponse {
@@ -16,4 +17,13 @@ export interface RolesResponse {
 export interface CreateRoleRequest {
   name: string,
   description: string
+}
+
+export interface RolePermissionsResponse {
+  permissions: Permission[]
+}
+
+export interface Permission {
+  id: string
+  name: string
 }

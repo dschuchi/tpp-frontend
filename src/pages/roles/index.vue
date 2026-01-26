@@ -16,7 +16,18 @@
 
         <template v-slot:item.actions="{ item }">
           <TableActions :id="item.id" :is-active="item.is_active" @view="viewRole" @edit="editRole"
-            @soft-delete="toggleStatus(item)" />
+            @soft-delete="toggleStatus(item)" :order="['soft-delete', 'permissions', 'edit', 'view']">
+            <template #permissions="{ id }">
+              <v-tooltip text="Configurar permisos" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
+                    :to="`/roles/${id}/permisos`">
+                    <v-icon icon="mdi-key" />
+                  </v-btn>
+                </template>
+              </v-tooltip>
+            </template>
+          </TableActions>
         </template>
       </v-data-table>
     </v-col>
