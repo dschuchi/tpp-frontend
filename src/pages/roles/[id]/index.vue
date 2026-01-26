@@ -11,18 +11,22 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue';
 import RoleForm from '@/components/RoleForm.vue';
+import { useRolesStore } from '@/stores/roles.store';
 import type { CreateRoleRequest } from '@/types/roles.types'
 
 definePage({ props: true })
-defineProps<{ id: string }>()
+const props = defineProps<{ id: string }>()
 
 const form = ref<CreateRoleRequest>({
   name: '',
   description: ''
 })
 
-onMounted(() => {
-  form.value.name = 'TBD'
-  form.value.description = 'TBD'
+const rolesStore = useRolesStore()
+
+onMounted(async () => {
+  await rolesStore.getRole(Number(props.id))
+  form.value.name = rolesStore.role ? rolesStore.role.name : ''
+  form.value.description = rolesStore.role ? rolesStore.role.description : ''
 })
 </script>

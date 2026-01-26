@@ -38,6 +38,7 @@ export const useRolesStore = defineStore('roles', {
     },
     async getRole(id: number) {
       const response: Role = await http.get(ROLES_ENDPOINTS.ROLE_BY_ID(id))
+      this.role = response
       this.permissions = response.permissions
     }
   }

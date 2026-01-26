@@ -8,7 +8,8 @@ export interface Role {
 
 export interface RolesState {
   roles: Role[],
-  permissions: Permission[]
+  permissions: Permission[],
+  role?: Role
 }
 
 export interface RolesResponse {
