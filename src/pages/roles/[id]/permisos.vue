@@ -1,12 +1,16 @@
 <template>
   <page-header title="Permisos del Rol" subtitle="Configuración de permisos" />
 
-  <v-data-table :headers="headers" :items="permissionsStore.permissions" hover>
-    <template #[`item.assigned`]="{ item }">
-      <v-checkbox :model-value="isAssigned(item)" @update:model-value="togglePermission(item)" color="primary"
-        density="compact" hide-details></v-checkbox>
-    </template>
-  </v-data-table>
+  <v-row>
+    <v-col cols="12">
+      <v-data-table :headers="headers" :items="permissionsStore.permissions" hover>
+        <template #[`item.assigned`]="{ item }">
+          <v-checkbox :model-value="isAssigned(item)" @update:model-value="togglePermission(item)" color="primary"
+            density="compact" hide-details></v-checkbox>
+        </template>
+      </v-data-table>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
