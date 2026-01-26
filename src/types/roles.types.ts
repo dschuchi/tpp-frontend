@@ -25,3 +25,5 @@ export interface Permission {
   id: string
   name: string
 }
+
+export type UpdateRoleRequest = CreateRoleRequest

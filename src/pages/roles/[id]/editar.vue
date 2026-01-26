@@ -21,30 +21,35 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
 import RoleForm from '@/components/RoleForm.vue'
-import type { CreateRoleRequest } from '@/types/roles.types'
+import { useRolesStore } from '@/stores/roles.store'
+import type { UpdateRoleRequest } from '@/types/roles.types'
 import { useRouter } from 'vue-router'
 
 definePage({ props: true })
-defineProps<{ id: string }>()
+const props = defineProps<{ id: string }>()
 
 const router = useRouter()
 const roleFormRef = ref()
 
-const form = ref<CreateRoleRequest>({
+const form = ref<UpdateRoleRequest>({
   name: '',
   description: ''
 })
 
-onMounted(() => {
-  form.value.name = 'TBD'
-  form.value.description = 'TBD'
+const rolesStore = useRolesStore()
+
+onMounted(async () => {
+  await rolesStore.getRole(Number(props.id))
+  form.value.name = rolesStore.role ? rolesStore.role.name : ''
+  form.value.description = rolesStore.role ? rolesStore.role.description : ''
 })
 
 const handleSave = async () => {
   const { valid } = await roleFormRef.value.validate()
   if (!valid) return
 
-  alert('TBD')
+  await rolesStore.updateRole(Number(props.id), form.value)
+  router.push({ name: '/roles/' })
 }
 
 const handleCancel = router.back
