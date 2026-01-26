@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import { authApi } from '@/api/auth.api'
 import { useUserStore } from './user.store'
 
-import type { LoginRequest } from '@/types/users.types'
+import type { LoginRequest, LoginResponse } from '@/types/users.types'
 import type { AuthState } from '@/types/auth.types'
+import { USERS_ENDPOINTS } from '@/api/endpoints'
+import http from '@/api/http'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
@@ -18,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(credentials: LoginRequest) {
       try {
-        const response = await authApi.login(credentials)
+        const response: LoginResponse = await http.post(USERS_ENDPOINTS.LOGIN, credentials)
         this.token = response.accessToken
         localStorage.setItem('token', response.accessToken)
 
@@ -38,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
 
     async me() {
       try {
-        const response = await authApi.me()
+        const response: LoginResponse = await http.get(USERS_ENDPOINTS.ME)
 
         const userStore = useUserStore()
         userStore.setUser(response)
