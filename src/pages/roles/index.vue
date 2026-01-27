@@ -1,11 +1,15 @@
 <template>
-  <page-header title="Roles" subtitle="Administra los roles y define los permisos de acceso para los usuarios.">
-    <template #actions>
-      <v-btn to="/roles/nuevo">
-        Nuevo Rol
-      </v-btn>
-    </template>
-  </page-header>
+  <v-row>
+    <v-col cols="12">
+      <page-header title="Roles" subtitle="Administra los roles y define los permisos de acceso para los usuarios.">
+        <template #actions>
+          <v-btn to="/roles/nuevo">
+            Nuevo Rol
+          </v-btn>
+        </template>
+      </page-header>
+    </v-col>
+  </v-row>
 
   <v-row>
     <v-col cols="12">

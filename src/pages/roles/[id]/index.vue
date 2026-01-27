@@ -1,6 +1,10 @@
 <template>
-  <page-header title="Detalle del Rol" subtitle="Visualización de permisos y datos." back-route="/roles"
-    back-text="Roles" />
+  <v-row>
+    <v-col cols="12">
+      <page-header title="Detalle del Rol" subtitle="Visualización de permisos y datos." back-route="/roles"
+        back-text="Roles" />
+    </v-col>
+  </v-row>
 
   <v-row>
     <v-col cols="12">

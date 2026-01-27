@@ -1,16 +1,20 @@
 <template>
-  <page-header title="Editar Rol"
-    subtitle="Actualice los detalles del nuevo rol, establece su nivel de acceso y asigna los permisos correspondientes por módulo."
-    back-route="/roles" back-text="Roles">
-    <template #actions>
-      <v-btn @click="handleCancel">
-        Cancelar
-      </v-btn>
-      <v-btn @click="handleSave">
-        Guardar
-      </v-btn>
-    </template>
-  </page-header>
+  <v-row>
+    <v-col cols="12">
+      <page-header title="Editar Rol"
+        subtitle="Actualice los detalles del nuevo rol, establece su nivel de acceso y asigna los permisos correspondientes por módulo."
+        back-route="/roles" back-text="Roles">
+        <template #actions>
+          <v-btn @click="handleCancel">
+            Cancelar
+          </v-btn>
+          <v-btn @click="handleSave">
+            Guardar
+          </v-btn>
+        </template>
+      </page-header>
+    </v-col>
+  </v-row>
 
   <v-row>
     <v-col cols="12">

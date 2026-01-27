@@ -1,5 +1,9 @@
 <template>
-  <PageHeader title="Inicio"></PageHeader>
+  <v-row>
+    <v-col cols="12">
+      <PageHeader title="Inicio"></PageHeader>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts" setup>
