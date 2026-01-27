@@ -1,5 +1,5 @@
 <template>
-  <page-header title="Permisos del Rol" subtitle="Configuración de permisos" />
+  <page-header title="Permisos del Rol" subtitle="Configuración de permisos" back-route="/roles" back-text="Roles" />
 
   <v-row>
     <v-col cols="12">
