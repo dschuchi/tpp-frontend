@@ -8,6 +8,8 @@ export interface LoginResponse {
   name: string;
   lastname: string;
   email: string;
+  rol_id: number
+  rol_name: string
   permissions: string[];
   accessToken: string;
 }
@@ -16,5 +18,6 @@ export interface User {
   name: string
   lastname: string
   email: string
+  rol_name: string
   permissions: string[]
 }

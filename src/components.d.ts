@@ -14,8 +14,12 @@ declare module 'vue' {
     ConfirmDialog: typeof import('./components/ConfirmDialog.vue')['default']
     ConfirmDialogHost: typeof import('./components/ConfirmDialogHost.vue')['default']
     LoginForm: typeof import('./components/LoginForm.vue')['default']
+    PageHeader: typeof import('./components/PageHeader.vue')['default']
+    RoleForm: typeof import('./components/RoleForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StatusChip: typeof import('./components/StatusChip.vue')['default']
+    TableActions: typeof import('./components/TableActions.vue')['default']
     UserInformation: typeof import('./components/UserInformation.vue')['default']
   }
 }

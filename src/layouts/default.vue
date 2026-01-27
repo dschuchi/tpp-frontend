@@ -21,7 +21,7 @@
   </v-app-bar>
 
   <v-main>
-    <v-container>
+    <v-container class="px-16">
       <router-view />
       <confirm-dialog-host />
     </v-container>
@@ -39,51 +39,6 @@ const menuItems = [
     props: {
       prependIcon: 'mdi-view-dashboard',
       to: '/',
-    }
-  },
-  {
-    title: 'Producción',
-    value: 'production',
-    props: {
-      prependIcon: 'mdi-factory',
-      to: '/produccion',
-      disabled: true
-    }
-  },
-  {
-    title: 'Clientes',
-    value: 'clients',
-    props: {
-      prependIcon: 'mdi-account',
-      to: '/clientes',
-      disabled: true
-    }
-  },
-  {
-    title: 'Productos',
-    value: 'products',
-    props: {
-      prependIcon: 'mdi-package-variant-closed',
-      to: '/productos',
-      disabled: true
-    }
-  },
-  {
-    title: 'Materia Prima',
-    value: 'rawMaterials',
-    props: {
-      prependIcon: 'mdi-shape',
-      to: '/materia-prima',
-      disabled: true
-    }
-  },
-  {
-    title: 'Usuarios',
-    value: 'users',
-    props: {
-      prependIcon: 'mdi-account-group',
-      to: '/usuarios',
-      disabled: true
     }
   },
   {
