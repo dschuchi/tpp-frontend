@@ -2,8 +2,9 @@
   <v-row>
     <v-col cols="12" class="d-flex justify-space-between align-center flex-wrap">
       <div>
-        <div v-if="backRoute" class="mb-1">
-          <v-btn variant="plain" :to="backRoute" class="px-0 text-none" size="small" prepend-icon="mdi-arrow-left">
+        <div class="mb-1">
+          <v-btn variant="plain" :to="backRoute" class="px-0 text-none" size="small" prepend-icon="mdi-arrow-left"
+            :class="{ 'opacity-0': !backRoute }" :disabled="!backRoute" :ripple="false">
             {{ backText ? 'Volver a ' + backText : 'Volver' }}
           </v-btn>
         </div>
