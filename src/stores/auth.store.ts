@@ -1,17 +1,14 @@
 import { defineStore } from 'pinia'
-import type { LoginRequest } from '@/types/users.types'
-import { authApi } from '@/api/auth.api'
+import { useUserStore } from './user.store'
 
-interface AuthState {
-  token: string | null
-  loading: boolean,
-  hydrated: boolean
-}
+import type { LoginRequest, LoginResponse } from '@/types/users.types'
+import type { AuthState } from '@/types/auth.types'
+import { USERS_ENDPOINTS } from '@/api/endpoints'
+import http from '@/api/http'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     token: localStorage.getItem('token'),
-    loading: false,
     hydrated: false
   }),
 
@@ -21,29 +18,34 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(credentials: LoginRequest) {
-      this.loading = true
       try {
-        const response = await authApi.login(credentials)
+        const response: LoginResponse = await http.post(USERS_ENDPOINTS.LOGIN, credentials)
         this.token = response.accessToken
         localStorage.setItem('token', response.accessToken)
+
+        const userStore = useUserStore()
+        userStore.setUser(response)
       } finally {
-        this.loading = false
       }
     },
 
     logout() {
       this.token = null
       localStorage.removeItem('token')
+
+      const userStore = useUserStore()
+      userStore.clearUser()
     },
 
     async me() {
-      this.loading = true
       try {
-        await authApi.me()
+        const response: LoginResponse = await http.get(USERS_ENDPOINTS.ME)
+
+        const userStore = useUserStore()
+        userStore.setUser(response)
       } catch {
         this.logout()
       } finally {
-        this.loading = false
         this.hydrated = true
       }
     }
