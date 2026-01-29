@@ -73,6 +73,12 @@ import PageHeader from '@/components/PageHeader.vue'
 import type { Role } from '@/types/roles.types'
 import { useUserStore } from '@/stores/user.store'
 
+definePage({
+  meta: {
+    permission: "roles:view"
+  }
+})
+
 const { can } = useUserStore()
 const rolesStore = useRolesStore()
 const router = useRouter()
