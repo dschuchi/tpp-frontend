@@ -3,7 +3,7 @@
     <v-col cols="12">
       <page-header title="Roles" subtitle="Administra los roles y define los permisos de acceso para los usuarios.">
         <template #actions>
-          <v-btn to="/roles/nuevo">
+          <v-btn v-if="can('roles:create')" to="/roles/nuevo">
             Nuevo Rol
           </v-btn>
         </template>
@@ -19,19 +19,45 @@
         </template>
 
         <template v-slot:item.actions="{ item }">
-          <TableActions :id="item.id" :is-active="item.is_active" @view="viewRole" @edit="editRole"
-            @soft-delete="toggleStatus(item)" :order="['soft-delete', 'permissions', 'edit', 'view']">
-            <template #permissions="{ id }">
-              <v-tooltip text="Configurar permisos" location="top">
-                <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
-                    :to="`/roles/${id}/permisos`">
-                    <v-icon icon="mdi-key" />
+          <div class="d-flex ga-2 justify-end align-center">
+            <v-tooltip :text="item.is_active ? 'Desactivar' : 'Restaurar'" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-if="can('roles:edit')" v-bind="props" icon variant="text" size="small"
+                  :color="item.is_active ? 'error' : 'success'" @click="toggleStatus(item)">
+                  <v-icon :icon="item.is_active ? 'mdi-delete' : 'mdi-delete-restore'" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
+            <v-tooltip text="Configurar permisos" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
+                  :to="`/roles/${item.id}/permisos`">
+                  <v-icon icon="mdi-key" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
+            <v-tooltip text="Editar" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-if="can('roles:edit')" v-bind="props" icon variant="text" size="small" color="primary"
+                  @click="editRole(item.id)">
+                  <v-icon icon="mdi-pencil" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
+            <v-tooltip text="Ver detalles" location="top">
+              <template v-slot:activator="{ props }">
+                <Can code="roles:view">
+                  <v-btn v-if="can('roles:view')" v-bind="props" icon variant="text" size="small" color="info"
+                    @click="viewRole(item.id)">
+                    <v-icon icon="mdi-eye" />
                   </v-btn>
-                </template>
-              </v-tooltip>
-            </template>
-          </TableActions>
+                </Can>
+              </template>
+            </v-tooltip>
+          </div>
         </template>
       </v-data-table>
     </v-col>
@@ -44,9 +70,10 @@ import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
 import { useConfirm } from '@/composables/useConfirm'
 import PageHeader from '@/components/PageHeader.vue'
-import TableActions from '@/components/TableActions.vue'
 import type { Role } from '@/types/roles.types'
+import { useUserStore } from '@/stores/user.store'
 
+const { can } = useUserStore()
 const rolesStore = useRolesStore()
 const router = useRouter()
 const { confirm } = useConfirm()
