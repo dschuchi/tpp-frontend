@@ -31,8 +31,9 @@
 <script lang="ts" setup>
 import ConfirmDialogHost from '@/components/ConfirmDialogHost.vue';
 import { useAuthStore } from '@/stores/auth.store';
+import { useUserStore } from '@/stores/user.store';
 
-const menuItems = [
+const allMenuItems = [
   {
     title: 'Panel',
     value: 'Panel',
@@ -47,9 +48,19 @@ const menuItems = [
     props: {
       prependIcon: 'mdi-card-account-details',
       to: '/roles',
-    }
+    },
+    permission: 'roles:view'
   }
 ]
+
+const userStore = useUserStore()
+
+const menuItems = computed(() => {
+  return allMenuItems.filter(item => {
+    if (!item.permission) return true;
+    return userStore.can(item.permission);
+  });
+});
 
 const authStore = useAuthStore()
 
