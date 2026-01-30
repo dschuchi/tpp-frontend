@@ -8,7 +8,8 @@
 definePage({
   meta: {
     layout: 'blank',
-    public: true
+    public: true,
+    permission: '*'
   }
 })
 </script>

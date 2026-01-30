@@ -10,7 +10,10 @@ export const useUserStore = defineStore('user', {
   }),
 
   getters: {
-    fullname: (state) => `${state.name} ${state.lastname}`
+    fullname: (state) => `${state.name} ${state.lastname}`,
+    can: (state) => (permissionRequired: string) => state.permissions.includes(permissionRequired),
+    canAny: (state) => (list: string[]) => list.some(p => state.permissions.includes(p)),
+    canAll: (state) => (list: string[]) => list.every(p => state.permissions.includes(p))
   },
 
   actions: {

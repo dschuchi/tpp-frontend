@@ -19,7 +19,12 @@ import RoleForm from '@/components/RoleForm.vue';
 import { useRolesStore } from '@/stores/roles.store';
 import type { CreateRoleRequest } from '@/types/roles.types'
 
-definePage({ props: true })
+definePage({
+  props: true,
+  meta: {
+    permission: 'roles:view'
+  }
+})
 const props = defineProps<{ id: string }>()
 
 const form = ref<CreateRoleRequest>({

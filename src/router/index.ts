@@ -10,6 +10,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 
 import { useAuthStore } from '@/stores/auth.store'
+import { useUserStore } from '@/stores/user.store'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,6 +56,31 @@ router.beforeEach((to) => {
 
   if (isPublic && isAuthenticated && to.path === '/login') {
     return { path: '/' }
+  }
+
+  if (isAuthenticated) {
+    const requiredPermission = to.meta.permission as string | undefined
+    const userStore = useUserStore()
+    if (!requiredPermission) {
+      return {
+        path: '/403',
+        replace: true,
+        state: {
+          fromPath: to.fullPath,
+        }
+      }
+    }
+    if (requiredPermission && requiredPermission !== '*' && !userStore.can(requiredPermission)) {
+      return {
+        path: '/403',
+        replace: true,
+        state: {
+          fromPath: to.fullPath,
+          requiredPermission: requiredPermission,
+          resourceName: to.name
+        }
+      }
+    }
   }
 })
 
