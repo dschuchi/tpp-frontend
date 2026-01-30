@@ -1,11 +1,3 @@
-<script setup lang="ts">
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
-// history.state contiene lo que enviamos desde el router
-const errorState = history.state as { requiredPermission?: string, fromPath?: string };
-</script>
-
 <template>
   <v-empty-state icon="mdi-shield-lock" headline="Acceso Denegado">
     <template #text>
@@ -25,3 +17,13 @@ const errorState = history.state as { requiredPermission?: string, fromPath?: st
     </template>
   </v-empty-state>
 </template>
+
+<script setup lang="ts">
+definePage({
+  meta: {
+    permission: '*'
+  }
+})
+
+const errorState = history.state as { requiredPermission?: string, fromPath?: string };
+</script>

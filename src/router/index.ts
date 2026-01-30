@@ -61,7 +61,16 @@ router.beforeEach((to) => {
   if (isAuthenticated) {
     const requiredPermission = to.meta.permission as string | undefined
     const userStore = useUserStore()
-    if (requiredPermission && !userStore.can(requiredPermission)) {
+    if (!requiredPermission) {
+      return {
+        path: '/403',
+        replace: true,
+        state: {
+          fromPath: to.fullPath,
+        }
+      }
+    }
+    if (requiredPermission && requiredPermission !== '*' && !userStore.can(requiredPermission)) {
       return {
         path: '/403',
         replace: true,

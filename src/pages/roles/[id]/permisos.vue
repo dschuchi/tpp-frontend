@@ -25,7 +25,12 @@ import { useRolesStore } from '@/stores/roles.store';
 import type { Permission } from '@/types/permissions.types';
 import type { DataTableHeader } from 'vuetify';
 
-definePage({ props: true })
+definePage({
+  props: true,
+  meta: {
+    permission: 'roles:edit'
+  }
+})
 const props = defineProps<{ id: string }>()
 
 const rolesStore = useRolesStore()

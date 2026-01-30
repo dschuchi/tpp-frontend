@@ -30,7 +30,12 @@ import { useRolesStore } from '@/stores/roles.store'
 import type { UpdateRoleRequest } from '@/types/roles.types'
 import { useRouter } from 'vue-router'
 
-definePage({ props: true })
+definePage({
+  props: true,
+  meta: {
+    permission: 'roles:edit'
+  }
+})
 const props = defineProps<{ id: string }>()
 
 const router = useRouter()

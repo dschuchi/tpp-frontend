@@ -25,6 +25,12 @@ import RoleForm from '@/components/RoleForm.vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { CreateRoleRequest } from '@/types/roles.types'
 
+definePage({
+  meta: {
+    permission: 'roles:create'
+  }
+})
+
 const router = useRouter()
 const rolesStore = useRolesStore()
 
