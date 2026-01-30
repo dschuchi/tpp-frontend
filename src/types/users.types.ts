@@ -21,3 +21,18 @@ export interface User {
   rol_name: string
   permissions: string[]
 }
+
+export interface UsersResponse {
+  users: UserListItem[]
+}
+
+export type UsersState = UsersResponse
+
+export interface UserListItem {
+  id: string,
+  username: string,
+  lastname: string,
+  email: string,
+  rol_id: number,
+  is_active: boolean
+}
