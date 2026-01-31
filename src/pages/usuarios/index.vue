@@ -54,8 +54,10 @@
 
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
+import { useConfirm } from '@/composables/useConfirm';
 import { useUserStore } from '@/stores/user.store';
 import { useUsersStore } from '@/stores/users.store';
+import type { UserListItem } from '@/types/users.types';
 import type { DataTableHeader } from 'vuetify';
 
 definePage({
@@ -82,6 +84,23 @@ const headers: DataTableHeader[] = [
 
 const viewRole = (id: any) => alert(id)
 const editRole = (id: any) => alert(id)
-const toggleStatus = (id: any) => alert(id)
+
+const { confirm } = useConfirm()
+
+const toggleStatus = async (item: UserListItem) => {
+  const { id } = item
+  const isDeactivating = item.is_active
+
+  const ok = await confirm({
+    title: isDeactivating ? 'Desactivar usuario' : 'Activar usuario',
+    message: `¿Estás seguro de que querés ${isDeactivating ? 'desactivar' : 'activar'} este usuario?`,
+    confirmText: isDeactivating ? 'Desactivar' : 'Activar',
+    confirmColor: isDeactivating ? 'error' : 'success'
+  })
+
+  if (ok) {
+    isDeactivating ? usersStore.deactivateUser(id) : usersStore.activateUser(id)
+  }
+}
 
 </script>

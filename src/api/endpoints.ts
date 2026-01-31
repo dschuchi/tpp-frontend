@@ -1,5 +1,7 @@
 export const USERS_ENDPOINTS = {
   USERS: '/users',
+  USER_BY_ID: (id: string) => `/user/${id}`,
+  ACTIVATE_USER_BY_ID: (id: string) => `/user/${id}/activate`,
   LOGIN: '/user/login',
   ME: '/user/me'
 } as const
