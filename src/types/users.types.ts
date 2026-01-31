@@ -36,3 +36,9 @@ export interface UserListItem {
   rol_id: number,
   is_active: boolean
 }
+
+export interface CreateUserRequest {
+  username: string
+  lastname: string
+  email: string
+}

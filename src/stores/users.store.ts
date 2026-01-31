@@ -1,6 +1,6 @@
 import { USERS_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
-import type { UsersResponse, UsersState } from "@/types/users.types"
+import type { CreateUserRequest, UsersResponse, UsersState } from "@/types/users.types"
 
 export const useUsersStore = defineStore('users', {
   state: (): UsersState => ({
@@ -19,6 +19,9 @@ export const useUsersStore = defineStore('users', {
     async activateUser(id: string) {
       await http.patch(USERS_ENDPOINTS.ACTIVATE_USER_BY_ID(id))
       this.getUsers()
+    },
+    async createUser(user: CreateUserRequest) {
+      await http.post(USERS_ENDPOINTS.USER, user)
     }
   }
 })
