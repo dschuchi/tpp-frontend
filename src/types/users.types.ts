@@ -42,3 +42,8 @@ export interface CreateUserRequest {
   lastname: string
   email: string
 }
+
+export interface CreateUserResponse {
+  email: string
+  password: string
+}
