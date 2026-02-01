@@ -28,6 +28,7 @@ declare module 'vue-router/auto-routes' {
     '/roles/[id]/permisos': RouteRecordInfo<'/roles/[id]/permisos', '/roles/:id/permisos', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/nuevo': RouteRecordInfo<'/roles/nuevo', '/roles/nuevo', Record<never, never>, Record<never, never>>,
     '/usuarios/': RouteRecordInfo<'/usuarios/', '/usuarios', Record<never, never>, Record<never, never>>,
+    '/usuarios/nuevo': RouteRecordInfo<'/usuarios/nuevo', '/usuarios/nuevo', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -79,6 +80,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/usuarios/index.vue': {
       routes: '/usuarios/'
+      views: never
+    }
+    'src/pages/usuarios/nuevo.vue': {
+      routes: '/usuarios/nuevo'
       views: never
     }
   }
