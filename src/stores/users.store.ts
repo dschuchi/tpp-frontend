@@ -11,6 +11,14 @@ export const useUsersStore = defineStore('users', {
     async getUsers() {
       const response: UsersResponse = await http.get(USERS_ENDPOINTS.USERS)
       this.users = response.users
+    },
+    async deactivateUser(id: string) {
+      await http.delete(USERS_ENDPOINTS.USER_BY_ID(id))
+      this.getUsers()
+    },
+    async activateUser(id: string) {
+      await http.patch(USERS_ENDPOINTS.ACTIVATE_USER_BY_ID(id))
+      this.getUsers()
     }
   }
 })
