@@ -1,4 +1,5 @@
 export const USERS_ENDPOINTS = {
+  USERS: '/users',
   LOGIN: '/user/login',
   ME: '/user/me'
 } as const

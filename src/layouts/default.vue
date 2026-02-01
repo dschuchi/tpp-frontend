@@ -43,6 +43,15 @@ const allMenuItems = [
     }
   },
   {
+    title: 'Usuarios',
+    value: 'usuarios',
+    props: {
+      prependIcon: 'mdi-account-group',
+      to: '/usuarios',
+    },
+    permission: 'users:edit:all'
+  },
+  {
     title: 'Roles',
     value: 'roles',
     props: {
