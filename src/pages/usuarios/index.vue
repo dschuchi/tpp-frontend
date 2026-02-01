@@ -75,7 +75,7 @@ const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'username' },
   { title: 'Apellido', key: 'lastname' },
   { title: 'Correo', key: 'email' },
-  { title: 'Rol', key: 'role_name' },
+  { title: 'Rol', key: 'rol_name' },
   { title: 'Estado', key: 'is_active' },
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]

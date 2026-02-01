@@ -33,6 +33,6 @@ export interface UserListItem {
   username: string,
   lastname: string,
   email: string,
-  rol_id: number,
+  rol_name: string,
   is_active: boolean
 }
