@@ -49,12 +49,10 @@
 
             <v-tooltip text="Ver detalles" location="top">
               <template v-slot:activator="{ props }">
-                <Can code="roles:view">
-                  <v-btn v-if="can('roles:view')" v-bind="props" icon variant="text" size="small" color="info"
-                    @click="viewRole(item.id)">
-                    <v-icon icon="mdi-eye" />
-                  </v-btn>
-                </Can>
+                <v-btn v-if="can('roles:view')" v-bind="props" icon variant="text" size="small" color="info"
+                  @click="viewRole(item.id)">
+                  <v-icon icon="mdi-eye" />
+                </v-btn>
               </template>
             </v-tooltip>
           </div>

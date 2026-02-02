@@ -21,3 +21,40 @@ export interface User {
   rol_name: string
   permissions: string[]
 }
+
+export interface UsersResponse {
+  users: UserListItem[]
+}
+
+export interface UsersState {
+  users: UserListItem[]
+}
+
+export interface UserListItem {
+  id: string,
+  username: string,
+  lastname: string,
+  email: string,
+  rol_id: string
+  rol_name: string,
+  is_active: boolean
+}
+
+export interface CreateUserRequest {
+  username: string
+  lastname: string
+  email: string
+}
+
+export interface CreateUserResponse {
+  email: string
+  password: string
+}
+
+export interface UpdateUserRequest {
+  username: string
+  lastname: string
+  email: string
+  password?: string
+  rol_id: number
+}
