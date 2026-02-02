@@ -28,7 +28,7 @@ import { useRouter } from 'vue-router'
 definePage({
   props: true,
   meta: {
-    permission: '*'
+    permission: 'users:edit:all'
   }
 })
 

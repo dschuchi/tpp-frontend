@@ -24,7 +24,7 @@ import type { UpdateUserRequest } from '@/types/users.types'
 definePage({
   props: true,
   meta: {
-    permission: '*'
+    permission: 'users:edit:all'
   }
 })
 
