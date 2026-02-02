@@ -13,7 +13,7 @@
 
   <v-row>
     <v-col cols="12">
-      <user-form ref="userFormRef" v-model="form" :readonly="loading" />
+      <user-form ref="userFormRef" v-model="form" :readonly="loading" show-auth-fields />
     </v-col>
   </v-row>
 </template>
@@ -54,6 +54,7 @@ onMounted(async () => {
       form.value.username = user.username
       form.value.lastname = user.lastname
       form.value.email = user.email
+      form.value.rol_id = Number(user.rol_id)
     }
   } catch (error) {
     console.error('Error fetching user:', error)

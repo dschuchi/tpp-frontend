@@ -17,27 +17,78 @@
             <v-text-field v-model="model.email" label="Correo electrónico" variant="outlined"
               :rules="readonly ? [] : [required, emailRule]" />
           </v-col>
+
+          <template v-if="showAuthFields">
+            <v-col cols="12">
+              <v-select v-model="model.rol_id" :items="rolesStore.roles" item-title="name" item-value="id" label="Rol"
+                variant="outlined" :rules="readonly ? [] : [required]" />
+            </v-col>
+
+            <v-col cols="12">
+              <v-text-field v-model="model.password" label="Contraseña" variant="outlined"
+                :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="showPassword ? 'text' : 'password'"
+                @click:append-inner="showPassword = !showPassword">
+                <template #append>
+                  <v-btn icon="mdi-refresh" variant="text" @click="generatePassword"
+                    v-tooltip:top="'Generar contraseña'" />
+                  <v-btn icon="mdi-content-copy" variant="text" @click="copyPassword" :disabled="!model.password"
+                    v-tooltip:top="'Copiar contraseña'" />
+                </template>
+              </v-text-field>
+            </v-col>
+          </template>
         </v-row>
+        <v-snackbar v-model="showCopiedStart" color="success" timeout="2000">
+          Contraseña copiada al portapapeles
+        </v-snackbar>
       </v-form>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import type { CreateUserRequest } from '@/types/users.types'
+import { useRolesStore } from '@/stores/roles.store'
+import type { CreateUserRequest, UpdateUserRequest } from '@/types/users.types'
 import type { VForm } from 'vuetify/components'
 
 const props = defineProps({
   readonly: { type: Boolean, default: false },
-  title: { type: String, default: 'Datos del usuario' }
+  title: { type: String, default: 'Datos del usuario' },
+  showAuthFields: { type: Boolean, default: false }
 })
 
-const model = defineModel<CreateUserRequest>({ required: true })
+const rolesStore = useRolesStore()
+const showPassword = ref(false)
+const showCopiedStart = ref(false)
+
+const model = defineModel<CreateUserRequest | UpdateUserRequest>({ required: true })
 
 const required = (v: string) => !!v || 'Campo requerido'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'Correo inválido'
 
+
 const formRef = ref<VForm>()
+
+onMounted(() => {
+  if (props.showAuthFields) {
+    rolesStore.getRoles()
+  }
+})
+
+const generatePassword = () => {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+'
+  let password = ''
+  for (let i = 0; i < 12; i++) {
+    password += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  model.value.password = password
+}
+
+const copyPassword = () => {
+  if (!model.value.password) return
+  navigator.clipboard.writeText(model.value.password)
+  showCopiedStart.value = true
+}
 
 const validate = async () => {
   if (props.readonly) return { valid: true }
