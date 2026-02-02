@@ -19,8 +19,8 @@
           </v-col>
 
           <v-col v-if="showRole" cols="12">
-            <v-select v-model="model.rol_id" :items="rolesStore.roles" item-title="name" item-value="id" label="Rol"
-              variant="outlined" :rules="readonly ? [] : [required]" />
+            <v-select density="compact" v-model="model.rol_id" :items="rolesStore.roles" item-title="name"
+              item-value="id" label="Rol" variant="outlined" :rules="readonly ? [] : [required]" />
           </v-col>
 
           <v-col v-if="showPassword" cols="12">
@@ -28,10 +28,8 @@
               :append-inner-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
               :type="passwordVisible ? 'text' : 'password'" @click:append-inner="passwordVisible = !passwordVisible">
               <template #append>
-                <v-btn icon="mdi-refresh" variant="text" @click="generatePassword"
-                  v-tooltip:top="'Generar contraseña'" />
-                <v-btn icon="mdi-content-copy" variant="text" @click="copyPassword" :disabled="!model.password"
-                  v-tooltip:top="'Copiar contraseña'" />
+                <v-btn density="comfortable" icon="mdi-content-copy" variant="text" @click="copyPassword"
+                  :disabled="!model.password" v-tooltip:top="'Copiar contraseña'" />
               </template>
             </v-text-field>
           </v-col>
@@ -67,7 +65,6 @@ const model = defineModel<UserFormModel>({ required: true })
 const required = (v: string) => !!v || 'Campo requerido'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'Correo inválido'
 
-
 const formRef = ref<VForm>()
 
 onMounted(() => {
@@ -75,15 +72,6 @@ onMounted(() => {
     rolesStore.getRoles()
   }
 })
-
-const generatePassword = () => {
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+'
-  let password = ''
-  for (let i = 0; i < 12; i++) {
-    password += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  model.value.password = password
-}
 
 const copyPassword = () => {
   if (!model.value.password) return
