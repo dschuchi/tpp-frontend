@@ -26,13 +26,16 @@ export interface UsersResponse {
   users: UserListItem[]
 }
 
-export type UsersState = UsersResponse
+export interface UsersState {
+  users: UserListItem[]
+}
 
 export interface UserListItem {
   id: string,
   username: string,
   lastname: string,
   email: string,
+  rol_id: string
   rol_name: string,
   is_active: boolean
 }
@@ -46,4 +49,12 @@ export interface CreateUserRequest {
 export interface CreateUserResponse {
   email: string
   password: string
+}
+
+export interface UpdateUserRequest {
+  username: string
+  lastname: string
+  email: string
+  password: string
+  rol_id: number
 }

@@ -31,7 +31,7 @@
             <v-tooltip text="Editar" location="top">
               <template v-slot:activator="{ props }">
                 <v-btn v-if="can('users:edit:all')" v-bind="props" icon variant="text" size="small" color="primary"
-                  @click="editRole(item.id)">
+                  @click="editUser(item.id)">
                   <v-icon icon="mdi-pencil" />
                 </v-btn>
               </template>
@@ -40,7 +40,7 @@
             <v-tooltip text="Ver detalles" location="top">
               <template v-slot:activator="{ props }">
                 <v-btn v-if="can('users:edit:all')" v-bind="props" icon variant="text" size="small" color="info"
-                  @click="viewRole(item.id)">
+                  @click="viewUser(item.id)">
                   <v-icon icon="mdi-eye" />
                 </v-btn>
               </template>
@@ -55,6 +55,7 @@
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
 import { useConfirm } from '@/composables/useConfirm';
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.store';
 import { useUsersStore } from '@/stores/users.store';
 import type { UserListItem } from '@/types/users.types';
@@ -82,8 +83,9 @@ const headers: DataTableHeader[] = [
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
 
-const viewRole = (id: any) => alert(id)
-const editRole = (id: any) => alert(id)
+const router = useRouter()
+const viewUser = (id: string) => router.push({ name: '/usuarios/[id]/', params: { id } })
+const editUser = (id: string) => router.push({ name: '/usuarios/[id]/editar', params: { id } })
 
 const { confirm } = useConfirm()
 
