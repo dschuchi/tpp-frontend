@@ -24,9 +24,9 @@
           </v-col>
 
           <v-col v-if="showPassword" cols="12">
-            <v-text-field v-model="model.password" label="Contraseña" variant="outlined"
-              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="showPassword ? 'text' : 'password'"
-              @click:append-inner="showPassword = !showPassword">
+            <v-text-field :readonly="readonly" v-model="model.password" label="Contraseña" variant="outlined"
+              :append-inner-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="passwordVisible ? 'text' : 'password'" @click:append-inner="passwordVisible = !passwordVisible">
               <template #append>
                 <v-btn icon="mdi-refresh" variant="text" @click="generatePassword"
                   v-tooltip:top="'Generar contraseña'" />
@@ -36,7 +36,7 @@
             </v-text-field>
           </v-col>
         </v-row>
-        <v-snackbar v-model="showCopiedStart" color="success" timeout="2000">
+        <v-snackbar v-model="showCopiedSnackbar" color="success" timeout="2000">
           Contraseña copiada al portapapeles
         </v-snackbar>
       </v-form>
@@ -57,9 +57,12 @@ const props = defineProps({
 })
 
 const rolesStore = useRolesStore()
-const showCopiedStart = ref(false)
+const showCopiedSnackbar = ref(false)
+const passwordVisible = ref(false)
 
-const model = defineModel<CreateUserRequest | UpdateUserRequest>({ required: true })
+type UserFormModel = CreateUserRequest & Partial<UpdateUserRequest>
+
+const model = defineModel<UserFormModel>({ required: true })
 
 const required = (v: string) => !!v || 'Campo requerido'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'Correo inválido'
@@ -85,7 +88,7 @@ const generatePassword = () => {
 const copyPassword = () => {
   if (!model.value.password) return
   navigator.clipboard.writeText(model.value.password)
-  showCopiedStart.value = true
+  showCopiedSnackbar.value = true
 }
 
 const validate = async () => {
