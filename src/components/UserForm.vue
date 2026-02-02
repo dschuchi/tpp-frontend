@@ -18,25 +18,23 @@
               :rules="readonly ? [] : [required, emailRule]" />
           </v-col>
 
-          <template v-if="showAuthFields">
-            <v-col cols="12">
-              <v-select v-model="model.rol_id" :items="rolesStore.roles" item-title="name" item-value="id" label="Rol"
-                variant="outlined" :rules="readonly ? [] : [required]" />
-            </v-col>
+          <v-col v-if="showRole" cols="12">
+            <v-select v-model="model.rol_id" :items="rolesStore.roles" item-title="name" item-value="id" label="Rol"
+              variant="outlined" :rules="readonly ? [] : [required]" />
+          </v-col>
 
-            <v-col cols="12">
-              <v-text-field v-model="model.password" label="Contraseña" variant="outlined"
-                :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="showPassword ? 'text' : 'password'"
-                @click:append-inner="showPassword = !showPassword">
-                <template #append>
-                  <v-btn icon="mdi-refresh" variant="text" @click="generatePassword"
-                    v-tooltip:top="'Generar contraseña'" />
-                  <v-btn icon="mdi-content-copy" variant="text" @click="copyPassword" :disabled="!model.password"
-                    v-tooltip:top="'Copiar contraseña'" />
-                </template>
-              </v-text-field>
-            </v-col>
-          </template>
+          <v-col v-if="showPassword" cols="12">
+            <v-text-field v-model="model.password" label="Contraseña" variant="outlined"
+              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="showPassword ? 'text' : 'password'"
+              @click:append-inner="showPassword = !showPassword">
+              <template #append>
+                <v-btn icon="mdi-refresh" variant="text" @click="generatePassword"
+                  v-tooltip:top="'Generar contraseña'" />
+                <v-btn icon="mdi-content-copy" variant="text" @click="copyPassword" :disabled="!model.password"
+                  v-tooltip:top="'Copiar contraseña'" />
+              </template>
+            </v-text-field>
+          </v-col>
         </v-row>
         <v-snackbar v-model="showCopiedStart" color="success" timeout="2000">
           Contraseña copiada al portapapeles
@@ -54,11 +52,11 @@ import type { VForm } from 'vuetify/components'
 const props = defineProps({
   readonly: { type: Boolean, default: false },
   title: { type: String, default: 'Datos del usuario' },
-  showAuthFields: { type: Boolean, default: false }
+  showRole: { type: Boolean, default: false },
+  showPassword: { type: Boolean, default: false }
 })
 
 const rolesStore = useRolesStore()
-const showPassword = ref(false)
 const showCopiedStart = ref(false)
 
 const model = defineModel<CreateUserRequest | UpdateUserRequest>({ required: true })
@@ -70,7 +68,7 @@ const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'Correo inválido'
 const formRef = ref<VForm>()
 
 onMounted(() => {
-  if (props.showAuthFields) {
+  if (props.showRole) {
     rolesStore.getRoles()
   }
 })

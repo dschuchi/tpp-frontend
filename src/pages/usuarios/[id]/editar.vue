@@ -13,7 +13,7 @@
 
   <v-row>
     <v-col cols="12">
-      <user-form ref="userFormRef" v-model="form" :readonly="loading" show-auth-fields />
+      <user-form ref="userFormRef" v-model="form" :readonly="loading" show-role show-password />
     </v-col>
   </v-row>
 </template>
