@@ -55,6 +55,6 @@ export interface UpdateUserRequest {
   username: string
   lastname: string
   email: string
-  password: string
+  password?: string
   rol_id: number
 }

@@ -42,7 +42,7 @@ const form = ref<UpdateUserRequest>({
   username: '',
   lastname: '',
   email: '',
-  password: '',
+  password: undefined,
   rol_id: 0
 })
 
