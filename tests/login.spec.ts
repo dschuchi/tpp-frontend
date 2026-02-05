@@ -9,7 +9,7 @@ test.describe('Flujo de Login', () => {
     await loginPage.login('ev@gmail.com', 'admin');
 
     const homePage = new HomePage(page);
-    await expect(homePage.userName).toHaveText('Ezequiel Vilardo', { timeout: 5000 });
+    await expect(homePage.userName).toHaveText('Ezequiel Vilardo');
   });
 
   test('debería mostrar mensaje de error con credenciales inválidas', async ({ page }) => {
