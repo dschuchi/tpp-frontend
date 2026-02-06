@@ -151,7 +151,7 @@
     </v-row>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth.store'
 import googleLogo from '@/assets/google-logo.svg'
@@ -166,7 +166,7 @@ const loginError = ref('')
 const loading = ref(false)
 const snackbar = ref(false)
 
-const requiredRule = v => !!v || 'Campo obligatorio'
+const requiredRule = (v: string) => !!v || 'Campo obligatorio'
 
 const submit = async () => {
   loginError.value = ''
