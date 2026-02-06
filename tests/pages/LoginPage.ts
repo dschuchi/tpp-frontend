@@ -5,7 +5,6 @@ export class LoginPage {
     readonly emailInput: Locator;
     readonly passwordInput: Locator;
     readonly loginButton: Locator;
-    readonly errorMessage: Locator;
     readonly notification: Locator;
 
     constructor(page: Page) {
@@ -13,7 +12,6 @@ export class LoginPage {
         this.emailInput = page.getByPlaceholder('your.email@pharmatech.com');
         this.passwordInput = page.getByPlaceholder('Enter your password');
         this.loginButton = page.getByRole('button', { name: 'Sign in' });
-        this.errorMessage = page.getByText('Correo o contraseña incorrectos');
         this.notification = page.locator('.v-snackbar__content');
     }
 
