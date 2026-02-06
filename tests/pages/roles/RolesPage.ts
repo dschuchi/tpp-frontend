@@ -3,9 +3,6 @@ import { type Locator, type Page, expect } from '@playwright/test';
 export class RolesPage {
   readonly page: Page;
   readonly newRoleLink: Locator;
-  readonly nameInput: Locator;
-  readonly descriptionInput: Locator;
-  readonly saveButton: Locator;
   readonly deleteDialogParams: Locator;
   readonly confirmDeleteButton: Locator;
   readonly confirmRestoreButton: Locator;
@@ -13,9 +10,6 @@ export class RolesPage {
   constructor(page: Page) {
     this.page = page;
     this.newRoleLink = page.getByRole('link', { name: 'Nuevo Rol' });
-    this.nameInput = page.getByLabel('Nombre del rol');
-    this.descriptionInput = page.getByLabel('Descripción');
-    this.saveButton = page.getByRole('button', { name: 'Guardar' });
     this.deleteDialogParams = page.getByText('¿Estás seguro de que querés desactivar este rol?');
     this.confirmDeleteButton = page.getByRole('button', { name: 'Desactivar', exact: true });
     this.confirmRestoreButton = page.getByRole('button', { name: 'Activar', exact: true });
@@ -25,22 +19,15 @@ export class RolesPage {
     await this.page.goto('/roles');
   }
 
-  async createRole(name: string, description: string) {
+  async gotoNewRole() {
     await this.newRoleLink.click();
-    await this.nameInput.fill(name);
-    await this.descriptionInput.fill(description);
-    await this.saveButton.click();
   }
 
-  async editRoleDescription(roleName: string, newDescription: string) {
+  async gotoEditRole(roleName: string) {
     const roleRow = this.page.getByRole('row', { name: roleName });
     const editButton = roleRow.getByRole('button').filter({ has: this.page.locator('i.mdi-pencil') });
     await editButton.waitFor({ state: 'visible' });
     await editButton.click();
-    await expect(this.nameInput).not.toHaveValue('');
-    await expect(this.descriptionInput).not.toHaveValue('');
-    await this.descriptionInput.fill(newDescription);
-    await this.saveButton.click();
   }
 
   async verifyRoleVisible(name: string) {
