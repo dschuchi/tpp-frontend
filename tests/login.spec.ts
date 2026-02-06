@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from './pages/LoginPage';
-import { HomePage } from './pages/HomePage';
+import { AppBar } from './layout/AppBar';
 
 test.describe('Flujo de Login', () => {
   test('debería iniciar sesión correctamente con credenciales válidas', async ({ page }) => {
@@ -8,8 +8,8 @@ test.describe('Flujo de Login', () => {
     await loginPage.goto();
     await loginPage.login('ev@gmail.com', 'admin');
 
-    const homePage = new HomePage(page);
-    await expect(homePage.userName).toHaveText('Ezequiel Vilardo');
+    const appBar = new AppBar(page);
+    await expect(appBar.userName).toHaveText('Ezequiel Vilardo');
   });
 
   test('debería mostrar mensaje de error con credenciales inválidas', async ({ page }) => {
