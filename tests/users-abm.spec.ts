@@ -1,37 +1,32 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from './pages/LoginPage';
-import { UsersPage } from './pages/UsersPage';
+import { test, expect } from './fixtures/pom';
 
 test.describe('ABM Usuarios', () => {
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+  test.beforeEach(async ({ page, loginPage }) => {
     await loginPage.goto();
     await loginPage.login('ev@gmail.com', 'admin');
     await expect(page).toHaveURL('/');
   });
 
-  test('should create a new user successfully', async ({ page }) => {
+  test('should create a new user successfully', async ({ usersPage }) => {
     const testUser = {
       username: 'TestCreate',
       lastname: 'User',
       email: `test.create.${Date.now()}@pharmatech.com`,
     };
 
-    const usersPage = new UsersPage(page);
     await usersPage.goto();
     await usersPage.createUser(testUser);
     await usersPage.verifyUserVisible(testUser.email);
   });
 
-  test('should edit an existing user', async ({ page }) => {
+  test('should edit an existing user', async ({ usersPage }) => {
     const testUser = {
       username: `TestEdit_${Date.now()}`,
       lastname: 'User',
       email: `test.edit.${Date.now()}@pharmatech.com`,
     };
 
-    const usersPage = new UsersPage(page);
     await usersPage.goto();
 
     await usersPage.createUser(testUser);
@@ -43,14 +38,13 @@ test.describe('ABM Usuarios', () => {
     await usersPage.verifyUserVisible(newName);
   });
 
-  test('should toggle user status', async ({ page }) => {
+  test('should toggle user status', async ({ usersPage }) => {
     const testUser = {
       username: `TestToggle_${Date.now()}`,
       lastname: 'User',
       email: `test.toggle.${Date.now()}@pharmatech.com`,
     };
 
-    const usersPage = new UsersPage(page);
     await usersPage.goto();
 
     await usersPage.createUser(testUser);
