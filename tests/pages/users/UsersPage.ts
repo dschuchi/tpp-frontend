@@ -3,6 +3,7 @@ import { type Locator, type Page, expect } from '@playwright/test';
 export class UsersPage {
   readonly page: Page;
   readonly newUserLink: Locator;
+  readonly searchInput: Locator;
 
   readonly deactivateDialogText: Locator;
   readonly confirmDeactivateButton: Locator;
@@ -12,6 +13,7 @@ export class UsersPage {
   constructor(page: Page) {
     this.page = page;
     this.newUserLink = page.getByRole('link', { name: 'Nuevo Usuario' });
+    this.searchInput = page.getByLabel('Buscar');
 
     this.deactivateDialogText = page.getByText('¿Estás seguro de que querés desactivar este usuario?');
     this.confirmDeactivateButton = page.getByRole('button', { name: 'Desactivar', exact: true });
@@ -52,6 +54,7 @@ export class UsersPage {
   }
 
   async verifyUserVisible(text: string) {
+    await this.searchInput.fill(text);
     await expect(this.page.getByText(text)).toBeVisible();
   }
 }

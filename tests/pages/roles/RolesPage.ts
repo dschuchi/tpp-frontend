@@ -3,6 +3,7 @@ import { type Locator, type Page, expect } from '@playwright/test';
 export class RolesPage {
   readonly page: Page;
   readonly newRoleLink: Locator;
+  readonly searchInput: Locator;
   readonly deleteDialogParams: Locator;
   readonly confirmDeleteButton: Locator;
   readonly confirmRestoreButton: Locator;
@@ -10,6 +11,7 @@ export class RolesPage {
   constructor(page: Page) {
     this.page = page;
     this.newRoleLink = page.getByRole('link', { name: 'Nuevo Rol' });
+    this.searchInput = page.getByLabel('Buscar');
     this.deleteDialogParams = page.getByText('¿Estás seguro de que querés desactivar este rol?');
     this.confirmDeleteButton = page.getByRole('button', { name: 'Desactivar', exact: true });
     this.confirmRestoreButton = page.getByRole('button', { name: 'Activar', exact: true });
@@ -31,6 +33,7 @@ export class RolesPage {
   }
 
   async verifyRoleVisible(name: string) {
+    await this.searchInput.fill(name);
     await expect(this.page.getByRole('cell', { name })).toBeVisible();
   }
 
