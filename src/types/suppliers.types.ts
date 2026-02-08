@@ -1,13 +1,16 @@
 export type SuppliersState = SuppliersResponse
 
 export interface SuppliersResponse {
-  suppliers: ItemSuppliersResponse[]
+  suppliers: SupplierDetailResponse[]
 }
 
-export interface ItemSuppliersResponse {
-  id: number,
-  name: string,
-  tax_id: string,
+export interface SupplierDetailResponse {
+  id: number
+  name: string
+  tax_id: string
+  address: string
+  phone: string
+  email: string
   is_active: boolean
 }
 

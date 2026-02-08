@@ -49,7 +49,7 @@ import type { DataTableHeader } from 'vuetify';
 
 definePage({
   meta: {
-    permission: '*'
+    permission: 'suppliers:view'
   }
 })
 
@@ -68,9 +68,8 @@ onMounted(() => {
   suppliersStore.getSuppliers()
 })
 
-const editSupplier = (id: any) => {
-  console.log('Edit supplier', id)
-}
+const router = useRouter()
+const editSupplier = (id: any) => router.push({ name: '/suppliers/[id]/edit', params: { id } })
 
 const { confirm } = useConfirm()
 
