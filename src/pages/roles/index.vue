@@ -13,7 +13,8 @@
 
   <v-row>
     <v-col cols="12">
-      <v-data-table :headers="headers" :items="roles">
+      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
+      <v-data-table :headers="headers" :items="roles" :search="search">
         <template #item.is_active="{ value }">
           <StatusChip :value="value" />
         </template>
@@ -86,6 +87,7 @@ onMounted(() => {
   rolesStore.getRoles()
 })
 
+const search = ref('')
 const roles = computed(() => rolesStore.roles)
 
 const headers: DataTableHeader[] = [

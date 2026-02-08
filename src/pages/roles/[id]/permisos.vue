@@ -8,7 +8,9 @@
 
   <v-row>
     <v-col cols="12">
-      <v-data-table :headers="headers" :items="permissionsStore.permissions" hover>
+      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
+
+      <v-data-table :headers="headers" :items="permissionsStore.permissions" hover :search="search">
         <template #[`item.assigned`]="{ item }">
           <v-checkbox :model-value="isAssigned(item)" @update:model-value="togglePermission(item)" color="primary"
             density="compact" hide-details></v-checkbox>
@@ -35,6 +37,8 @@ const props = defineProps<{ id: string }>()
 
 const rolesStore = useRolesStore()
 const permissionsStore = usePermissionsStore()
+
+const search = ref('')
 
 rolesStore.getRole(Number(props.id))
 permissionsStore.getPermissions()

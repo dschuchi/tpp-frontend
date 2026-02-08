@@ -13,7 +13,8 @@
 
   <v-row>
     <v-col cols="12">
-      <v-data-table :headers="headers" :items="usersStore.users">
+      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
+      <v-data-table :headers="headers" :items="usersStore.users" :search="search">
         <template #item.is_active="{ value }">
           <StatusChip :value="value" />
         </template>
@@ -73,6 +74,8 @@ const { can } = useUserStore()
 onMounted(() => {
   usersStore.getUsers()
 })
+
+const search = ref('')
 
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'username' },
