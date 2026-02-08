@@ -21,6 +21,7 @@ export const PERMISSIONS_ENDPOINTS = {
 
 export const SUPPLIERS_ENDPOINTS = {
   SUPPLIERS: '/suppliers',
+  SUPPLIER: '/supplier',
   SUPPLIER_BY_ID: (id: number) => `/suppliers/${id}`,
   ACTIVATE_SUPPLIER_BY_ID: (id: number) => `/suppliers/${id}/activate`
 } as const

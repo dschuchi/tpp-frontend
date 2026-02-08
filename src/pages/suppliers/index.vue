@@ -3,7 +3,7 @@
     <v-col cols="12">
       <PageHeader title="Proveedores" subtitle="Administra los proveedores del sistema.">
         <template #actions>
-          <v-btn to="/suppliers/create">
+          <v-btn v-if="can('suppliers:create')" to="/suppliers/new">
             Nuevo Proveedor
           </v-btn>
         </template>
@@ -24,7 +24,8 @@
             <v-btn icon variant="text" size="small" color="primary" @click="editSupplier(item.id)">
               <v-icon icon="mdi-pencil" />
             </v-btn>
-            <v-tooltip v-if="can('suppliers:delete')" :text="item.is_active ? 'Desactivar' : 'Restaurar'" location="top">
+            <v-tooltip v-if="can('suppliers:delete')" :text="item.is_active ? 'Desactivar' : 'Restaurar'"
+              location="top">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" icon variant="text" size="small" :color="item.is_active ? 'error' : 'success'"
                   @click="toggleStatus(item)">
@@ -52,7 +53,7 @@ definePage({
   }
 })
 
-const {can} = useUserStore()
+const { can } = useUserStore()
 const suppliersStore = useSuppliersStore()
 const search = ref('')
 
@@ -70,7 +71,6 @@ onMounted(() => {
 const editSupplier = (id: any) => {
   console.log('Edit supplier', id)
 }
-
 
 const { confirm } = useConfirm()
 

@@ -10,3 +10,13 @@ export interface ItemSuppliersResponse {
   tax_id: string,
   is_active: boolean
 }
+
+export interface NewSupplierRequest {
+  name: string
+  tax_id: string
+  address: string
+  phone: string
+  email: string
+}
+
+export type UpdateSupplierRequest = NewSupplierRequest
