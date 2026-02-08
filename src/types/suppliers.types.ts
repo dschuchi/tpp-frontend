@@ -7,5 +7,6 @@ export interface SuppliersResponse {
 export interface ItemSuppliersResponse {
   id: number,
   name: string,
-  tax_id: string
+  tax_id: string,
+  is_active: boolean
 }

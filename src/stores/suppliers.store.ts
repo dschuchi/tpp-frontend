@@ -18,8 +18,13 @@ export const useSuppliersStore = defineStore('suppliers', {
     async update(id: any, supplier: any) {
       console.log('Updating supplier', id, supplier)
     },
-    async delete(id: any) {
-      console.log('Deleting supplier', id)
+    async deactivate(id: number) {
+      await http.delete(SUPPLIERS_ENDPOINTS.SUPPLIER_BY_ID(id))
+      this.getSuppliers()
+    },
+    async activate(id: number) {
+      await http.patch(SUPPLIERS_ENDPOINTS.ACTIVATE_SUPPLIER_BY_ID(id))
+      this.getSuppliers()
     }
   }
 })
