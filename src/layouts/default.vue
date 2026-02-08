@@ -59,6 +59,15 @@ const allMenuItems = [
       to: '/roles',
     },
     permission: 'roles:view'
+  },
+  {
+    title: 'Proveedores',
+    value: 'suppliers',
+    props: {
+      prependIcon: 'mdi-truck',
+      to: '/suppliers',
+    },
+    permission: "suppliers:view"
   }
 ]
 
