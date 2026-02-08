@@ -18,3 +18,7 @@ export const ROLES_ENDPOINTS = {
 export const PERMISSIONS_ENDPOINTS = {
   PERMISSIONS: '/permissions'
 } as const
+
+export const SUPPLIERS_ENDPOINTS = {
+  SUPPLIERS: '/suppliers'
+} as const
