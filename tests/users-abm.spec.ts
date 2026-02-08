@@ -8,7 +8,7 @@ test.describe('ABM Usuarios', () => {
     await expect(page).toHaveURL('/');
   });
 
-  test('should create a new user successfully', async ({ usersPage, newUserPage }) => {
+  test('debería crear un nuevo usuario exitosamente', async ({ usersPage, newUserPage }) => {
     const testUser = {
       username: 'TestCreate',
       lastname: 'User',
@@ -21,7 +21,7 @@ test.describe('ABM Usuarios', () => {
     await usersPage.verifyUserVisible(testUser.email);
   });
 
-  test('should edit an existing user', async ({ usersPage, newUserPage, editUserPage }) => {
+  test('debería editar un usuario existente', async ({ usersPage, newUserPage, editUserPage }) => {
     const testUser = {
       username: `TestEdit_${Date.now()}`,
       lastname: 'User',
@@ -41,7 +41,7 @@ test.describe('ABM Usuarios', () => {
     await usersPage.verifyUserVisible(newName);
   });
 
-  test('should toggle user status', async ({ usersPage, newUserPage }) => {
+  test('debería cambiar el estado del usuario', async ({ usersPage, newUserPage }) => {
     const testUser = {
       username: `TestToggle_${Date.now()}`,
       lastname: 'User',

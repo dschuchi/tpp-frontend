@@ -8,7 +8,7 @@ test.describe('ABM Roles', () => {
     await expect(page).toHaveURL('/');
   });
 
-  test('should create a new role successfully', async ({ page, rolesPage, newRolePage }) => {
+  test('debería crear un nuevo rol exitosamente', async ({ page, rolesPage, newRolePage }) => {
     const roleToCreate = {
       name: `TestRole_${Date.now()}`,
       description: 'Role created by Playwright automated test'
@@ -22,7 +22,7 @@ test.describe('ABM Roles', () => {
     await rolesPage.verifyRoleVisible(roleToCreate.name);
   });
 
-  test('should edit an existing role', async ({ page, rolesPage, newRolePage, editRolePage }) => {
+  test('debería editar un rol existente', async ({ page, rolesPage, newRolePage, editRolePage }) => {
     const roleToEdit = {
       name: `RoleToEdit_${Date.now()}`,
       description: 'Role created by Playwright for edit test'
@@ -44,7 +44,7 @@ test.describe('ABM Roles', () => {
     await rolesPage.verifyRoleVisible(newDesc);
   });
 
-  test('should toggle role status', async ({ page, rolesPage, newRolePage }) => {
+  test('debería cambiar el estado del rol', async ({ page, rolesPage, newRolePage }) => {
     const roleToDelete = {
       name: `RoleToDelete_${Date.now()}`,
       description: 'Role created by Playwright for delete test'
