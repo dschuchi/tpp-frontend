@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/403': RouteRecordInfo<'/403', '/403', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
     '/roles/': RouteRecordInfo<'/roles/', '/roles', Record<never, never>, Record<never, never>>,
     '/roles/[id]/': RouteRecordInfo<'/roles/[id]/', '/roles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/[id]/editar': RouteRecordInfo<'/roles/[id]/editar', '/roles/:id/editar', { id: ParamValue<true> }, { id: ParamValue<false> }>,
@@ -58,6 +59,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/login.vue': {
       routes: '/login'
+      views: never
+    }
+    'src/pages/profile.vue': {
+      routes: '/profile'
       views: never
     }
     'src/pages/roles/index.vue': {

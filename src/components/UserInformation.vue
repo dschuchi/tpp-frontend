@@ -1,11 +1,12 @@
 <template>
-  <v-card :title="userStore.fullname" :subtitle="userStore.rol_name" variant="flat">
-    <template v-slot:append>
-      <v-avatar color="blue">
-        {{ avatarText }}
-      </v-avatar>
-    </template>
-  </v-card>
+    <v-card to="/profile" :title="userStore.fullname" :subtitle="userStore.rol_name" variant="flat">
+      <template v-slot:append>
+        <v-avatar color="blue">
+          {{ avatarText }}
+        </v-avatar>
+      </template>
+    </v-card>
+
 </template>
 
 <script setup lang="ts">
