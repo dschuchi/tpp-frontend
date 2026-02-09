@@ -60,6 +60,9 @@ const search = ref('')
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'name' },
   { title: 'DNI/CUIT', key: 'tax_id' },
+  { title: 'Correo Electronico', key: 'email' },
+  { title: 'Dirección', key: 'address' },
+  { title: 'Telefono', key: 'phone' },
   { title: 'Estado', key: 'is_active' },
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
