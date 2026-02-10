@@ -9,36 +9,29 @@
     <v-col cols="12">
       <v-card title="Información Personal">
         <v-row align="center" class="pa-4">
-          <v-col cols="12" sm="2" class="d-flex justify-center">
-            <v-avatar size="80" color="blue">
-              {{ avatarText }}
-            </v-avatar>
+          <v-col cols="12" sm="6">
+            <v-text-field :model-value="userStore.name" label="Nombre" variant="outlined" readonly />
+            <v-text-field :model-value="userStore.lastname" label="Apellido" variant="outlined" readonly />
           </v-col>
 
-          <v-col cols="12" sm="5">
-            <div class="text-subtitle-1 font-weight-bold">Nombre</div>
-            <div class="text-body-1 mb-2">{{ userStore.name }}</div>
-
-            <div class="text-subtitle-1 font-weight-bold">Correo</div>
-            <div class="text-body-1 text-grey">{{ userStore.email }}</div>
+          <v-col cols="12" sm="6">
+            <v-text-field :model-value="userStore.email" label="Correo" variant="outlined" readonly />
+            <v-select density="compact" :model-value="userStore.rol_name" label="Rol" variant="outlined" readonly />
           </v-col>
-
-          <v-col cols="12" sm="5">
-            <div class="text-subtitle-1 font-weight-bold">Apellido</div>
-            <div class="text-body-1 mb-2">{{ userStore.lastname }}</div>
-
-            <div class="text-subtitle-1 font-weight-bold">Rol de Usuario</div>
-            <v-chip color="secondary" size="small">{{ userStore.rol_name }}</v-chip>
-          </v-col>
-
         </v-row>
       </v-card>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="12">
+      <ChangePassword />
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
+import ChangePassword from '@/components/ChangePassword.vue';
 import { useUserStore } from '@/stores/user.store';
 
 definePage({
@@ -48,6 +41,5 @@ definePage({
 })
 
 const userStore = useUserStore()
-const avatarText = computed(() => userStore.name.charAt(0) + userStore.lastname.charAt(0))
 
 </script>

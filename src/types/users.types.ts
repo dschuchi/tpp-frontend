@@ -58,3 +58,7 @@ export interface UpdateUserRequest {
   password?: string
   rol_id: number
 }
+
+export interface UpdatePasswordRequest {
+  password: string
+}
