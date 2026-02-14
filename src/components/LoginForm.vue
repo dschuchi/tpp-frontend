@@ -6,18 +6,8 @@
     >
       <v-col md="6" class="pa-0 fill-height hidden-sm-and-down left-background text-white">
         <v-row class="pa-16" align="center">
-          <v-col cols="1">
-            <v-avatar
-              color="primary"
-              rounded="lg"
-              size="60"
-            >
-              <v-icon icon="mdi-flask-outline" color="white" size="40"/>
-            </v-avatar>
-          </v-col>
-
-          <v-col cols="11">
-            <p class="typo-h1">Farmacoop</p>
+          <v-col cols="12">
+            <v-img width="400px" src="/logo.svg"></v-img>
             <p class="typo-body-sm">Laboratory ERP System</p>
           </v-col>
 

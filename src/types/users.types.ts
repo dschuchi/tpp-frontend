@@ -12,6 +12,7 @@ export interface LoginResponse {
   rol_name: string
   permissions: string[];
   accessToken: string;
+  refreshToken: string;
 }
 
 export interface User {
