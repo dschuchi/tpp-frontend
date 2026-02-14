@@ -21,6 +21,9 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/403': RouteRecordInfo<'/403', '/403', Record<never, never>, Record<never, never>>,
+    '/customers/': RouteRecordInfo<'/customers/', '/customers', Record<never, never>, Record<never, never>>,
+    '/customers/[id]/edit': RouteRecordInfo<'/customers/[id]/edit', '/customers/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/customers/new': RouteRecordInfo<'/customers/new', '/customers/new', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/roles/': RouteRecordInfo<'/roles/', '/roles', Record<never, never>, Record<never, never>>,
     '/roles/[id]/': RouteRecordInfo<'/roles/[id]/', '/roles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
@@ -54,6 +57,18 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/403.vue': {
       routes: '/403'
+      views: never
+    }
+    'src/pages/customers/index.vue': {
+      routes: '/customers/'
+      views: never
+    }
+    'src/pages/customers/[id]/edit.vue': {
+      routes: '/customers/[id]/edit'
+      views: never
+    }
+    'src/pages/customers/new.vue': {
+      routes: '/customers/new'
       views: never
     }
     'src/pages/login.vue': {
