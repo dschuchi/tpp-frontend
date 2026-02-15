@@ -10,6 +10,10 @@ import { UsersPage } from '../pages/users/UsersPage';
 import { NewUserPage } from '../pages/users/NewUserPage';
 import { EditUserPage } from '../pages/users/EditUserPage';
 
+import { SuppliersPage } from '../pages/suppliers/SuppliersPage';
+import { NewSupplierPage } from '../pages/suppliers/NewSupplierPage';
+import { EditSupplierPage } from '../pages/suppliers/EditSupplierPage';
+
 type POMFixtures = {
   appBar: AppBar
   loginPage: LoginPage
@@ -21,6 +25,10 @@ type POMFixtures = {
   usersPage: UsersPage
   newUserPage: NewUserPage
   editUserPage: EditUserPage
+
+  suppliersPage: SuppliersPage
+  newSupplierPage: NewSupplierPage
+  editSupplierPage: EditSupplierPage
 };
 
 export const test = base.extend<POMFixtures>({
@@ -49,6 +57,16 @@ export const test = base.extend<POMFixtures>({
   },
   editUserPage: async ({ page }, use) => {
     await use(new EditUserPage(page));
+  },
+
+  suppliersPage: async ({ page }, use) => {
+    await use(new SuppliersPage(page));
+  },
+  newSupplierPage: async ({ page }, use) => {
+    await use(new NewSupplierPage(page));
+  },
+  editSupplierPage: async ({ page }, use) => {
+    await use(new EditSupplierPage(page));
   },
 });
 
