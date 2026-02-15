@@ -18,6 +18,9 @@ import { CustomersPage } from '../pages/customers/CustomersPage';
 import { NewCustomerPage } from '../pages/customers/NewCustomerPage';
 import { EditCustomerPage } from '../pages/customers/EditCustomerPage';
 
+import { ProfilePage } from '../pages/profile/ProfilePage';
+import { UpdatedPasswordDialog } from '../pages/profile/UpdatedPasswordDialog';
+
 type POMFixtures = {
   appBar: AppBar
   loginPage: LoginPage
@@ -37,6 +40,9 @@ type POMFixtures = {
   customersPage: CustomersPage
   newCustomerPage: NewCustomerPage
   editCustomerPage: EditCustomerPage
+
+  profilePage: ProfilePage
+  updatedPasswordDialog: UpdatedPasswordDialog
 };
 
 export const test = base.extend<POMFixtures>({
@@ -85,6 +91,13 @@ export const test = base.extend<POMFixtures>({
   },
   editCustomerPage: async ({ page }, use) => {
     await use(new EditCustomerPage(page));
+  },
+
+  profilePage: async ({ page }, use) => {
+    await use(new ProfilePage(page));
+  },
+  updatedPasswordDialog: async ({ page }, use) => {
+    await use(new UpdatedPasswordDialog(page));
   },
 });
 

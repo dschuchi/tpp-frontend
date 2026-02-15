@@ -1,4 +1,6 @@
-import type { LoginResponse, User } from "@/types/users.types"
+import { USERS_ENDPOINTS } from "@/api/endpoints"
+import http from "@/api/http"
+import type { LoginResponse, UpdatePasswordRequest, User } from "@/types/users.types"
 
 export const useUserStore = defineStore('user', {
   state: (): User => ({
@@ -29,6 +31,12 @@ export const useUserStore = defineStore('user', {
     },
     async clearUser() {
       this.$reset()
+    },
+    async updatePassword(newPassword: string) {
+      const requestBody: UpdatePasswordRequest = {
+        password: newPassword
+      }
+      await http.patch(USERS_ENDPOINTS.ME, requestBody)
     }
   }
 })
