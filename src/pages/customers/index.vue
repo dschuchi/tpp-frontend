@@ -13,7 +13,9 @@
 
   <v-row>
     <v-col cols="12">
-      <v-data-table :headers="headers" :items="customers">
+      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
+
+      <v-data-table :headers="headers" :items="customers" :search="search">
         <template #item.is_active="{ value }">
           <status-chip :value="value" />
         </template>
@@ -63,6 +65,8 @@ const { can } = useUserStore()
 const customersStore = useCustomersStore()
 const router = useRouter()
 const { confirm } = useConfirm()
+const search = ref('')
+
 
 onMounted(() => {
   customersStore.getCustomers()
