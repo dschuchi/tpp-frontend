@@ -1,8 +1,5 @@
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    :scrim="!lgAndUp"
-  >
+  <v-navigation-drawer v-model="drawer" :scrim="!lgAndUp">
     <div class="justify-items-center mt-3">
       <v-img width="250px" src="/logo.svg"></v-img>
     </div>
@@ -19,11 +16,8 @@
 
   <v-app-bar elevation="0" class="border-b-thin">
     <template v-slot:prepend>
-      <v-app-bar-nav-icon
-        class="hidden-lg-and-up"
-        @click="drawer = !drawer"
-        aria-label="Abrir/Cerrar menú"
-      ></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon class="hidden-lg-and-up" @click="drawer = !drawer"
+        aria-label="Abrir/Cerrar menú"></v-app-bar-nav-icon>
     </template>
 
     <template v-slot:append>
@@ -110,6 +104,9 @@ const menuItems = computed(() => {
 
 const authStore = useAuthStore()
 
-const logout = authStore.logout
+const logout = () => {
+  authStore.logout()
+  userStore.clearUser()
+}
 
 </script>

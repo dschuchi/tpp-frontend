@@ -90,5 +90,6 @@ const submit = async () => {
 
 const handleLogout = () => {
   router.push('/login')
+  userStore.clearUser()
 }
 </script>
