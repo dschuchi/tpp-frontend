@@ -2,39 +2,40 @@ import { test, expect } from './fixtures/pom';
 
 test.describe('Perfil de Usuario', () => {
 
-    test('debería validar los datos del usuario logueado', async ({ loginPage, profilePage }) => {
-        await loginPage.goto();
-        await loginPage.login('ev@gmail.com', 'admin');
+  test.beforeEach(async () => {
+    // TODO
 
-        await profilePage.goto();
-        await profilePage.validateUserData('Ezequiel', 'Vilardo', 'ev@gmail.com', 'admin');
-    });
+    // Utilizando la API asegurarse que la contraseña es la correcta,
+    // de esta manera se realiza más rapido y se ahorra el cleanup
 
-    test('debería cambiar la contraseña y volver a iniciar sesión', async ({ loginPage, profilePage, updatedPasswordDialog }) => {
-        const newPassword = 'newpassword123';
-        const defaultPassword = 'admin';
+    // Se debe crear un usuario especifico para el test de cambio de password
+    // sino rompe los otros tests
+  });
 
-        await loginPage.goto();
-        await loginPage.login('ev@gmail.com', defaultPassword);
+  test('debería validar los datos del usuario logueado', async ({ loginPage, profilePage, appBar }) => {
+    await loginPage.goto();
+    await loginPage.login('ev@gmail.com', 'admin');
+    await expect(appBar.userName).toBeVisible()
 
-        // Cambiar contraseña
-        await profilePage.goto();
-        await profilePage.updatePassword(newPassword);
+    await profilePage.goto();
+    await profilePage.validateUserData('Ezequiel', 'Vilardo', 'ev@gmail.com', 'admin');
+  });
 
-        // Aceptar dialogo de confirmacion y verificar redireccion al login (o que hay que loguearse de nuevo)
-        await updatedPasswordDialog.accept();
-        await expect(loginPage.page).toHaveURL(/.*login/); // Asumiendo que redirige al login
+  test.fixme('debería cambiar la contraseña y volver a iniciar sesión', async ({ loginPage, profilePage, updatedPasswordDialog }) => {
+    const newPassword = 'newpassword123';
+    const defaultPassword = 'admin';
 
-        // Loguearse con la nueva contraseña
-        await loginPage.login('ev@gmail.com', newPassword);
+    await loginPage.goto();
+    await loginPage.login('ev@gmail.com', defaultPassword);
 
-        // Verificar login exitoso (por ejemplo checking que estamos en home o profile)
-        await expect(loginPage.page).not.toHaveURL(/.*login/);
+    await profilePage.goto();
+    await profilePage.updatePassword(newPassword);
 
-        // --- CLEANUP ---
-        // Volver a poner la contraseña original para no romper otros tests
-        await profilePage.goto();
-        await profilePage.updatePassword(defaultPassword);
-        await updatedPasswordDialog.accept();
-    });
+    await updatedPasswordDialog.accept();
+    await expect(loginPage.page).toHaveURL(/.*login/);
+
+    await loginPage.login('ev@gmail.com', newPassword);
+
+    await expect(loginPage.page).not.toHaveURL(/.*login/);
+  });
 });
