@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ConfirmDialog: typeof import('./components/ConfirmDialog.vue')['default']
     ConfirmDialogHost: typeof import('./components/ConfirmDialogHost.vue')['default']
+    CustomerForm: typeof import('./components/CustomerForm.vue')['default']
     LoginForm: typeof import('./components/LoginForm.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
     RoleForm: typeof import('./components/RoleForm.vue')['default']

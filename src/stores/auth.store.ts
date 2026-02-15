@@ -8,7 +8,7 @@ import http from '@/api/http'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    token: localStorage.getItem('token'),
+    token: localStorage.getItem('access_token'),
     hydrated: false
   }),
 
@@ -21,7 +21,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response: LoginResponse = await http.post(USERS_ENDPOINTS.LOGIN, credentials)
         this.token = response.accessToken
-        localStorage.setItem('token', response.accessToken)
+        localStorage.setItem('access_token', response.accessToken)
+        localStorage.setItem('refresh_token', response.refreshToken)
 
         const userStore = useUserStore()
         userStore.setUser(response)
@@ -31,7 +32,8 @@ export const useAuthStore = defineStore('auth', {
 
     logout() {
       this.token = null
-      localStorage.removeItem('token')
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
 
       const userStore = useUserStore()
       userStore.clearUser()

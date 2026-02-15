@@ -1,9 +1,12 @@
 <template>
-  <v-navigation-drawer permanent>
+  <v-navigation-drawer
+    v-model="drawer"
+    :scrim="!lgAndUp"
+  >
     <div class="justify-items-center mt-3">
-      <v-img width="210px" src="/farmacoop-text-logo.png"></v-img>
+      <v-img width="250px" src="/logo.svg"></v-img>
     </div>
-    <v-list :items="menuItems">
+    <v-list :items="menuItems" @click="!lgAndUp && (drawer = false)">
     </v-list>
     <template v-slot:append>
       <v-list>
@@ -15,6 +18,14 @@
   </v-navigation-drawer>
 
   <v-app-bar elevation="0" class="border-b-thin">
+    <template v-slot:prepend>
+      <v-app-bar-nav-icon
+        class="hidden-lg-and-up"
+        @click="drawer = !drawer"
+        aria-label="Abrir/Cerrar menú"
+      ></v-app-bar-nav-icon>
+    </template>
+
     <template v-slot:append>
       <user-information />
     </template>
@@ -32,6 +43,7 @@
 import ConfirmDialogHost from '@/components/ConfirmDialogHost.vue';
 import { useAuthStore } from '@/stores/auth.store';
 import { useUserStore } from '@/stores/user.store';
+import { useDisplay } from 'vuetify'
 
 const allMenuItems = [
   {
@@ -61,6 +73,15 @@ const allMenuItems = [
     permission: 'roles:view'
   },
   {
+    title: 'Clientes',
+    value: 'customers',
+    props: {
+      prependIcon: 'mdi-account-tie',
+      to: '/customers',
+    },
+    permission: 'customers:view'
+  },
+  {
     title: 'Proveedores',
     value: 'suppliers',
     props: {
@@ -70,6 +91,13 @@ const allMenuItems = [
     permission: "suppliers:view"
   }
 ]
+
+const { lgAndUp } = useDisplay()
+const drawer = ref(lgAndUp.value)
+
+watch(lgAndUp, (isDesktop) => {
+  drawer.value = isDesktop
+})
 
 const userStore = useUserStore()
 
