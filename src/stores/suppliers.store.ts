@@ -17,7 +17,7 @@ export const useSuppliersStore = defineStore('suppliers', {
       this.getSuppliers()
     },
     async update(id: number, supplier: UpdateSupplierRequest) {
-      await http.patch(SUPPLIERS_ENDPOINTS.SUPPLIER_BY_ID(id), supplier)
+      await http.put(SUPPLIERS_ENDPOINTS.SUPPLIER_BY_ID(id), supplier)
       this.getSuppliers()
     },
     async getSupplier(id: number) {
