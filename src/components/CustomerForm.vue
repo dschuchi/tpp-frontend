@@ -6,7 +6,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="model.name"
-              label="Nombre del cliente"
+              label="Nombre"
               variant="outlined"
               :rules="[required]"
             />

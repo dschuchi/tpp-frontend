@@ -3,27 +3,27 @@
     <v-card-text>
       <v-form ref="formRef" :readonly="readonly" @submit.prevent>
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col cols="12">
             <v-text-field v-model="model.name" label="Nombre" variant="outlined" :rules="readonly ? [] : [required]" />
           </v-col>
 
-          <v-col cols="12" md="6">
-            <v-text-field v-model="model.tax_id" label="DNI/CUIT" variant="outlined" :rules="readonly ? [] : [required]" />
-          </v-col>
-
-          <v-col cols="12" md="6">
-            <v-text-field v-model="model.email" label="Correo electrónico" variant="outlined"
-              :rules="readonly ? [] : [required, emailRule]" />
-          </v-col>
-
-          <v-col cols="12" md="6">
-            <v-text-field v-model="model.phone" label="Teléfono" variant="outlined"
-              :rules="readonly ? [] : [required]" />
+          <v-col cols="12">
+            <v-text-field v-model="model.tax_id" label="CUIT/CUIL" variant="outlined" :rules="readonly ? [] : [required]" />
           </v-col>
 
           <v-col cols="12">
             <v-text-field v-model="model.address" label="Dirección" variant="outlined"
-              :rules="readonly ? [] : [required]" />
+            :rules="readonly ? [] : [required]" />
+          </v-col>
+
+          <v-col cols="12">
+            <v-text-field v-model="model.phone" label="Teléfono" variant="outlined"
+            :rules="readonly ? [] : [required]" />
+          </v-col>
+
+          <v-col cols="12">
+            <v-text-field v-model="model.email" label="Email" variant="outlined"
+              :rules="readonly ? [] : [required, emailRule]" />
           </v-col>
         </v-row>
       </v-form>
