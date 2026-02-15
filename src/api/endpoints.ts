@@ -18,3 +18,17 @@ export const ROLES_ENDPOINTS = {
 export const PERMISSIONS_ENDPOINTS = {
   PERMISSIONS: '/permissions'
 } as const
+
+export const CUSTOMERS_ENDPOINTS = {
+  CUSTOMERS: '/customers',
+  CUSTOMER: '/customer',
+  CUSTOMER_BY_ID: (id: number) => `/customer/${id}`,
+  ACTIVATE_CUSTOMER_BY_ID: (id: number) => `/customer/${id}/activate`,
+} as const
+
+export const SUPPLIERS_ENDPOINTS = {
+  SUPPLIERS: '/suppliers',
+  SUPPLIER: '/supplier',
+  SUPPLIER_BY_ID: (id: number) => `/supplier/${id}`,
+  ACTIVATE_SUPPLIER_BY_ID: (id: number) => `/supplier/${id}/activate`
+} as const
