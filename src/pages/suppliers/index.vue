@@ -21,18 +21,25 @@
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex ga-2 justify-end align-center">
-            <v-btn icon variant="text" size="small" color="primary" @click="editSupplier(item.id)">
-              <v-icon icon="mdi-pencil" />
-            </v-btn>
-            <v-tooltip v-if="can('suppliers:delete')" :text="item.is_active ? 'Desactivar' : 'Restaurar'"
-              location="top">
+
+            <v-tooltip :text="item.is_active ? 'Desactivar' : 'Restaurar'" location="top">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" icon variant="text" size="small" :color="item.is_active ? 'error' : 'success'"
-                  @click="toggleStatus(item)">
+                <v-btn v-if="can('suppliers:delete')" v-bind="props" icon variant="text" size="small"
+                  :color="item.is_active ? 'error' : 'success'" @click="toggleStatus(item)">
                   <v-icon :icon="item.is_active ? 'mdi-delete' : 'mdi-delete-restore'" />
                 </v-btn>
               </template>
             </v-tooltip>
+
+            <v-tooltip text="Editar" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-if="can('suppliers:edit')" v-bind="props" icon variant="text" size="small" color="primary"
+                  @click="editSupplier(item.id)">
+                  <v-icon icon="mdi-pencil" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
           </div>
         </template>
       </v-data-table>
@@ -59,8 +66,8 @@ const search = ref('')
 
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'name' },
-  { title: 'DNI/CUIT', key: 'tax_id' },
-  { title: 'Correo Electronico', key: 'email' },
+  { title: 'Email', key: 'email' },
+  { title: 'CUIT', key: 'tax_id' },
   { title: 'Dirección', key: 'address' },
   { title: 'Telefono', key: 'phone' },
   { title: 'Estado', key: 'is_active' },
