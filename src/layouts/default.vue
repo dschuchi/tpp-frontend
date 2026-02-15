@@ -80,6 +80,15 @@ const allMenuItems = [
       to: '/customers',
     },
     permission: 'customers:view'
+  },
+  {
+    title: 'Proveedores',
+    value: 'suppliers',
+    props: {
+      prependIcon: 'mdi-truck',
+      to: '/suppliers',
+    },
+    permission: "suppliers:view"
   }
 ]
 

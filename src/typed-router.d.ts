@@ -30,6 +30,9 @@ declare module 'vue-router/auto-routes' {
     '/roles/[id]/editar': RouteRecordInfo<'/roles/[id]/editar', '/roles/:id/editar', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/[id]/permisos': RouteRecordInfo<'/roles/[id]/permisos', '/roles/:id/permisos', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/nuevo': RouteRecordInfo<'/roles/nuevo', '/roles/nuevo', Record<never, never>, Record<never, never>>,
+    '/suppliers/': RouteRecordInfo<'/suppliers/', '/suppliers', Record<never, never>, Record<never, never>>,
+    '/suppliers/[id]/edit': RouteRecordInfo<'/suppliers/[id]/edit', '/suppliers/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/suppliers/new': RouteRecordInfo<'/suppliers/new', '/suppliers/new', Record<never, never>, Record<never, never>>,
     '/usuarios/': RouteRecordInfo<'/usuarios/', '/usuarios', Record<never, never>, Record<never, never>>,
     '/usuarios/[id]/': RouteRecordInfo<'/usuarios/[id]/', '/usuarios/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/usuarios/[id]/editar': RouteRecordInfo<'/usuarios/[id]/editar', '/usuarios/:id/editar', { id: ParamValue<true> }, { id: ParamValue<false> }>,
@@ -93,6 +96,18 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/roles/nuevo.vue': {
       routes: '/roles/nuevo'
+      views: never
+    }
+    'src/pages/suppliers/index.vue': {
+      routes: '/suppliers/'
+      views: never
+    }
+    'src/pages/suppliers/[id]/edit.vue': {
+      routes: '/suppliers/[id]/edit'
+      views: never
+    }
+    'src/pages/suppliers/new.vue': {
+      routes: '/suppliers/new'
       views: never
     }
     'src/pages/usuarios/index.vue': {
