@@ -12,9 +12,15 @@ export const usePermissionsStore = defineStore('permissions', {
   },
 
   actions: {
-    async getPermissions() {
-      const response: PermissionsResponse = await http.get(PERMISSIONS_ENDPOINTS.PERMISSIONS)
+    async getPermissions(page: number, limit: number) {
+      const response: PermissionsResponse = await http.get(PERMISSIONS_ENDPOINTS.PERMISSIONS, {
+        params: {
+          page,
+          limit
+        }
+      })
       this.permissions = response.permissions
+      return response
     }
   }
 })

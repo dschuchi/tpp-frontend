@@ -29,11 +29,11 @@ export const useRolesStore = defineStore('roles', {
       await http.post(ROLES_ENDPOINTS.ROLE, role)
     },
     async removePermission(id: number, permissionId: number) {
-      await http.delete(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { data: { permissionId } })
+      await http.delete(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { data: { permissionIds: [permissionId] } })
       await this.getRole(id)
     },
     async addPermission(id: number, permissionId: number) {
-      await http.patch(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { permissionId })
+      await http.patch(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { permissionIds: [permissionId] })
       await this.getRole(id)
     },
     async getRole(id: number) {
