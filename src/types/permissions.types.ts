@@ -10,5 +10,5 @@ export interface Permission {
 
 export interface PermissionsResponse {
   permissions: Permission[]
-  total_pages: number
+  total: number
 }
