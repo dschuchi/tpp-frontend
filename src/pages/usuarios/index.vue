@@ -1,9 +1,15 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <PageHeader title="Usuarios" subtitle="Administra los usuarios del sistema.">
+      <PageHeader
+        title="Usuarios"
+        subtitle="Administra los usuarios del sistema."
+      >
         <template #actions>
-          <v-btn v-if="can('users:create')" to="/usuarios/nuevo">
+          <v-btn
+            v-if="can('users:create')"
+            to="/usuarios/nuevo"
+          >
             Nuevo Usuario
           </v-btn>
         </template>
@@ -13,42 +19,98 @@
 
   <v-row>
     <v-col cols="12">
-      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
-      <v-data-table :headers="headers" :items="usersStore.users" :search="search">
+      <v-form @submit.prevent="handleSearch">
+        <v-text-field
+          disabled
+          v-model="searchInput"
+          label="Buscar"
+          clearable
+          @click:clear="activeSearch = ''"
+        >
+          <template #append>
+            <v-btn
+              prepend-icon="mdi-magnify"
+              size="large"
+              @click="handleSearch"
+            > Buscar </v-btn>
+          </template>
+        </v-text-field>
+      </v-form>
+
+      <v-data-table-server
+        :headers="headers"
+        v-model:items-per-page="itemsPerPage"
+        :items="serverItems"
+        :items-length="totalItems"
+        :loading="loading"
+        :search="activeSearch"
+        hover
+        @update:options="loadItems"
+      >
         <template #item.is_active="{ value }">
           <StatusChip :value="value" />
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex ga-2 justify-end align-center">
-            <v-tooltip :text="item.is_active ? 'Desactivar' : 'Restaurar'" location="top">
+            <v-tooltip
+              :text="item.is_active ? 'Desactivar' : 'Restaurar'"
+              location="top"
+            >
               <template v-slot:activator="{ props }">
-                <v-btn v-if="can('users:delete')" v-bind="props" icon variant="text" size="small"
-                  :color="item.is_active ? 'error' : 'success'" @click="toggleStatus(item)">
+                <v-btn
+                  v-if="can('users:delete')"
+                  v-bind="props"
+                  icon
+                  variant="text"
+                  size="small"
+                  :color="item.is_active ? 'error' : 'success'"
+                  @click="toggleStatus(item)"
+                >
                   <v-icon :icon="item.is_active ? 'mdi-delete' : 'mdi-delete-restore'" />
                 </v-btn>
               </template>
             </v-tooltip>
 
-            <v-tooltip text="Editar" location="top">
+            <v-tooltip
+              text="Editar"
+              location="top"
+            >
               <template v-slot:activator="{ props }">
-                <v-btn v-if="can('users:edit:all')" v-bind="props" icon variant="text" size="small" color="primary"
-                  @click="editUser(item.id)">
+                <v-btn
+                  v-if="can('users:edit:all')"
+                  v-bind="props"
+                  icon
+                  variant="text"
+                  size="small"
+                  color="primary"
+                  @click="editUser(item.id)"
+                >
                   <v-icon icon="mdi-pencil" />
                 </v-btn>
               </template>
             </v-tooltip>
 
-            <v-tooltip text="Ver detalles" location="top">
+            <v-tooltip
+              text="Ver detalles"
+              location="top"
+            >
               <template v-slot:activator="{ props }">
-                <v-btn v-if="can('users:edit:all')" v-bind="props" icon variant="text" size="small" color="info"
-                  @click="viewUser(item.id)">
+                <v-btn
+                  v-if="can('users:edit:all')"
+                  v-bind="props"
+                  icon
+                  variant="text"
+                  size="small"
+                  color="info"
+                  @click="viewUser(item.id)"
+                >
                   <v-icon icon="mdi-eye" />
                 </v-btn>
               </template>
             </v-tooltip>
           </div>
         </template>
-      </v-data-table>
+      </v-data-table-server>
     </v-col>
   </v-row>
 </template>
@@ -61,6 +123,7 @@ import { useUserStore } from '@/stores/user.store';
 import { useUsersStore } from '@/stores/users.store';
 import type { UserListItem } from '@/types/users.types';
 import type { DataTableHeader } from 'vuetify';
+import type { DataTableOptions } from '@/types/table.types';
 
 definePage({
   meta: {
@@ -70,12 +133,6 @@ definePage({
 
 const usersStore = useUsersStore()
 const { can } = useUserStore()
-
-onMounted(() => {
-  usersStore.getUsers()
-})
-
-const search = ref('')
 
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'username' },
@@ -106,6 +163,26 @@ const toggleStatus = async (item: UserListItem) => {
   if (ok) {
     isDeactivating ? usersStore.deactivateUser(id) : usersStore.activateUser(id)
   }
+}
+
+const activeSearch = ref('')
+const searchInput = ref('')
+const itemsPerPage = ref(10)
+const serverItems = ref<UserListItem[]>([])
+const loading = ref(true)
+const totalItems = ref(0)
+
+const loadItems = async ({ page, itemsPerPage, search }: DataTableOptions) => {
+  loading.value = true
+  const response = await usersStore.getUsers(page, itemsPerPage, search)
+
+  serverItems.value = response.users
+  totalItems.value = response.total
+  loading.value = false
+}
+
+const handleSearch = () => {
+  activeSearch.value = searchInput.value
 }
 
 </script>
