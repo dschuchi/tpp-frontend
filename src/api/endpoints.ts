@@ -32,3 +32,10 @@ export const SUPPLIERS_ENDPOINTS = {
   SUPPLIER_BY_ID: (id: number) => `/supplier/${id}`,
   ACTIVATE_SUPPLIER_BY_ID: (id: number) => `/supplier/${id}/activate`
 } as const
+
+export const RAW_MATERIALS_ENDPOINTS = {
+  RAW_MATERIALS: '/raw-materials',
+  RAW_MATERIAL: '/raw-material',
+  RAW_MATERIAL_BY_ID: (id: number) => `/raw-material/${id}`,
+  ACTIVATE_RAW_MATERIAL_BY_ID: (id: number) => `/raw-material/${id}/activate`
+} as const
