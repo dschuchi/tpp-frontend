@@ -1,6 +1,6 @@
-import {CUSTOMERS_ENDPOINTS, ROLES_ENDPOINTS} from "@/api/endpoints"
+import { CUSTOMERS_ENDPOINTS, ROLES_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
-import type {Customer, Customers} from "@/types/customers.types.ts";
+import type { Customer, Customers } from "@/types/customers.types.ts";
 
 export const useCustomersStore = defineStore('customers', {
   state: (): Customers => ({
@@ -15,15 +15,13 @@ export const useCustomersStore = defineStore('customers', {
       this.customers = response.customers
     },
     async getCustomer(id: number) {
-      let customer: Customer = this.customers.find(c => c.id === id)
+      const customerFound: Customer | undefined = this.customers.find(c => c.id === id)
+      if (customerFound) return customerFound
 
-      if (customer) return customer
+      const customerResponse: Customer = await http.get(CUSTOMERS_ENDPOINTS.CUSTOMER_BY_ID(id))
+      if (customerResponse) this.customers.push(customerResponse)
 
-      customer = await http.get(CUSTOMERS_ENDPOINTS.CUSTOMER_BY_ID(id))
-
-      if (customer) this.customers.push(customer)
-
-      return customer
+      return customerResponse
     },
     async createCustomer(customer: Customer) {
       await http.post(CUSTOMERS_ENDPOINTS.CUSTOMER, customer)

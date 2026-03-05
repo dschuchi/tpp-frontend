@@ -84,10 +84,17 @@ const headers: DataTableHeader[] = [
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
 
-const editCustomer = (id: number) => { router.push({ name: '/customers/[id]/edit', params: { id } }) }
+const editCustomer = (id: number | undefined) => {
+  if (id) {
+    router.push({ name: '/customers/[id]/edit', params: { id } })
+  } else {
+    throw Error('Customer sin ID')
+  }
+}
 
 const toggleStatus = async (item: Customer) => {
   const { id } = item
+  if (!id) throw Error('Customer sin ID')
   const isDeactivating = item.is_active
 
   const ok = await confirm({

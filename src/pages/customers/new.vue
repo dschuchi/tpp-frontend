@@ -23,6 +23,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import PageHeader from '@/components/PageHeader.vue'
 import {useCustomersStore} from "@/stores/customers.store.ts";
+import type { Customer } from '@/types/customers.types';
 
 definePage({
   meta: {
