@@ -19,9 +19,9 @@ http.interceptors.request.use(config => {
 })
 
 let isRefreshing = false;
-let refreshSubscribers = [];
+let refreshSubscribers: ((token: string) => void)[] = [];
 
-const onRefreshed = (newAccessToken) => {
+const onRefreshed = (newAccessToken: string) => {
   refreshSubscribers.forEach((callback) => callback(newAccessToken));
   refreshSubscribers = [];
 };
@@ -35,9 +35,9 @@ http.interceptors.response.use(
       if (isRefreshing) {
         // If there is already a refresh in progress, wait for it to finish
         return new Promise((resolve) => {
-          refreshSubscribers.push((newAccessToken) => {
+          refreshSubscribers.push((newAccessToken: string) => {
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-            resolve(instance(originalRequest));
+            resolve(http(originalRequest));
           });
         });
       }
@@ -46,8 +46,8 @@ http.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshResponse = await instance.post(
-          "/user/refresh", {refresh_token: localStorage.getItem("refresh_token")},
+        const refreshResponse = await http.post(
+          "/user/refresh", { refresh_token: localStorage.getItem("refresh_token") },
           { withCredentials: true }
         );
 
@@ -59,7 +59,7 @@ http.interceptors.response.use(
         onRefreshed(newAccessToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return instance(originalRequest);
+        return http(originalRequest);
       } catch (refreshError) {
         isRefreshing = false;
         localStorage.removeItem("access_token");
