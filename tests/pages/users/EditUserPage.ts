@@ -13,9 +13,9 @@ export class EditUserPage {
   }
 
   async updateUser(newName: string) {
-    await expect(this.page).toHaveURL(/.*\/editar/);
+    await expect(this.page).toHaveURL(/.*\/edit/);
     await this.usersForm.fillName(newName);
     await this.saveButton.click();
-    await expect(this.page).toHaveURL('/usuarios');
+    await expect(this.page).toHaveURL('/users');
   }
 }

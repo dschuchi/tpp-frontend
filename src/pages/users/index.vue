@@ -3,7 +3,7 @@
     <v-col cols="12">
       <PageHeader title="Usuarios" subtitle="Administra los usuarios del sistema.">
         <template #actions>
-          <v-btn v-if="can('users:create')" to="/usuarios/nuevo">
+          <v-btn v-if="can('users:create')" to="/users/new">
             Nuevo Usuario
           </v-btn>
         </template>
@@ -87,8 +87,8 @@ const headers: DataTableHeader[] = [
 ]
 
 const router = useRouter()
-const viewUser = (id: string) => router.push({ name: '/usuarios/[id]/', params: { id } })
-const editUser = (id: string) => router.push({ name: '/usuarios/[id]/editar', params: { id } })
+const viewUser = (id: string) => router.push({ name: '/users/[id]/', params: { id } })
+const editUser = (id: string) => router.push({ name: '/users/[id]/edit', params: { id } })
 
 const { confirm } = useConfirm()
 

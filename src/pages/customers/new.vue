@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <page-header title="Nuevo cliente" subtitle="Complete el formulario para crear un nuevo cliente."
-        back-route="/customers" back-text="Clientes">
+        :back-route="{name: '/customers/'}" back-text="Clientes">
         <template #actions>
           <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
           <v-btn color="primary" @click="handleSave" :loading="loading"> Guardar </v-btn>
@@ -51,7 +51,7 @@ const handleSave = async () => {
   if (!valid) return
 
   await customersStore.createCustomer(form.value)
-  router.push('/customers')
+  router.push({name:'/customers/'})
 }
 
 const handleCancel = router.back

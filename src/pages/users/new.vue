@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <PageHeader title="Nuevo usuario" subtitle="Complete el formulario para crear un nuevo usuario."
-        back-route="/usuarios" back-text="Usuarios">
+        :back-route='{name:"/users/"}' back-text="Usuarios">
         <template #actions>
           <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
           <v-btn color="primary" @click="handleSave" :loading="loading"> Guardar </v-btn>
@@ -105,7 +105,7 @@ const copyToClipboard = () => {
 
 const closeAndRedirect = () => {
   showPasswordDialog.value = false
-  router.push('/usuarios')
+  router.push({name: '/users/'})
 }
 
 const handleCancel = () => router.back()

@@ -3,7 +3,7 @@
     <v-col cols="12">
       <page-header title="Editar Rol"
         subtitle="Actualice los detalles del nuevo rol, establece su nivel de acceso y asigna los permisos correspondientes por módulo."
-        back-route="/roles" back-text="Roles">
+        :back-route="{name:'/roles/'}" back-text="Roles">
         <template #actions>
           <v-btn @click="handleCancel">
             Cancelar

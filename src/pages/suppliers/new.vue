@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <PageHeader title="Nuevo proveedor" subtitle="Complete el formulario para crear un nuevo proveedor."
-        back-route="/suppliers" back-text="Proveedores">
+        :back-route="{name:'/suppliers/'}" back-text="Proveedores">
         <template #actions>
           <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
           <v-btn color="primary" @click="handleSave" :loading="loading"> Guardar </v-btn>
@@ -54,7 +54,7 @@ const handleSave = async () => {
 
   try {
     await suppliersStore.create(form.value)
-    router.push('/suppliers')
+    router.push({name:'/suppliers/'})
   } catch (error) {
     console.error(error)
   } finally {
