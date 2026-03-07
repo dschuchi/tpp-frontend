@@ -19,7 +19,7 @@ export class NewUserPage {
   }
 
   async createUser(user: { username: string, lastname: string, email: string }) {
-    await expect(this.page).toHaveURL('/usuarios/nuevo');
+    await expect(this.page).toHaveURL('/users/new');
 
     await this.usersForm.fillName(user.username);
     await this.usersForm.fillLastname(user.lastname);
@@ -31,6 +31,6 @@ export class NewUserPage {
     await expect(this.initialPasswordInput.first()).not.toBeEmpty();
 
     await this.closeSuccessDialogButton.click();
-    await expect(this.page).toHaveURL('/usuarios');
+    await expect(this.page).toHaveURL('/users');
   }
 }

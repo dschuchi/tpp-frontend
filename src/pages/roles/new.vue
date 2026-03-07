@@ -3,7 +3,7 @@
     <v-col cols="12">
       <page-header title="Nuevo Rol"
         subtitle="Define los detalles del nuevo rol, establece su nivel de acceso y asigna los permisos correspondientes por módulo."
-        back-route="/roles" back-text="Roles">
+        :back-route="{name:'/roles/'}" back-text="Roles">
         <template #actions>
           <v-btn @click="handleCancel"> Cancelar </v-btn>
           <v-btn @click="handleSave"> Guardar </v-btn>
@@ -46,7 +46,7 @@ const handleSave = async () => {
   if (!valid) return
 
   await rolesStore.createRole(form.value)
-  router.push('/roles')
+  router.push({name:'/roles/'})
 }
 
 const handleCancel = router.back

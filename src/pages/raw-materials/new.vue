@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <page-header title="Nueva Materia Prima" subtitle="Complete el formulario para crear una nueva materia prima."
-        back-route="/raw-materials" back-text="Materias Primas">
+        :back-route="{name:'/raw-materials/'}" back-text="Materias Primas">
         <template #actions>
           <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
           <v-btn color="primary" @click="handleSave" :loading="loading"> Guardar </v-btn>
@@ -50,7 +50,7 @@ const handleSave = async () => {
 
   try {
     await rawMaterialsStore.create(form.value)
-    await router.push('/raw-materials')
+    await router.push({name:'/raw-materials/'})
   } catch (error) {
     console.error(error)
   } finally {

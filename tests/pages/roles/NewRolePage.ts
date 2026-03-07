@@ -13,7 +13,7 @@ export class NewRolePage {
   }
 
   async goto() {
-    await this.page.goto('/roles/nuevo');
+    await this.page.goto('/roles/new');
   }
 
   async createRole(name: string, description: string) {

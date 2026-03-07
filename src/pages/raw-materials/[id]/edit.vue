@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <page-header title="Editar Materia Prima" subtitle="Modifique los datos de la materia prima."
-        back-route="/raw-materials" back-text="Materias Primas">
+        :back-route="{name:'/raw-materials/'}" back-text="Materias Primas">
         <template #actions>
           <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
           <v-btn color="primary" @click="handleSave" :loading="loading"> Guardar </v-btn>
@@ -63,7 +63,7 @@ const handleSave = async () => {
   loading.value = true
   try {
     await rawMaterialsStore.update(Number(props.id), form.value)
-    router.push('/raw-materials')
+    router.push({name:'/raw-materials/'})
   } catch (error) {
     console.error('Error updating raw material:', error)
   } finally {

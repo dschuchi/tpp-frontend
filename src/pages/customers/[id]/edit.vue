@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <page-header title="Editar cliente" subtitle="Modifique los datos del cliente."
-                  back-route="/customers" back-text="Clientes">
+                  :back-route="{name:'/customers/'}" back-text="Clientes">
         <template #actions>
           <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
           <v-btn color="primary" @click="handleSave" :loading="loading"> Guardar </v-btn>

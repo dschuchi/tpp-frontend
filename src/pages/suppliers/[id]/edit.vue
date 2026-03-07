@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <page-header title="Editar Proveedor" subtitle="Modifique los datos del proveedor." back-route="/suppliers"
+      <page-header title="Editar Proveedor" subtitle="Modifique los datos del proveedor." :back-route="{name:'/suppliers/'}"
         back-text="Proveedores">
         <template #actions>
           <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
@@ -71,7 +71,7 @@ const handleSave = async () => {
   loading.value = true
   try {
     await suppliersStore.update(Number(props.id), form.value)
-    router.push('/suppliers')
+    router.push({name:'/suppliers/'})
   } catch (error) {
     console.error('Error updating supplier:', error)
   } finally {
