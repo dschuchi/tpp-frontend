@@ -18,6 +18,10 @@ import { CustomersPage } from '../pages/customers/CustomersPage';
 import { NewCustomerPage } from '../pages/customers/NewCustomerPage';
 import { EditCustomerPage } from '../pages/customers/EditCustomerPage';
 
+import { RawMaterialsPage } from '../pages/raw-materials/RawMaterialsPage';
+import { NewRawMaterialPage } from '../pages/raw-materials/NewRawMaterialPage';
+import { EditRawMaterialPage } from '../pages/raw-materials/EditRawMaterialPage';
+
 import { ProfilePage } from '../pages/profile/ProfilePage';
 import { UpdatedPasswordDialog } from '../pages/profile/UpdatedPasswordDialog';
 
@@ -40,6 +44,10 @@ type POMFixtures = {
   customersPage: CustomersPage
   newCustomerPage: NewCustomerPage
   editCustomerPage: EditCustomerPage
+
+  rawMaterialsPage: RawMaterialsPage
+  newRawMaterialPage: NewRawMaterialPage
+  editRawMaterialPage: EditRawMaterialPage
 
   profilePage: ProfilePage
   updatedPasswordDialog: UpdatedPasswordDialog
@@ -91,6 +99,16 @@ export const test = base.extend<POMFixtures>({
   },
   editCustomerPage: async ({ page }, use) => {
     await use(new EditCustomerPage(page));
+  },
+
+  rawMaterialsPage: async ({ page }, use) => {
+    await use(new RawMaterialsPage(page));
+  },
+  newRawMaterialPage: async ({ page }, use) => {
+    await use(new NewRawMaterialPage(page));
+  },
+  editRawMaterialPage: async ({ page }, use) => {
+    await use(new EditRawMaterialPage(page));
   },
 
   profilePage: async ({ page }, use) => {

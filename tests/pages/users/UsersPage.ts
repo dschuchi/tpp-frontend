@@ -22,7 +22,7 @@ export class UsersPage {
   }
 
   async goto() {
-    await this.page.goto('/usuarios');
+    await this.page.goto('/users');
   }
 
   async gotoNewUser() {

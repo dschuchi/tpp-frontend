@@ -53,7 +53,7 @@ const allMenuItems = [
     value: 'usuarios',
     props: {
       prependIcon: 'mdi-account-group',
-      to: '/usuarios',
+      to: '/users',
     },
     permission: 'users:edit:all'
   },
@@ -83,6 +83,15 @@ const allMenuItems = [
       to: '/suppliers',
     },
     permission: "suppliers:view"
+  },
+  {
+    title: 'Materia Prima',
+    value: 'raw-materials',
+    props: {
+      prependIcon: 'mdi-package-variant',
+      to: '/raw-materials',
+    },
+    permission: 'raw-materials:view'
   }
 ]
 

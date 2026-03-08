@@ -3,7 +3,7 @@
     <v-col cols="12">
       <page-header title="Roles" subtitle="Administra los roles y define los permisos de acceso para los usuarios.">
         <template #actions>
-          <v-btn v-if="can('roles:create')" to="/roles/nuevo">
+          <v-btn v-if="can('roles:create')" to="/roles/new">
             Nuevo Rol
           </v-btn>
         </template>
@@ -33,7 +33,7 @@
             <v-tooltip text="Configurar permisos" location="top">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
-                  :to="`/roles/${item.id}/permisos`">
+                  :to="`/roles/${item.id}/permissions`">
                   <v-icon icon="mdi-key" />
                 </v-btn>
               </template>
@@ -98,7 +98,7 @@ const headers: DataTableHeader[] = [
 ]
 
 const viewRole = (id: number) => { router.push({ name: '/roles/[id]/', params: { id } }) }
-const editRole = (id: number) => { router.push({ name: '/roles/[id]/editar', params: { id } }) }
+const editRole = (id: number) => { router.push({ name: '/roles/[id]/edit', params: { id } }) }
 
 const toggleStatus = async (item: Role) => {
   const { id } = item

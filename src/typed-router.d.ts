@@ -26,18 +26,21 @@ declare module 'vue-router/auto-routes' {
     '/customers/new': RouteRecordInfo<'/customers/new', '/customers/new', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
+    '/raw-materials/': RouteRecordInfo<'/raw-materials/', '/raw-materials', Record<never, never>, Record<never, never>>,
+    '/raw-materials/[id]/edit': RouteRecordInfo<'/raw-materials/[id]/edit', '/raw-materials/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/raw-materials/new': RouteRecordInfo<'/raw-materials/new', '/raw-materials/new', Record<never, never>, Record<never, never>>,
     '/roles/': RouteRecordInfo<'/roles/', '/roles', Record<never, never>, Record<never, never>>,
     '/roles/[id]/': RouteRecordInfo<'/roles/[id]/', '/roles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
-    '/roles/[id]/editar': RouteRecordInfo<'/roles/[id]/editar', '/roles/:id/editar', { id: ParamValue<true> }, { id: ParamValue<false> }>,
-    '/roles/[id]/permisos': RouteRecordInfo<'/roles/[id]/permisos', '/roles/:id/permisos', { id: ParamValue<true> }, { id: ParamValue<false> }>,
-    '/roles/nuevo': RouteRecordInfo<'/roles/nuevo', '/roles/nuevo', Record<never, never>, Record<never, never>>,
+    '/roles/[id]/edit': RouteRecordInfo<'/roles/[id]/edit', '/roles/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/roles/[id]/permissions': RouteRecordInfo<'/roles/[id]/permissions', '/roles/:id/permissions', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/roles/new': RouteRecordInfo<'/roles/new', '/roles/new', Record<never, never>, Record<never, never>>,
     '/suppliers/': RouteRecordInfo<'/suppliers/', '/suppliers', Record<never, never>, Record<never, never>>,
     '/suppliers/[id]/edit': RouteRecordInfo<'/suppliers/[id]/edit', '/suppliers/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/suppliers/new': RouteRecordInfo<'/suppliers/new', '/suppliers/new', Record<never, never>, Record<never, never>>,
-    '/usuarios/': RouteRecordInfo<'/usuarios/', '/usuarios', Record<never, never>, Record<never, never>>,
-    '/usuarios/[id]/': RouteRecordInfo<'/usuarios/[id]/', '/usuarios/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
-    '/usuarios/[id]/editar': RouteRecordInfo<'/usuarios/[id]/editar', '/usuarios/:id/editar', { id: ParamValue<true> }, { id: ParamValue<false> }>,
-    '/usuarios/nuevo': RouteRecordInfo<'/usuarios/nuevo', '/usuarios/nuevo', Record<never, never>, Record<never, never>>,
+    '/users/': RouteRecordInfo<'/users/', '/users', Record<never, never>, Record<never, never>>,
+    '/users/[id]/': RouteRecordInfo<'/users/[id]/', '/users/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/users/[id]/edit': RouteRecordInfo<'/users/[id]/edit', '/users/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/users/new': RouteRecordInfo<'/users/new', '/users/new', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -83,6 +86,18 @@ declare module 'vue-router/auto-routes' {
       routes: '/profile'
       views: never
     }
+    'src/pages/raw-materials/index.vue': {
+      routes: '/raw-materials/'
+      views: never
+    }
+    'src/pages/raw-materials/[id]/edit.vue': {
+      routes: '/raw-materials/[id]/edit'
+      views: never
+    }
+    'src/pages/raw-materials/new.vue': {
+      routes: '/raw-materials/new'
+      views: never
+    }
     'src/pages/roles/index.vue': {
       routes: '/roles/'
       views: never
@@ -91,16 +106,16 @@ declare module 'vue-router/auto-routes' {
       routes: '/roles/[id]/'
       views: never
     }
-    'src/pages/roles/[id]/editar.vue': {
-      routes: '/roles/[id]/editar'
+    'src/pages/roles/[id]/edit.vue': {
+      routes: '/roles/[id]/edit'
       views: never
     }
-    'src/pages/roles/[id]/permisos.vue': {
-      routes: '/roles/[id]/permisos'
+    'src/pages/roles/[id]/permissions.vue': {
+      routes: '/roles/[id]/permissions'
       views: never
     }
-    'src/pages/roles/nuevo.vue': {
-      routes: '/roles/nuevo'
+    'src/pages/roles/new.vue': {
+      routes: '/roles/new'
       views: never
     }
     'src/pages/suppliers/index.vue': {
@@ -115,20 +130,20 @@ declare module 'vue-router/auto-routes' {
       routes: '/suppliers/new'
       views: never
     }
-    'src/pages/usuarios/index.vue': {
-      routes: '/usuarios/'
+    'src/pages/users/index.vue': {
+      routes: '/users/'
       views: never
     }
-    'src/pages/usuarios/[id]/index.vue': {
-      routes: '/usuarios/[id]/'
+    'src/pages/users/[id]/index.vue': {
+      routes: '/users/[id]/'
       views: never
     }
-    'src/pages/usuarios/[id]/editar.vue': {
-      routes: '/usuarios/[id]/editar'
+    'src/pages/users/[id]/edit.vue': {
+      routes: '/users/[id]/edit'
       views: never
     }
-    'src/pages/usuarios/nuevo.vue': {
-      routes: '/usuarios/nuevo'
+    'src/pages/users/new.vue': {
+      routes: '/users/new'
       views: never
     }
   }
