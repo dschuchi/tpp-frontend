@@ -25,6 +25,12 @@ declare module 'vue-router/auto-routes' {
     '/customers/[id]/edit': RouteRecordInfo<'/customers/[id]/edit', '/customers/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/customers/new': RouteRecordInfo<'/customers/new', '/customers/new', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/packaging-materials/': RouteRecordInfo<'/packaging-materials/', '/packaging-materials', Record<never, never>, Record<never, never>>,
+    '/packaging-materials/[id]/edit': RouteRecordInfo<'/packaging-materials/[id]/edit', '/packaging-materials/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/packaging-materials/new': RouteRecordInfo<'/packaging-materials/new', '/packaging-materials/new', Record<never, never>, Record<never, never>>,
+    '/products/': RouteRecordInfo<'/products/', '/products', Record<never, never>, Record<never, never>>,
+    '/products/[id]/edit': RouteRecordInfo<'/products/[id]/edit', '/products/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/products/new': RouteRecordInfo<'/products/new', '/products/new', Record<never, never>, Record<never, never>>,
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
     '/raw-materials/': RouteRecordInfo<'/raw-materials/', '/raw-materials', Record<never, never>, Record<never, never>>,
     '/raw-materials/[id]/edit': RouteRecordInfo<'/raw-materials/[id]/edit', '/raw-materials/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
@@ -80,6 +86,30 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/login.vue': {
       routes: '/login'
+      views: never
+    }
+    'src/pages/packaging-materials/index.vue': {
+      routes: '/packaging-materials/'
+      views: never
+    }
+    'src/pages/packaging-materials/[id]/edit.vue': {
+      routes: '/packaging-materials/[id]/edit'
+      views: never
+    }
+    'src/pages/packaging-materials/new.vue': {
+      routes: '/packaging-materials/new'
+      views: never
+    }
+    'src/pages/products/index.vue': {
+      routes: '/products/'
+      views: never
+    }
+    'src/pages/products/[id]/edit.vue': {
+      routes: '/products/[id]/edit'
+      views: never
+    }
+    'src/pages/products/new.vue': {
+      routes: '/products/new'
       views: never
     }
     'src/pages/profile.vue': {

@@ -92,6 +92,24 @@ const allMenuItems = [
       to: '/raw-materials',
     },
     permission: 'raw-materials:view'
+  },
+  {
+    title: 'Material de Empaque',
+    value: 'packaging-materials',
+    props: {
+      prependIcon: 'mdi-package-variant-closed',
+      to: '/packaging-materials',
+    },
+    permission: 'packaging-materials:view'
+  },
+  {
+    title: 'Productos',
+    value: 'products',
+    props: {
+      prependIcon: 'mdi-cube-outline',
+      to: '/products',
+    },
+    permission: 'products:view'
   }
 ]
 
