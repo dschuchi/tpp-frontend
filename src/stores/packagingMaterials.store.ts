@@ -12,7 +12,7 @@ export const usePackagingMaterialsStore = defineStore('packagingMaterials', {
       const response: PackagingMaterials = await http.get(PACKAGING_MATERIALS_ENDPOINTS.PACKAGING_MATERIALS)
       this.packagingMaterials = response.packagingMaterials
     },
-    async getPackagingMaterial(id: number) {
+    async getPackagingMaterial(id: number): Promise<PackagingMaterial> {
       return await http.get(PACKAGING_MATERIALS_ENDPOINTS.PACKAGING_MATERIAL_BY_ID(id))
     },
     async create(packagingMaterial: PackagingMaterial) {

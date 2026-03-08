@@ -12,7 +12,7 @@ export const useProductsStore = defineStore('products', {
       const response: Products = await http.get(PRODUCTS_ENDPOINTS.PRODUCTS)
       this.products = response.products
     },
-    async getProduct(id: number) {
+    async getProduct(id: number): Promise<Product> {
       return await http.get(PRODUCTS_ENDPOINTS.PRODUCT_BY_ID(id))
     },
     async create(product: Product) {
