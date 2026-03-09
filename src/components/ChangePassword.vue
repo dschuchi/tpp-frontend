@@ -1,20 +1,52 @@
 <template>
-  <v-card title="Contraseña" subtitle="Luego de actualizar la contraseña deberá iniciar sesión nuevamente">
+  <v-card
+    title="Contraseña"
+    subtitle="Luego de actualizar la contraseña deberá iniciar sesión nuevamente"
+  >
     <v-card-text>
-      <v-form ref="formRef" @submit.prevent="submit">
+      <v-form
+        ref="formRef"
+        @submit.prevent="submit"
+      >
         <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field v-model="password" label="Nueva Contraseña" type="password" variant="outlined"
-              :rules="[required]" />
+          <v-col cols="12">
+            <v-text-field
+              v-model="currentPassword"
+              label="Contraseña"
+              type="password"
+              variant="outlined"
+              :rules="[required]"
+            />
           </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field v-model="confirmPassword" label="Confirmar Contraseña" type="password" variant="outlined"
-              :rules="[required, matchRule]" />
+          <v-col cols="12">
+            <v-text-field
+              v-model="password"
+              label="Nueva Contraseña"
+              type="password"
+              variant="outlined"
+              :rules="[required]"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="confirmPassword"
+              label="Confirmar Contraseña"
+              type="password"
+              variant="outlined"
+              :rules="[required, matchRule]"
+            />
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" class="d-flex justify-end">
-            <v-btn color="primary" type="submit" :loading="loading">
+          <v-col
+            cols="12"
+            class="d-flex justify-end"
+          >
+            <v-btn
+              color="primary"
+              type="submit"
+              :loading="loading"
+            >
               Cambiar Contraseña
             </v-btn>
           </v-col>
@@ -22,14 +54,28 @@
       </v-form>
     </v-card-text>
 
-    <v-snackbar v-model="snackbar" :color="snackbarColor" timeout="3000" variant="tonal">
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      timeout="3000"
+      variant="tonal"
+    >
       {{ snackbarText }}
     </v-snackbar>
 
-    <v-dialog v-model="showLogoutModal" persistent max-width="450">
+    <v-dialog
+      v-model="showLogoutModal"
+      persistent
+      max-width="450"
+    >
       <v-card class="text-center pa-6">
         <v-card-text>
-          <v-icon color="success" icon="mdi-shield-check" size="80" class="mb-4"></v-icon>
+          <v-icon
+            color="success"
+            icon="mdi-shield-check"
+            size="80"
+            class="mb-4"
+          ></v-icon>
           <h3 class="text-h5 mb-2">Contraseña Actualizada</h3>
           <p class="text-body-1 mb-6">
             Por razones de seguridad, es necesario que vuelvas a iniciar sesión con tus nuevas credenciales.
@@ -37,7 +83,13 @@
         </v-card-text>
 
         <v-card-actions class="justify-center">
-          <v-btn color="primary" variant="elevated" block size="large" @click="handleLogout">
+          <v-btn
+            color="primary"
+            variant="elevated"
+            block
+            size="large"
+            @click="handleLogout"
+          >
             Entendido, ir al Login
           </v-btn>
         </v-card-actions>
@@ -57,6 +109,7 @@ const userStore = useUserStore()
 const authStore = useAuthStore()
 
 const formRef = ref()
+const currentPassword = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const loading = ref(false)
@@ -76,7 +129,7 @@ const submit = async () => {
   loading.value = true
 
   try {
-    await userStore.updatePassword(password.value)
+    await userStore.updatePassword(currentPassword.value, password.value)
     authStore.logout()
     showLogoutModal.value = true
   } catch (error) {
@@ -89,7 +142,7 @@ const submit = async () => {
 }
 
 const handleLogout = () => {
-  router.push({name:'/login'})
+  router.push({ name: '/login' })
   userStore.clearUser()
 }
 </script>
