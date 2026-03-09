@@ -39,3 +39,17 @@ export const RAW_MATERIALS_ENDPOINTS = {
   RAW_MATERIAL_BY_ID: (id: number) => `/raw-material/${id}`,
   ACTIVATE_RAW_MATERIAL_BY_ID: (id: number) => `/raw-material/${id}/activate`
 } as const
+
+export const PACKAGING_MATERIALS_ENDPOINTS = {
+  PACKAGING_MATERIALS: '/packaging-materials',
+  PACKAGING_MATERIAL: '/packaging-material',
+  PACKAGING_MATERIAL_BY_ID: (id: number) => `/packaging-material/${id}`,
+  ACTIVATE_PACKAGING_MATERIAL_BY_ID: (id: number) => `/packaging-material/${id}/activate`
+} as const
+
+export const PRODUCTS_ENDPOINTS = {
+  PRODUCTS: '/products',
+  PRODUCT: '/product',
+  PRODUCT_BY_ID: (id: number) => `/product/${id}`,
+  ACTIVATE_PRODUCT_BY_ID: (id: number) => `/product/${id}/activate`
+} as const
