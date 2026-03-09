@@ -62,5 +62,6 @@ export interface UpdateUserRequest {
 }
 
 export interface UpdatePasswordRequest {
+  currentPassword: string
   password: string
 }

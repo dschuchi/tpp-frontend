@@ -32,8 +32,9 @@ export const useUserStore = defineStore('user', {
     async clearUser() {
       this.$reset()
     },
-    async updatePassword(newPassword: string) {
+    async updatePassword(currentPassword: string, newPassword: string) {
       const requestBody: UpdatePasswordRequest = {
+        currentPassword,
         password: newPassword
       }
       await http.patch(USERS_ENDPOINTS.ME, requestBody)
