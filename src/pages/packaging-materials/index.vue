@@ -73,7 +73,7 @@ const suppliersStore = useSuppliersStore()
 const search = ref('')
 
 const headers: DataTableHeader[] = [
-  { title: 'Nombre', key: 'name' },
+  { title: 'Código', key: 'code' },
   { title: 'Descripción', key: 'description' },
   { title: 'Cliente', key: 'customer_id' },
   { title: 'Proveedor', key: 'supplier_id' },

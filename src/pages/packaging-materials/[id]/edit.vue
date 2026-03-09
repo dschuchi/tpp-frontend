@@ -38,7 +38,7 @@ const formRef = ref()
 const loading = ref(false)
 
 const form = ref<PackagingMaterial>({
-  name: '',
+  code: '',
   description: '',
   customer_id: null,
   supplier_id: null
@@ -50,7 +50,7 @@ onMounted(async () => {
     const item = await packagingMaterialsStore.getPackagingMaterial(Number(props.id))
     if (item) {
       form.value = {
-        name: item.name,
+        code: item.code,
         description: item.description ?? '',
         customer_id: item.customer_id,
         supplier_id: item.supplier_id

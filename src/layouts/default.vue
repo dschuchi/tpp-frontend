@@ -1,32 +1,43 @@
 <template>
-  <v-navigation-drawer v-model="drawer" :scrim="!lgAndUp">
-    <div class="justify-items-center mt-3">
-      <v-img width="250px" src="/logo.svg"></v-img>
+  <v-navigation-drawer v-model="drawer" :scrim="!lgAndUp" class="lab-drawer">
+    <div class="drawer-logo-area">
+      <v-img width="220px" src="/logo.svg" class="mx-auto"></v-img>
     </div>
+
+    <v-divider opacity=".5" class="mb-2" />
+
     <v-list :items="menuItems" @click="!lgAndUp && (drawer = false)">
     </v-list>
+
     <template v-slot:append>
+      <v-divider opacity=".5" class="mt-2" />
       <v-list>
-        <v-list-item to="/login" prepend-icon="mdi-logout" @click="logout">
+        <v-list-item to="/login" prepend-icon="mdi-logout" class="logout-item" @click="logout">
           Cerrar sesión
         </v-list-item>
       </v-list>
     </template>
   </v-navigation-drawer>
 
-  <v-app-bar elevation="0" class="border-b-thin">
+  <v-app-bar elevation="0" class="border-b-thin lab-appbar">
     <template v-slot:prepend>
       <v-app-bar-nav-icon class="hidden-lg-and-up" @click="drawer = !drawer"
         aria-label="Abrir/Cerrar menú"></v-app-bar-nav-icon>
     </template>
 
     <template v-slot:append>
+      <v-btn
+        :icon="theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+        variant="text"
+        @click="toggleTheme"
+        aria-label="Cambiar tema"
+      />
       <user-information />
     </template>
   </v-app-bar>
 
   <v-main>
-    <v-container class="px-16">
+    <v-container class="px-16 py-8">
       <router-view />
       <confirm-dialog-host />
     </v-container>
@@ -37,7 +48,7 @@
 import ConfirmDialogHost from '@/components/ConfirmDialogHost.vue';
 import { useAuthStore } from '@/stores/auth.store';
 import { useUserStore } from '@/stores/user.store';
-import { useDisplay } from 'vuetify'
+import { useDisplay, useTheme } from 'vuetify'
 
 const allMenuItems = [
   {
@@ -114,6 +125,10 @@ const allMenuItems = [
 ]
 
 const { lgAndUp } = useDisplay()
+const theme = useTheme()
+const toggleTheme = () => {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
 const drawer = ref(lgAndUp.value)
 
 watch(lgAndUp, (isDesktop) => {
@@ -137,3 +152,33 @@ const logout = () => {
 }
 
 </script>
+
+<style scoped>
+.lab-drawer {
+  background: linear-gradient(180deg, rgb(var(--v-theme-background)) 0%, rgb(var(--v-theme-surface)) 100%) !important;
+}
+
+.drawer-logo-area {
+  padding: 24px 16px 16px;
+  text-align: center;
+}
+
+.drawer-logo-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  opacity: 0.4;
+  color: #94A3B8;
+}
+
+.logout-item {
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.logout-item:hover {
+  opacity: 1;
+}
+</style>
