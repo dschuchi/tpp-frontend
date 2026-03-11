@@ -6,7 +6,10 @@
         subtitle="Administra los usuarios del sistema."
       >
         <template #actions>
-          <v-btn v-if="can('users:create')" to="/users/new">
+          <v-btn
+            v-if="can('users:create')"
+            to="/users/new"
+          >
             Nuevo Usuario
           </v-btn>
         </template>
@@ -15,25 +18,39 @@
   </v-row>
 
   <v-row>
-    <v-col cols="12">
-      <v-form @submit.prevent="handleSearch">
-        <v-text-field
-          disabled
-          v-model="searchInput"
-          label="Buscar"
-          clearable
-          @click:clear="activeSearch = ''"
-        >
-          <template #append>
-            <v-btn
-              prepend-icon="mdi-magnify"
-              size="large"
-              @click="handleSearch"
-            > Buscar </v-btn>
-          </template>
-        </v-text-field>
-      </v-form>
+    <v-col>
+      <v-card>
+        <v-card-text>
+          <v-form @submit.prevent="handleSearch">
+            <v-row>
+              <v-col>
+                <v-text-field
+                  disabled
+                  v-model="searchInput"
+                  label="Buscar"
+                  clearable
+                  @click:clear="activeSearch = ''"
+                  hide-details
+                  density="compact"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-btn
+                  prepend-icon="mdi-magnify"
+                  @click="handleSearch"
+                >
+                  Buscar
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
 
+  <v-row>
+    <v-col cols="12">
       <v-data-table-server
         :headers="headers"
         v-model:items-per-page="itemsPerPage"
