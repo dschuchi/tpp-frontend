@@ -1,5 +1,10 @@
 <template>
-  <v-chip :color="value ? 'success' : 'error'" size="small">
+  <v-chip
+    :color="value ? 'success' : 'error'"
+    size="small"
+    variant="tonal"
+    :prepend-icon="value ? 'mdi-check-circle-outline' : 'mdi-close-circle-outline'"
+  >
     {{ value ? trueText : falseText }}
   </v-chip>
 </template>

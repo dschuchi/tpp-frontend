@@ -186,10 +186,38 @@ const submit = async () => {
 <style scoped>
 .left-background {
   position: relative;
-  background: linear-gradient(180deg, #0f4c81 0%, #0a3254 100%);
+  background:
+    radial-gradient(ellipse at 25% 15%, rgba(30, 159, 232, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 85%, rgba(0, 196, 204, 0.12) 0%, transparent 50%),
+    linear-gradient(160deg, #040C18 0%, #071628 45%, #050F20 100%);
   overflow: hidden;
 }
-.border-info{
-  border-color: #18bad1 !important;
+
+.left-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(30, 159, 232, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 159, 232, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+
+.left-background::after {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 159, 232, 0.08) 0%, transparent 70%);
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.border-info {
+  border-color: rgba(30, 159, 232, 0.3) !important;
 }
 </style>

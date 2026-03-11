@@ -1,6 +1,6 @@
 export interface PackagingMaterial {
   id?: number
-  name: string
+  code: string
   description?: string
   customer_id: number | null
   supplier_id: number | null

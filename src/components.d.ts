@@ -17,7 +17,6 @@ declare module 'vue' {
     CustomerForm: typeof import('./components/CustomerForm.vue')['default']
     CustomerSelector: typeof import('./components/CustomerSelector.vue')['default']
     LoginForm: typeof import('./components/LoginForm.vue')['default']
-    PackageMaterialForm: typeof import('./components/PackageMaterialForm.vue')['default']
     PackagingMaterialForm: typeof import('./components/PackagingMaterialForm.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
     ProductForm: typeof import('./components/ProductForm.vue')['default']

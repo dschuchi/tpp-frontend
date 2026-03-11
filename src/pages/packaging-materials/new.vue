@@ -36,7 +36,7 @@ const formRef = ref()
 const loading = ref(false)
 
 const form = ref<PackagingMaterial>({
-  name: '',
+  code: '',
   description: '',
   customer_id: null,
   supplier_id: null
