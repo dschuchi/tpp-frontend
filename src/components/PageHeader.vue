@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-space-between align-center flex-wrap">
+  <div class="d-flex justify-space-between align-center flex-wrap gap-3">
 
     <div>
       <div class="mb-1">
@@ -14,7 +14,7 @@
           {{ title }}
         </h1>
 
-        <p v-if="subtitle" class="text-subtitle-1 font-weight-light text-medium-emphasis mt-1">
+        <p v-if="subtitle" class="text-subtitle-2 text-medium-emphasis mt-1">
           {{ subtitle }}
         </p>
       </div>
@@ -25,6 +25,7 @@
     </div>
 
   </div>
+  <v-divider class="mt-4 mb-6" />
 </template>
 
 <script setup lang="ts">

@@ -8,15 +8,14 @@
         <v-row class="pa-16" align="center">
           <v-col cols="12">
             <v-img width="400px" src="/logo.svg"></v-img>
-            <p class="typo-body-sm">Laboratory ERP System</p>
           </v-col>
 
-          <v-col cols="12" class="pt-16">
-            <span class="typo-h2">Pharmaceutical Laboratory Management</span>
+          <v-col cols="12" class="pt-8">
+            <span class="typo-h2">Sistema de Gestión para Laboratorios</span>
           </v-col>
 
           <v-col cols="6">
-            <span class="typo-body">Secure, compliant, and efficient laboratory operations management system designed for pharmaceutical.</span>
+            <span class="typo-body">Optimice la eficiencia de sus procesos operativos con una gestión segura y centralizada de toda su información.</span>
           </v-col>
         </v-row>
       </v-col>
@@ -36,21 +35,21 @@
               ref="form"
               class="typo-body-lg"
             >
-              <div class="text-subtitle-1 font-weight-bold">Email Address</div>
+              <div class="text-subtitle-1 font-weight-bold">Correo electrónico</div>
 
               <v-text-field
                 v-model="email"
-                placeholder="your.email@pharmatech.com"
+                placeholder="ejemplo@correo.com"
                 prepend-inner-icon="mdi-email-outline"
                 rounded="lg"
                 :rules="[requiredRule]"
               />
 
-              <div class="text-subtitle-1 font-weight-bold">Password</div>
+              <div class="text-subtitle-1 font-weight-bold">Contraseña</div>
 
               <v-text-field
                 v-model="password"
-                placeholder="Enter your password"
+                placeholder="Ingresá tu contraseña"
                 prepend-inner-icon="mdi-lock-outline"
                 :type="visible ? 'text' : 'password'"
                 :append-inner-icon="visible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
@@ -58,16 +57,6 @@
                 rounded="lg"
                 :rules="[requiredRule]"
               />
-
-              <div class="typo-body-sm text-right pb-6">
-                <a
-                  class="text-caption text-decoration-none text-info"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Forgot password?</a>
-              </div>
 
               <v-btn
                 block
@@ -79,38 +68,15 @@
                 class="minus-btn font-weight-bold"
                 @click="submit"
               >
-                Sign in
+                Acceder
               </v-btn>
             </v-form>
-
-            <v-divider opacity=".3" thickness="1.5" class="my-10">
-              <span class="on-surface-variant">Or continue with</span>
-            </v-divider>
-
-            <v-btn
-              block
-              color="transparent"
-              :ripple="false"
-              :loading="loading"
-              elevation="0"
-              border="md"
-              rounded="lg"
-              class="minus-btn font-weight-bold mb-10"
-            >
-              <v-img
-                :src="googleLogo"
-                width="20"
-                height="20"
-                class="mr-2"
-              />
-              Google
-            </v-btn>
 
             <v-card
               variant="tonal"
               color="info"
               border="md"
-              class="px-6 py-4 border-info"
+              class="px-6 py-4 border-info mt-10"
               rounded="lg"
             >
               <div class="d-flex align-start">
@@ -118,11 +84,11 @@
 
                 <div class="flex-1">
                   <div class="typo-h3">
-                    Secure Access
+                    Acceso seguro
                   </div>
 
                   <p class="typo-body">
-                    All login attempts are logged and monitored for security purposes.
+                    Todos los intentos de inicio de sesión se registran y supervisan por motivos de seguridad.
                   </p>
                 </div>
               </div>
@@ -144,7 +110,6 @@
 <script setup lang="ts">
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth.store'
-import googleLogo from '@/assets/google-logo.svg'
 
 const authStore = useAuthStore()
 
@@ -186,10 +151,38 @@ const submit = async () => {
 <style scoped>
 .left-background {
   position: relative;
-  background: linear-gradient(180deg, #0f4c81 0%, #0a3254 100%);
+  background:
+    radial-gradient(ellipse at 25% 15%, rgba(30, 159, 232, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 85%, rgba(0, 196, 204, 0.12) 0%, transparent 50%),
+    linear-gradient(160deg, #040C18 0%, #071628 45%, #050F20 100%);
   overflow: hidden;
 }
-.border-info{
-  border-color: #18bad1 !important;
+
+.left-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(30, 159, 232, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 159, 232, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+
+.left-background::after {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 159, 232, 0.08) 0%, transparent 70%);
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.border-info {
+  border-color: rgba(30, 159, 232, 0.3) !important;
 }
 </style>

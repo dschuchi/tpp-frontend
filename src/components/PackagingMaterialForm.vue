@@ -4,16 +4,16 @@
       <v-form ref="formRef" :readonly="readonly" @submit.prevent>
         <v-row>
           <v-col cols="12" md="6">
-            <v-text-field v-model="model.name" label="Nombre" variant="outlined" :rules="readonly ? [] : [required]" />
+            <v-text-field v-model="model.code" label="Código" variant="outlined" :rules="readonly ? [] : [required]" />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field v-model="model.description" label="Descripción" variant="outlined" />
           </v-col>
           <v-col cols="12" md="6">
-            <customer-selector v-model="model.customer_id" :readonly="readonly" :clearable="!readonly" />
+            <customer-selector v-model="model.customer_id" :readonly="readonly" :clearable="!readonly" :disabled="!readonly && !!model.supplier_id" />
           </v-col>
           <v-col cols="12" md="6">
-            <supplier-selector v-model="model.supplier_id" :readonly="readonly" :clearable="!readonly" />
+            <supplier-selector v-model="model.supplier_id" :readonly="readonly" :clearable="!readonly" :disabled="!readonly && !!model.customer_id" />
           </v-col>
         </v-row>
       </v-form>

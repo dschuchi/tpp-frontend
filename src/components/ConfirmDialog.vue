@@ -4,24 +4,25 @@
     @update:model-value="emit('update:modelValue', $event)"
     max-width="420"
   >
-    <v-card>
-      <v-card-title class="text-h6">
+    <v-card rounded="xl">
+      <v-card-title class="text-h6 font-weight-bold pt-5 px-6">
         {{ title }}
       </v-card-title>
 
-      <v-card-text>
+      <v-card-text class="px-6 text-medium-emphasis">
         {{ message }}
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions class="px-6 pb-5 pt-2">
         <v-spacer />
 
-        <v-btn variant="text" @click="cancel">
+        <v-btn variant="text" @click="cancel" class="text-medium-emphasis">
           Cancelar
         </v-btn>
 
         <v-btn
           :color="confirmColor"
+          variant="tonal"
           @click="confirm"
         >
           {{ confirmText }}
