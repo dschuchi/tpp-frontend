@@ -24,7 +24,8 @@ export interface User {
 }
 
 export interface UsersResponse {
-  users: UserListItem[]
+  users: UserListItem[],
+  total: number
 }
 
 export interface UsersState {
