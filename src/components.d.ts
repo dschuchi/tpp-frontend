@@ -25,6 +25,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StatusChip: typeof import('./components/StatusChip.vue')['default']
+    StatusSelect: typeof import('./components/StatusSelect.vue')['default']
     SupplierForm: typeof import('./components/SupplierForm.vue')['default']
     SupplierSelector: typeof import('./components/SupplierSelector.vue')['default']
     UserForm: typeof import('./components/UserForm.vue')['default']

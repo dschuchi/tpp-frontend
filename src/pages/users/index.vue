@@ -202,16 +202,10 @@
           hide-details
         ></v-select>
 
-        <v-select
+        <StatusSelect
           v-model="filters.is_active"
-          label="Estado"
-          :items="['Activo', 'Inactivo']"
-          variant="outlined"
-          density="compact"
-          clearable
           class="mb-6"
-          hide-details
-        ></v-select>
+        />
 
         <v-btn
           block
@@ -239,6 +233,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue';
 import PageHeader from '@/components/PageHeader.vue';
+import StatusSelect from '@/components/StatusSelect.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.store';
