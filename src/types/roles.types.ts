@@ -13,7 +13,8 @@ export interface RolesState {
 }
 
 export interface RolesResponse {
-  roles: Role[]
+  roles: Role[],
+  total: number
 }
 
 export interface CreateRoleRequest {

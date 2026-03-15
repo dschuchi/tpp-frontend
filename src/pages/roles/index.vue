@@ -13,8 +13,15 @@
 
   <v-row>
     <v-col cols="12">
-      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
-      <v-data-table :headers="headers" :items="roles" :search="search">
+      <v-data-table-server
+        :headers="headers"
+        v-model:items-per-page="itemsPerPage"
+        :items="roles"
+        :items-length="totalItems"
+        :loading="loading"
+        hover
+        @update:options="loadItems"
+      >
         <template #item.is_active="{ value }">
           <StatusChip :value="value" />
         </template>
@@ -58,19 +65,19 @@
             </v-tooltip>
           </div>
         </template>
-      </v-data-table>
+      </v-data-table-server>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed } from 'vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
 import { useConfirm } from '@/composables/useConfirm'
 import PageHeader from '@/components/PageHeader.vue'
 import type { Role } from '@/types/roles.types'
 import { useUserStore } from '@/stores/user.store'
+import type { DataTableOptions } from '@/types/table.types'
 
 definePage({
   meta: {
@@ -82,13 +89,6 @@ const { can } = useUserStore()
 const rolesStore = useRolesStore()
 const router = useRouter()
 const { confirm } = useConfirm()
-
-onMounted(() => {
-  rolesStore.getRoles()
-})
-
-const search = ref('')
-const roles = computed(() => rolesStore.roles)
 
 const headers: DataTableHeader[] = [
   { title: 'Rol', key: 'name' },
@@ -113,6 +113,21 @@ const toggleStatus = async (item: Role) => {
 
   if (ok) {
     isDeactivating ? rolesStore.deactivateRole(id) : rolesStore.activateRole(id)
+    item.is_active = !item.is_active
   }
+}
+
+const itemsPerPage = ref(10)
+const roles = ref<Role[]>([])
+const loading = ref(true)
+const totalItems = ref(0)
+
+const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
+  loading.value = true
+  const response = await rolesStore.getRoles(page, itemsPerPage)
+
+  roles.value = response.roles
+  totalItems.value = response.total
+  loading.value = false
 }
 </script>
