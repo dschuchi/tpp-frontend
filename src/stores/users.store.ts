@@ -9,11 +9,12 @@ export const useUsersStore = defineStore('users', {
   }),
 
   actions: {
-    async getUsers(page: number, limit: number, search?: string) {
+    async getUsers(page: number, limit: number, filters: any) {
       const response: UsersResponse = await http.get(USERS_ENDPOINTS.USERS, {
         params: {
           page,
-          limit
+          limit,
+          ...filters
         }
       })
       this.users = response.users

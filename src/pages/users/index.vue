@@ -23,28 +23,98 @@
         <v-card-text>
           <v-form @submit.prevent="handleSearch">
             <v-row>
-              <v-col>
+              <v-col
+                cols="12"
+                md="4"
+              >
                 <v-text-field
-                  disabled
-                  v-model="searchInput"
-                  label="Buscar"
+                  v-model="filters.legajo"
+                  label="Legajo"
                   clearable
-                  @click:clear="activeSearch = ''"
                   hide-details
                   density="compact"
                 ></v-text-field>
               </v-col>
-              <v-col>
-                <v-btn
-                  prepend-icon="mdi-magnify"
-                  @click="handleSearch"
-                >
-                  Buscar
-                </v-btn>
+              <v-col
+                cols="12"
+                md="4"
+              >
+                <v-text-field
+                  v-model="filters.username"
+                  label="Nombre"
+                  clearable
+                  hide-details
+                  density="compact"
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                md="4"
+              >
+                <v-text-field
+                  v-model="filters.lastname"
+                  label="Apellido"
+                  clearable
+                  hide-details
+                  density="compact"
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                md="4"
+              >
+                <v-text-field
+                  v-model="filters.email"
+                  label="Correo"
+                  clearable
+                  hide-details
+                  density="compact"
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                md="4"
+              >
+                <v-select
+                  v-model="filters.rol_name"
+                  label="Rol"
+                  clearable
+                  hide-details
+                  density="compact"
+                  :items="['a', 'b', 'c']"
+                ></v-select>
+              </v-col>
+              <v-col
+                cols="12"
+                md="4"
+              >
+                <v-select
+                  v-model="filters.is_active"
+                  label="Estado"
+                  clearable
+                  hide-details
+                  density="compact"
+                  :items="['Activo', 'Inactivo']"
+                ></v-select>
               </v-col>
             </v-row>
           </v-form>
         </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            prepend-icon="mdi-filter-off"
+            @click="resetFilters"
+          >
+            Limpiar filtros
+          </v-btn>
+          <v-btn
+            prepend-icon="mdi-magnify"
+            @click="handleSearch"
+          >
+            Buscar
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -53,11 +123,11 @@
     <v-col cols="12">
       <v-data-table-server
         :headers="headers"
+        v-model:page="page"
         v-model:items-per-page="itemsPerPage"
         :items="serverItems"
         :items-length="totalItems"
         :loading="loading"
-        :search="activeSearch"
         hover
         @update:options="loadItems"
       >
@@ -149,6 +219,7 @@ const usersStore = useUsersStore()
 const { can } = useUserStore()
 
 const headers: DataTableHeader[] = [
+  { title: 'Legajo', key: 'legajo' },
   { title: 'Nombre', key: 'username' },
   { title: 'Apellido', key: 'lastname' },
   { title: 'Correo', key: 'email' },
@@ -179,16 +250,32 @@ const toggleStatus = async (item: UserListItem) => {
   }
 }
 
-const activeSearch = ref('')
-const searchInput = ref('')
-const itemsPerPage = ref(10)
+const initialFilters = {
+  legajo: '',
+  username: '',
+  lastname: '',
+  email: '',
+  rol_name: null,
+  is_active: null
+}
+
+const filters = reactive({ ...initialFilters })
+const activeFilters = ref({ ...initialFilters })
+
+const page = ref(1)
+const itemsPerPage = ref(2)
 const serverItems = ref<UserListItem[]>([])
 const loading = ref(true)
 const totalItems = ref(0)
 
-const loadItems = async ({ page, itemsPerPage, search }: DataTableOptions) => {
+const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
   loading.value = true
-  const response = await usersStore.getUsers(page, itemsPerPage, search)
+
+  const response = await usersStore.getUsers(
+    page,
+    itemsPerPage,
+    activeFilters.value
+  )
 
   serverItems.value = response.users
   totalItems.value = response.total
@@ -196,7 +283,17 @@ const loadItems = async ({ page, itemsPerPage, search }: DataTableOptions) => {
 }
 
 const handleSearch = () => {
-  activeSearch.value = searchInput.value
+  activeFilters.value = { ...filters }
+  if (page.value !== 1) {
+    page.value = 1
+  } else {
+    loadItems({ page: 1, itemsPerPage: itemsPerPage.value })
+  }
+}
+
+const resetFilters = () => {
+  Object.assign(filters, initialFilters)
+  handleSearch()
 }
 
 </script>
