@@ -6,118 +6,38 @@
         subtitle="Administra los usuarios del sistema."
       >
         <template #actions>
-          <v-btn
-            v-if="can('users:create')"
-            to="/users/new"
-          >
-            Nuevo Usuario
-          </v-btn>
+          <div class="d-flex align-center ga-3">
+
+            <v-badge
+              :content="activeFiltersCount"
+              :model-value="activeFiltersCount > 0"
+              color="error"
+            >
+              <v-btn
+                prepend-icon="mdi-magnify"
+                variant="outlined"
+                color="primary"
+                @click="isFilterDrawerOpen = true"
+              >
+                Buscar
+              </v-btn>
+            </v-badge>
+
+            <v-btn
+              v-if="can('users:create')"
+              to="/users/new"
+              color="primary"
+              prepend-icon="mdi-plus"
+            >
+              Nuevo Usuario
+            </v-btn>
+
+          </div>
         </template>
       </PageHeader>
     </v-col>
   </v-row>
 
-  <v-row>
-    <v-col>
-      <v-card>
-        <v-card-text>
-          <v-form @submit.prevent="handleSearch">
-            <v-row>
-              <v-col
-                cols="12"
-                md="4"
-              >
-                <v-text-field
-                  v-model="filters.legajo"
-                  label="Legajo"
-                  clearable
-                  hide-details
-                  density="compact"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                md="4"
-              >
-                <v-text-field
-                  v-model="filters.username"
-                  label="Nombre"
-                  clearable
-                  hide-details
-                  density="compact"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                md="4"
-              >
-                <v-text-field
-                  v-model="filters.lastname"
-                  label="Apellido"
-                  clearable
-                  hide-details
-                  density="compact"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                md="4"
-              >
-                <v-text-field
-                  v-model="filters.email"
-                  label="Correo"
-                  clearable
-                  hide-details
-                  density="compact"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                md="4"
-              >
-                <v-select
-                  v-model="filters.rol_name"
-                  label="Rol"
-                  clearable
-                  hide-details
-                  density="compact"
-                  :items="['a', 'b', 'c']"
-                ></v-select>
-              </v-col>
-              <v-col
-                cols="12"
-                md="4"
-              >
-                <v-select
-                  v-model="filters.is_active"
-                  label="Estado"
-                  clearable
-                  hide-details
-                  density="compact"
-                  :items="['Activo', 'Inactivo']"
-                ></v-select>
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            prepend-icon="mdi-filter-off"
-            @click="resetFilters"
-          >
-            Limpiar filtros
-          </v-btn>
-          <v-btn
-            prepend-icon="mdi-magnify"
-            @click="handleSearch"
-          >
-            Buscar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
 
   <v-row>
     <v-col cols="12">
@@ -136,6 +56,7 @@
             <template #item.is_active="{ value }">
               <StatusChip :value="value" />
             </template>
+
             <template #item.actions="{ item }">
               <div class="d-flex ga-2 justify-end align-center">
                 <v-tooltip
@@ -201,9 +122,122 @@
       </v-card>
     </v-col>
   </v-row>
+
+  <v-navigation-drawer
+    v-model="isFilterDrawerOpen"
+    location="right"
+    temporary
+    width="350"
+    elevation="4"
+  >
+    <div class="pa-4 d-flex justify-space-between align-center">
+      <div class="d-flex align-center">
+        <v-icon
+          icon="mdi-filter-outline"
+          class="mr-2"
+          color="primary"
+        ></v-icon>
+        <span class="text-h6 font-weight-bold">Filtros</span>
+      </div>
+      <v-btn
+        icon="mdi-close"
+        variant="text"
+        density="comfortable"
+        @click="isFilterDrawerOpen = false"
+      ></v-btn>
+    </div>
+
+    <v-divider></v-divider>
+
+    <div class="pa-4">
+      <v-form @submit.prevent="handleSearch">
+        <v-text-field
+          v-model="filters.legajo"
+          label="Legajo"
+          variant="outlined"
+          density="compact"
+          clearable
+          class="mb-3"
+          hide-details
+        ></v-text-field>
+
+        <v-text-field
+          v-model="filters.username"
+          label="Nombre"
+          variant="outlined"
+          density="compact"
+          clearable
+          class="mb-3"
+          hide-details
+        ></v-text-field>
+
+        <v-text-field
+          v-model="filters.lastname"
+          label="Apellido"
+          variant="outlined"
+          density="compact"
+          clearable
+          class="mb-3"
+          hide-details
+        ></v-text-field>
+
+        <v-text-field
+          v-model="filters.email"
+          label="Correo"
+          variant="outlined"
+          density="compact"
+          clearable
+          class="mb-3"
+          hide-details
+        ></v-text-field>
+
+        <v-select
+          v-model="filters.rol_name"
+          label="Rol"
+          :items="['a', 'b', 'c']"
+          variant="outlined"
+          density="compact"
+          clearable
+          class="mb-3"
+          hide-details
+        ></v-select>
+
+        <v-select
+          v-model="filters.is_active"
+          label="Estado"
+          :items="['Activo', 'Inactivo']"
+          variant="outlined"
+          density="compact"
+          clearable
+          class="mb-6"
+          hide-details
+        ></v-select>
+
+        <v-btn
+          block
+          color="primary"
+          type="submit"
+          class="mb-3"
+          prepend-icon="mdi-magnify"
+        >
+          Aplicar Filtros
+        </v-btn>
+
+        <v-btn
+          block
+          variant="tonal"
+          @click="resetFilters"
+          prepend-icon="mdi-filter-off"
+        >
+          Limpiar Todo
+        </v-btn>
+      </v-form>
+    </div>
+  </v-navigation-drawer>
 </template>
 
 <script lang="ts" setup>
+import { ref, reactive, computed } from 'vue';
 import PageHeader from '@/components/PageHeader.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { useRouter } from 'vue-router'
@@ -254,6 +288,8 @@ const toggleStatus = async (item: UserListItem) => {
   }
 }
 
+const isFilterDrawerOpen = ref(false)
+
 const initialFilters = {
   legajo: '',
   username: '',
@@ -266,8 +302,14 @@ const initialFilters = {
 const filters = reactive({ ...initialFilters })
 const activeFilters = ref({ ...initialFilters })
 
+const activeFiltersCount = computed(() => {
+  return Object.values(activeFilters.value).filter(val => {
+    return val !== null && val !== undefined && val !== '';
+  }).length;
+})
+
 const page = ref(1)
-const itemsPerPage = ref(2)
+const itemsPerPage = ref(10)
 const serverItems = ref<UserListItem[]>([])
 const loading = ref(true)
 const totalItems = ref(0)
@@ -293,11 +335,11 @@ const handleSearch = () => {
   } else {
     loadItems({ page: 1, itemsPerPage: itemsPerPage.value })
   }
+  isFilterDrawerOpen.value = false
 }
 
 const resetFilters = () => {
   Object.assign(filters, initialFilters)
   handleSearch()
 }
-
 </script>
