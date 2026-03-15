@@ -121,80 +121,84 @@
 
   <v-row>
     <v-col cols="12">
-      <v-data-table-server
-        :headers="headers"
-        v-model:page="page"
-        v-model:items-per-page="itemsPerPage"
-        :items="serverItems"
-        :items-length="totalItems"
-        :loading="loading"
-        hover
-        @update:options="loadItems"
-      >
-        <template #item.is_active="{ value }">
-          <StatusChip :value="value" />
-        </template>
-        <template #item.actions="{ item }">
-          <div class="d-flex ga-2 justify-end align-center">
-            <v-tooltip
-              :text="item.is_active ? 'Desactivar' : 'Restaurar'"
-              location="top"
-            >
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  v-if="can('users:delete')"
-                  v-bind="props"
-                  icon
-                  variant="text"
-                  size="small"
-                  :color="item.is_active ? 'error' : 'success'"
-                  @click="toggleStatus(item)"
+      <v-card>
+        <v-card-text>
+          <v-data-table-server
+            :headers="headers"
+            v-model:page="page"
+            v-model:items-per-page="itemsPerPage"
+            :items="serverItems"
+            :items-length="totalItems"
+            :loading="loading"
+            hover
+            @update:options="loadItems"
+          >
+            <template #item.is_active="{ value }">
+              <StatusChip :value="value" />
+            </template>
+            <template #item.actions="{ item }">
+              <div class="d-flex ga-2 justify-end align-center">
+                <v-tooltip
+                  :text="item.is_active ? 'Desactivar' : 'Restaurar'"
+                  location="top"
                 >
-                  <v-icon :icon="item.is_active ? 'mdi-delete' : 'mdi-delete-restore'" />
-                </v-btn>
-              </template>
-            </v-tooltip>
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      v-if="can('users:delete')"
+                      v-bind="props"
+                      icon
+                      variant="text"
+                      size="small"
+                      :color="item.is_active ? 'error' : 'success'"
+                      @click="toggleStatus(item)"
+                    >
+                      <v-icon :icon="item.is_active ? 'mdi-delete' : 'mdi-delete-restore'" />
+                    </v-btn>
+                  </template>
+                </v-tooltip>
 
-            <v-tooltip
-              text="Editar"
-              location="top"
-            >
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  v-if="can('users:edit:all')"
-                  v-bind="props"
-                  icon
-                  variant="text"
-                  size="small"
-                  color="primary"
-                  @click="editUser(item.id)"
+                <v-tooltip
+                  text="Editar"
+                  location="top"
                 >
-                  <v-icon icon="mdi-pencil" />
-                </v-btn>
-              </template>
-            </v-tooltip>
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      v-if="can('users:edit:all')"
+                      v-bind="props"
+                      icon
+                      variant="text"
+                      size="small"
+                      color="primary"
+                      @click="editUser(item.id)"
+                    >
+                      <v-icon icon="mdi-pencil" />
+                    </v-btn>
+                  </template>
+                </v-tooltip>
 
-            <v-tooltip
-              text="Ver detalles"
-              location="top"
-            >
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  v-if="can('users:edit:all')"
-                  v-bind="props"
-                  icon
-                  variant="text"
-                  size="small"
-                  color="info"
-                  @click="viewUser(item.id)"
+                <v-tooltip
+                  text="Ver detalles"
+                  location="top"
                 >
-                  <v-icon icon="mdi-eye" />
-                </v-btn>
-              </template>
-            </v-tooltip>
-          </div>
-        </template>
-      </v-data-table-server>
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      v-if="can('users:edit:all')"
+                      v-bind="props"
+                      icon
+                      variant="text"
+                      size="small"
+                      color="info"
+                      @click="viewUser(item.id)"
+                    >
+                      <v-icon icon="mdi-eye" />
+                    </v-btn>
+                  </template>
+                </v-tooltip>
+              </div>
+            </template>
+          </v-data-table-server>
+        </v-card-text>
+      </v-card>
     </v-col>
   </v-row>
 </template>
