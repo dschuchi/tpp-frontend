@@ -13,11 +13,12 @@ export const useRolesStore = defineStore('roles', {
   },
 
   actions: {
-    async getRoles(page: number, limit: number) {
+    async getRoles(page: number, limit: number, filters?: any) {
       const response: RolesResponse = await http.get(ROLES_ENDPOINTS.ROLES, {
         params: {
           page,
-          limit
+          limit,
+          ...filters
         }
       })
       this.roles = response.roles

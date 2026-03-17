@@ -19,8 +19,7 @@
           </v-col>
 
           <v-col v-if="showRole" cols="12">
-            <v-select density="compact" v-model="model.rol_id" :items="rolesStore.roles" item-title="name"
-              item-value="id" label="Rol" variant="outlined" :rules="readonly ? [] : [required]" />
+            <roles-select v-model="model.rol_id" density="compact" variant="outlined" :rules="readonly ? [] : [required]" />
           </v-col>
 
           <v-col v-if="showPassword" cols="12">
@@ -43,9 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { useRolesStore } from '@/stores/roles.store'
 import type { CreateUserRequest, UpdateUserRequest } from '@/types/users.types'
 import type { VForm } from 'vuetify/components'
+import RolesSelect from './RolesSelect.vue'
 
 const props = defineProps({
   readonly: { type: Boolean, default: false },
@@ -54,7 +53,6 @@ const props = defineProps({
   showPassword: { type: Boolean, default: false }
 })
 
-const rolesStore = useRolesStore()
 const showCopiedSnackbar = ref(false)
 const passwordVisible = ref(false)
 
@@ -66,12 +64,6 @@ const required = (v: string) => !!v || 'Campo requerido'
 const emailRule = (v: string) => /.+@.+\..+/.test(v) || 'Correo inválido'
 
 const formRef = ref<VForm>()
-
-onMounted(() => {
-  if (props.showRole) {
-    rolesStore.getRoles()
-  }
-})
 
 const copyPassword = () => {
   if (!model.value.password) return

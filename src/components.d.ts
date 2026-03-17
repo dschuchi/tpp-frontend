@@ -22,6 +22,7 @@ declare module 'vue' {
     ProductForm: typeof import('./components/ProductForm.vue')['default']
     RawMaterialForm: typeof import('./components/RawMaterialForm.vue')['default']
     RoleForm: typeof import('./components/RoleForm.vue')['default']
+    RolesSelect: typeof import('./components/RolesSelect.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StatusChip: typeof import('./components/StatusChip.vue')['default']
