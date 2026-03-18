@@ -45,6 +45,7 @@ export const useRolesStore = defineStore('roles', {
       const response: Role = await http.get(ROLES_ENDPOINTS.ROLE_BY_ID(id))
       this.role = response
       this.permissions = response.permissions
+      return response
     },
     async updateRole(id: number, role: UpdateRoleRequest) {
       await http.patch(ROLES_ENDPOINTS.ROLE_BY_ID(id), role)
