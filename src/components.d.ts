@@ -19,6 +19,7 @@ declare module 'vue' {
     LoginForm: typeof import('./components/LoginForm.vue')['default']
     PackagingMaterialForm: typeof import('./components/PackagingMaterialForm.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
+    PaginatedSelect: typeof import('./components/PaginatedSelect.vue')['default']
     ProductForm: typeof import('./components/ProductForm.vue')['default']
     RawMaterialForm: typeof import('./components/RawMaterialForm.vue')['default']
     RoleForm: typeof import('./components/RoleForm.vue')['default']
