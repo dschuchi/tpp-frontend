@@ -13,17 +13,22 @@ export const useRolesStore = defineStore('roles', {
   },
 
   actions: {
-    async getRoles() {
-      const response: RolesResponse = await http.get(ROLES_ENDPOINTS.ROLES)
+    async getRoles(page: number, limit: number, filters?: any) {
+      const response: RolesResponse = await http.get(ROLES_ENDPOINTS.ROLES, {
+        params: {
+          page,
+          limit,
+          ...filters
+        }
+      })
       this.roles = response.roles
+      return response
     },
     async deactivateRole(id: number) {
       await http.delete(ROLES_ENDPOINTS.ROLE_BY_ID(id))
-      this.getRoles()
     },
     async activateRole(id: number) {
       await http.patch(ROLES_ENDPOINTS.ACTIVATE_ROLE_BY_ID(id))
-      this.getRoles()
     },
     async createRole(role: CreateRoleRequest) {
       await http.post(ROLES_ENDPOINTS.ROLE, role)
@@ -40,6 +45,7 @@ export const useRolesStore = defineStore('roles', {
       const response: Role = await http.get(ROLES_ENDPOINTS.ROLE_BY_ID(id))
       this.role = response
       this.permissions = response.permissions
+      return response
     },
     async updateRole(id: number, role: UpdateRoleRequest) {
       await http.patch(ROLES_ENDPOINTS.ROLE_BY_ID(id), role)
