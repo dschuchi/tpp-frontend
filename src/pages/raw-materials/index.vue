@@ -58,7 +58,7 @@ import PageHeader from '@/components/PageHeader.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { useRawMaterialsStore } from '@/stores/rawMaterials.store';
 import { useUserStore } from '@/stores/user.store';
-import type { RawMaterial, RawMaterials } from '@/types/rawMaterials.types';
+import type { RawMaterial } from '@/types/rawMaterials.types';
 import type { DataTableOptions } from '@/types/table.types';
 import type { DataTableHeader } from 'vuetify';
 
