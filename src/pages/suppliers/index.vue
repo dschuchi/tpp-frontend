@@ -13,9 +13,15 @@
 
   <v-row>
     <v-col cols="12">
-      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
-
-      <v-data-table :headers="headers" :items="suppliersStore.suppliers" :search="search">
+      <v-data-table-server
+        :headers="headers"
+        :items="suppliers"
+        :items-length="totalItems"
+        :items-per-page="itemsPerPage"
+        :loading="loading"
+        hover
+        @update:options="loadItems"
+      >
         <template #item.is_active="{ value }">
           <StatusChip :value="value" />
         </template>
@@ -42,7 +48,7 @@
 
           </div>
         </template>
-      </v-data-table>
+      </v-data-table-server>
     </v-col>
   </v-row>
 </template>
@@ -52,6 +58,8 @@ import PageHeader from '@/components/PageHeader.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { useSuppliersStore } from '@/stores/suppliers.store';
 import { useUserStore } from '@/stores/user.store';
+import type { Supplier } from '@/types/suppliers.types';
+import type { DataTableOptions } from '@/types/table.types';
 import type { DataTableHeader } from 'vuetify';
 
 definePage({
@@ -62,7 +70,6 @@ definePage({
 
 const { can } = useUserStore()
 const suppliersStore = useSuppliersStore()
-const search = ref('')
 
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'name' },
@@ -73,10 +80,6 @@ const headers: DataTableHeader[] = [
   { title: 'Estado', key: 'is_active' },
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
-
-onMounted(() => {
-  suppliersStore.getSuppliers()
-})
 
 const router = useRouter()
 const editSupplier = (id: any) => router.push({ name: '/suppliers/[id]/edit', params: { id } })
@@ -96,6 +99,21 @@ const toggleStatus = async (item: any) => {
 
   if (ok) {
     isDeactivating ? suppliersStore.deactivate(id) : suppliersStore.activate(id)
+    item.is_active = !item.is_active
   }
+}
+
+const itemsPerPage = ref(10)
+const suppliers = ref<Supplier[]>([])
+const loading = ref(true)
+const totalItems = ref(0)
+
+const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
+  loading.value = true
+  const response = await suppliersStore.getSuppliers(page, itemsPerPage)
+
+  suppliers.value = response.suppliers
+  totalItems.value = response.total
+  loading.value = false
 }
 </script>

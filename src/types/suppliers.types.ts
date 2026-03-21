@@ -1,10 +1,13 @@
-export type SuppliersState = SuppliersResponse
-
-export interface SuppliersResponse {
-  suppliers: SupplierDetailResponse[]
+export interface SuppliersState {
+  suppliers: Supplier[]
 }
 
-export interface SupplierDetailResponse {
+export interface SuppliersResponse {
+  suppliers: Supplier[]
+  total: number
+}
+
+export interface Supplier {
   id: number
   name: string
   tax_id: string
