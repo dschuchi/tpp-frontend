@@ -1,36 +1,26 @@
 <template>
-  <v-autocomplete
+  <paginated-select
     v-model="model"
-    :items="suppliersStore.suppliers"
+    label="Proveedor"
     item-title="name"
-    item-value="id"
-    :label="label"
-    :variant="variant"
-    :rules="rules"
-    :readonly="readonly"
-    :clearable="clearable"
-    no-data-text="No se encontraron proveedores"
+    :load-fn="loadSuppliers"
+    :fetch-by-id-fn="(id) => suppliersStore.getSupplier(Number(id))"
   />
 </template>
 
 <script setup lang="ts">
 import { useSuppliersStore } from '@/stores/suppliers.store'
-
-const props = defineProps({
-  label: { type: String, default: 'Proveedor' },
-  variant: { type: String as () => 'outlined' | 'filled' | 'underlined' | 'plain' | 'solo', default: 'outlined' },
-  rules: { type: Array as () => ((v: any) => boolean | string)[], default: () => [] },
-  readonly: { type: Boolean, default: false },
-  clearable: { type: Boolean, default: false },
-})
+import PaginatedSelect from './PaginatedSelect.vue'
 
 const model = defineModel<number | null>({ required: true })
 
 const suppliersStore = useSuppliersStore()
 
-onMounted(() => {
-  if (!suppliersStore.suppliers.length) {
-    suppliersStore.getSuppliers()
+const loadSuppliers = async (page: number, search: string) => {
+  const res = await suppliersStore.getSuppliers(page, 5, { name: search })
+  return {
+    items: res.suppliers,
+    total: res.total
   }
-})
+}
 </script>
