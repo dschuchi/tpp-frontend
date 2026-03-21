@@ -13,9 +13,15 @@
 
   <v-row>
     <v-col cols="12">
-      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
-
-      <v-data-table :headers="headers" :items="rawMaterialsStore.rawMaterials" :search="search">
+      <v-data-table-server
+        :headers="headers"
+        :items="rawMaterials"
+        :items-length="totalItems"
+        :items-per-page="itemsPerPage"
+        :loading="loading"
+        hover
+        @update:options="loadItems"
+      >
         <template #item.is_active="{ value }">
           <status-chip :value="value" />
         </template>
@@ -42,7 +48,7 @@
 
           </div>
         </template>
-      </v-data-table>
+      </v-data-table-server>
     </v-col>
   </v-row>
 </template>
@@ -52,6 +58,8 @@ import PageHeader from '@/components/PageHeader.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { useRawMaterialsStore } from '@/stores/rawMaterials.store';
 import { useUserStore } from '@/stores/user.store';
+import type { RawMaterial } from '@/types/rawMaterials.types';
+import type { DataTableOptions } from '@/types/table.types';
 import type { DataTableHeader } from 'vuetify';
 
 definePage({
@@ -62,17 +70,12 @@ definePage({
 
 const { can } = useUserStore()
 const rawMaterialsStore = useRawMaterialsStore()
-const search = ref('')
 
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'name' },
   { title: 'Estado', key: 'is_active' },
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
-
-onMounted(() => {
-  rawMaterialsStore.getRawMaterials()
-})
 
 const router = useRouter()
 const editRawMaterial = (id: any) => router.push({ name: '/raw-materials/[id]/edit', params: { id } })
@@ -92,6 +95,21 @@ const toggleStatus = async (item: any) => {
 
   if (ok) {
     isDeactivating ? await rawMaterialsStore.deactivate(id) : await rawMaterialsStore.activate(id)
+    item.is_active = !item.is_active
   }
+}
+
+const itemsPerPage = ref(10)
+const rawMaterials = ref<RawMaterial[]>([])
+const loading = ref(true)
+const totalItems = ref(0)
+
+const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
+  loading.value = true
+  const response = await rawMaterialsStore.getRawMaterials(page, itemsPerPage)
+
+  rawMaterials.value = response.rawMaterials
+  totalItems.value = response.total
+  loading.value = false
 }
 </script>
