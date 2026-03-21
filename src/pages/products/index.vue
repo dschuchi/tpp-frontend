@@ -13,11 +13,17 @@
 
   <v-row>
     <v-col cols="12">
-      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify" />
-
-      <v-data-table :headers="headers" :items="productsStore.products" :search="search">
+      <v-data-table-server
+        :headers="headers"
+        :items="products"
+        :items-length="totalItems"
+        :items-per-page="itemsPerPage"
+        :loading="loading"
+        hover
+        @update:options="loadItems"
+      >
         <template #item.customer_id="{ item }">
-          {{ customerName(item.customer_id) }}
+          {{ item.customer_name }}
         </template>
         <template #item.is_active="{ value }">
           <status-chip :value="value" />
@@ -43,7 +49,7 @@
             </v-tooltip>
           </div>
         </template>
-      </v-data-table>
+      </v-data-table-server>
     </v-col>
   </v-row>
 </template>
@@ -55,6 +61,8 @@ import { useProductsStore } from '@/stores/products.store'
 import { useCustomersStore } from '@/stores/customers.store'
 import { useUserStore } from '@/stores/user.store'
 import type { DataTableHeader } from 'vuetify'
+import type { DataTableOptions } from '@/types/table.types'
+import type { Product } from '@/types/products.types'
 
 definePage({
   meta: {
@@ -65,27 +73,14 @@ definePage({
 const { can } = useUserStore()
 const productsStore = useProductsStore()
 const customersStore = useCustomersStore()
-const search = ref('')
 
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'name' },
-  { title: 'Cliente', key: 'customer_id' },
+  { title: 'Cliente', key: 'customer_name' },
   { title: 'Versión', key: 'version' },
   { title: 'Estado', key: 'is_active' },
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
-
-onMounted(() => {
-  productsStore.getProducts()
-  if (!customersStore.customers.length) {
-    customersStore.getCustomers(1, 100)
-  }
-})
-
-const customerName = (id: number | null) => {
-  if (!id) return '-'
-  return customersStore.customers.find(c => c.id === id)?.name ?? '-'
-}
 
 const router = useRouter()
 const editProduct = (id: any) => router.push({ name: '/products/[id]/edit', params: { id } })
@@ -105,6 +100,31 @@ const toggleStatus = async (item: any) => {
 
   if (ok) {
     isDeactivating ? await productsStore.deactivate(id) : await productsStore.activate(id)
+    item.is_active = !item.is_active
   }
+}
+
+const itemsPerPage = ref(10)
+const products = ref<Product[]>([])
+const loading = ref(true)
+const totalItems = ref(0)
+
+const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
+  loading.value = true
+  const response = await productsStore.getProducts(page, itemsPerPage)
+
+  products.value = await Promise.all(response.products.map(async (product) => {
+    const customer = product.customer_id
+      ? await customersStore.getCustomer(product.customer_id)
+      : null
+
+    return {
+      ...product,
+      customer_name: customer?.name ?? '-'
+    }
+  }))
+
+  totalItems.value = response.total
+  loading.value = false
 }
 </script>

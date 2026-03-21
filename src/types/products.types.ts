@@ -5,8 +5,14 @@ export interface Product {
   version: string
   observaciones?: string
   is_active?: boolean
+  customer_name?: string
 }
 
 export interface Products {
   products: Product[]
+}
+
+export interface ProductsResponse {
+  products: Product[]
+  total: number
 }
