@@ -5,8 +5,15 @@ export interface PackagingMaterial {
   customer_id: number | null
   supplier_id: number | null
   is_active?: boolean
+  customer_name?: string
+  supplier_name?: string
 }
 
 export interface PackagingMaterials {
   packagingMaterials: PackagingMaterial[]
+}
+
+export interface PackagingMaterialsResponse {
+  packagingMaterials: PackagingMaterial[]
+  total: number
 }
