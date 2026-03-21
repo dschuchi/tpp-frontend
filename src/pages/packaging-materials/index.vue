@@ -84,7 +84,7 @@ const headers: DataTableHeader[] = [
 onMounted(() => {
   packagingMaterialsStore.getPackagingMaterials()
   if (!customersStore.customers.length) {
-    customersStore.getCustomers()
+    customersStore.getCustomers(1,100)
   }
   if (!suppliersStore.suppliers.length) {
     suppliersStore.getSuppliers()
