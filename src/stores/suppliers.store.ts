@@ -8,11 +8,12 @@ export const useSuppliersStore = defineStore('suppliers', {
   }),
 
   actions: {
-    async getSuppliers(page: number, limit: number) {
+    async getSuppliers(page: number, limit: number, filters?: any) {
       const response: SuppliersResponse = await http.get(SUPPLIERS_ENDPOINTS.SUPPLIERS, {
         params: {
           page,
-          limit
+          limit,
+          ...filters
         }
       })
       this.suppliers = response.suppliers

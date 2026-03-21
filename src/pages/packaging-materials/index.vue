@@ -87,7 +87,7 @@ onMounted(() => {
     customersStore.getCustomers(1,100)
   }
   if (!suppliersStore.suppliers.length) {
-    suppliersStore.getSuppliers()
+    suppliersStore.getSuppliers(1,100)
   }
 })
 
