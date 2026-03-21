@@ -8,6 +8,11 @@ export interface Customer {
   is_active?: boolean;
 }
 
-export interface Customers {
+export interface CustomersReponse {
+  customers: Customer[]
+  total: number
+}
+
+export interface CustomersState {
   customers: Customer[]
 }

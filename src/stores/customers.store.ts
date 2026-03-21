@@ -1,18 +1,24 @@
 import { CUSTOMERS_ENDPOINTS, ROLES_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
-import type { Customer, Customers } from "@/types/customers.types.ts";
+import type { Customer, CustomersReponse, CustomersState } from "@/types/customers.types.ts";
 
 export const useCustomersStore = defineStore('customers', {
-  state: (): Customers => ({
+  state: (): CustomersState => ({
     customers: [],
   }),
   getters: {
 
   },
   actions: {
-    async getCustomers() {
-      const response: Customers = await http.get(CUSTOMERS_ENDPOINTS.CUSTOMERS)
+    async getCustomers(page: number, limit: number) {
+      const response: CustomersReponse = await http.get(CUSTOMERS_ENDPOINTS.CUSTOMERS,{
+        params: {
+          page,
+          limit
+        }
+      })
       this.customers = response.customers
+      return response
     },
     async getCustomer(id: number) {
       const customerFound: Customer | undefined = this.customers.find(c => c.id === id)
@@ -31,11 +37,9 @@ export const useCustomersStore = defineStore('customers', {
     },
     async deactivateCustomer(id: number) {
       await http.delete(CUSTOMERS_ENDPOINTS.CUSTOMER_BY_ID(id))
-      this.getCustomers()
     },
     async activateCustomer(id: number) {
       await http.patch(CUSTOMERS_ENDPOINTS.ACTIVATE_CUSTOMER_BY_ID(id))
-      this.getCustomers()
     },
   }
 })
