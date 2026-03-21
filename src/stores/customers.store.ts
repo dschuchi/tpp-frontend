@@ -1,4 +1,4 @@
-import { CUSTOMERS_ENDPOINTS, ROLES_ENDPOINTS } from "@/api/endpoints"
+import { CUSTOMERS_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
 import type { Customer, CustomersReponse, CustomersState } from "@/types/customers.types.ts";
 
@@ -10,11 +10,12 @@ export const useCustomersStore = defineStore('customers', {
 
   },
   actions: {
-    async getCustomers(page: number, limit: number) {
-      const response: CustomersReponse = await http.get(CUSTOMERS_ENDPOINTS.CUSTOMERS,{
+    async getCustomers(page: number, limit: number, filters?: any) {
+      const response: CustomersReponse = await http.get(CUSTOMERS_ENDPOINTS.CUSTOMERS, {
         params: {
           page,
-          limit
+          limit,
+          ...filters
         }
       })
       this.customers = response.customers

@@ -7,9 +7,12 @@
     :item-value="itemValue"
     :label="label"
     return-object
+    clearable
   >
     <template #selection="{ item }">
-      {{ (item.raw as T)[itemTitle] }}
+      <template v-if="item?.raw">
+        {{ (item.raw as T)[itemTitle] }}
+      </template>
     </template>
 
     <template #menu-header>
@@ -39,7 +42,7 @@
   </v-select>
 </template>
 
-<script setup lang="ts" generic="T extends { id: number | string }">
+<script setup lang="ts" generic="T extends Record<string, any>">
 import { ref, computed, watch, onMounted } from 'vue'
 
 export interface Props<T> {
@@ -48,10 +51,13 @@ export interface Props<T> {
   itemTitle: keyof T & string
   itemValue?: keyof T & string
   loadFn: (page: number, search: string) => Promise<{ items: T[], total: number }>
-  fetchByIdFn: (id: number | string) => Promise<T | undefined>
+  fetchByIdFn: (id: number | string) => Promise<T | undefined | null>
 }
 
-const props = defineProps<Props<T>>()
+const props = withDefaults(defineProps<Props<T>>(), {
+  itemValue: 'id' as any
+})
+
 const emit = defineEmits(['update:modelValue'])
 
 const items = ref<T[]>([]) as any
@@ -66,16 +72,20 @@ const internalValue = ref<T | null>(null)
 const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage) || 1)
 
 watch(() => props.modelValue, async (newId) => {
-  if (newId && internalValue.value?.id !== newId) {
-    const item = await props.fetchByIdFn(newId)
-    if (item) internalValue.value = item
-  } else if (!newId) {
+  if (newId !== null && newId !== undefined) {
+    const currentId = internalValue.value ? (internalValue.value as any)[props.itemValue] : null
+
+    if (currentId !== newId) {
+      const item = await props.fetchByIdFn(newId)
+      internalValue.value = item || null
+    }
+  } else {
     internalValue.value = null
   }
 }, { immediate: true })
 
 watch(internalValue, (newVal) => {
-  const newId = newVal ? (newVal as any)[props.itemValue || 'id'] : null
+  const newId = newVal ? (newVal as any)[props.itemValue] : null
   if (newId !== props.modelValue) {
     emit('update:modelValue', newId)
   }
