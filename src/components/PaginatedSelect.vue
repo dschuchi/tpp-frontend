@@ -8,6 +8,7 @@
     :label="label"
     return-object
     clearable
+    :menu-props="{ maxHeight: '400' }"
   >
     <template #selection="{ item }">
       <template v-if="item?.raw">
