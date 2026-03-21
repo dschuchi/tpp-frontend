@@ -13,9 +13,15 @@
 
   <v-row>
     <v-col cols="12">
-      <v-text-field v-model="search" label="Buscar" prepend-inner-icon="mdi-magnify"></v-text-field>
-
-      <v-data-table :headers="headers" :items="customers" :search="search">
+      <v-data-table-server
+        :headers="headers"
+        :items="customers"
+        :items-length="totalItems"
+        :items-per-page="itemsPerPage"
+        :loading="loading"
+        hover
+        @update:options="loadItems"
+      >
         <template #item.is_active="{ value }">
           <status-chip :value="value" />
         </template>
@@ -41,7 +47,7 @@
             </v-tooltip>
           </div>
         </template>
-      </v-data-table>
+      </v-data-table-server>
     </v-col>
   </v-row>
 </template>
@@ -54,6 +60,7 @@ import type { DataTableHeader } from 'vuetify';
 import { useCustomersStore } from "@/stores/customers.store.ts";
 import type { Customer } from "@/types/customers.types.ts";
 import { useConfirm } from "@/composables/useConfirm.ts";
+import type { DataTableOptions } from '@/types/table.types';
 
 definePage({
   meta: {
@@ -65,14 +72,6 @@ const { can } = useUserStore()
 const customersStore = useCustomersStore()
 const router = useRouter()
 const { confirm } = useConfirm()
-const search = ref('')
-
-
-onMounted(() => {
-  customersStore.getCustomers()
-})
-
-const customers = computed(() => customersStore.customers)
 
 const headers: DataTableHeader[] = [
   { title: 'Nombre', key: 'name' },
@@ -106,6 +105,21 @@ const toggleStatus = async (item: Customer) => {
 
   if (ok) {
     isDeactivating ? await customersStore.deactivateCustomer(id) : await customersStore.activateCustomer(id)
+    item.is_active = !item.is_active
   }
+}
+
+const itemsPerPage = ref(10)
+const customers = ref<Customer[]>([])
+const loading = ref(true)
+const totalItems = ref(0)
+
+const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
+  loading.value = true
+  const response = await customersStore.getCustomers(page, itemsPerPage)
+
+  customers.value = response.customers
+  totalItems.value = response.total
+  loading.value = false
 }
 </script>

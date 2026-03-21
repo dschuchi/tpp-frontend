@@ -1,36 +1,26 @@
 <template>
-  <v-autocomplete
+  <paginated-select
     v-model="model"
-    :items="customersStore.customers"
+    label="Cliente"
     item-title="name"
-    item-value="id"
-    :label="label"
-    :variant="variant"
-    :rules="rules"
-    :readonly="readonly"
-    :clearable="clearable"
-    no-data-text="No se encontraron clientes"
+    :load-fn="loadCustomers"
+    :fetch-by-id-fn="(id) => customersStore.getCustomer(Number(id))"
   />
 </template>
 
 <script setup lang="ts">
 import { useCustomersStore } from '@/stores/customers.store'
-
-const props = defineProps({
-  label: { type: String, default: 'Cliente' },
-  variant: { type: String as () => 'outlined' | 'filled' | 'underlined' | 'plain' | 'solo', default: 'outlined' },
-  rules: { type: Array as () => ((v: any) => boolean | string)[], default: () => [] },
-  readonly: { type: Boolean, default: false },
-  clearable: { type: Boolean, default: false },
-})
+import PaginatedSelect from './PaginatedSelect.vue'
 
 const model = defineModel<number | null>({ required: true })
 
 const customersStore = useCustomersStore()
 
-onMounted(() => {
-  if (!customersStore.customers.length) {
-    customersStore.getCustomers()
+const loadCustomers = async (page: number, search: string) => {
+  const res = await customersStore.getCustomers(page, 5, { name: search })
+  return {
+    items: res.customers,
+    total: res.total
   }
-})
+}
 </script>
