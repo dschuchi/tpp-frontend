@@ -7,3 +7,8 @@ export interface RawMaterial {
   name: string
   is_active?: boolean
 }
+
+export interface RawMaterialsResponse {
+  rawMaterials: RawMaterial[]
+  total: number
+}
