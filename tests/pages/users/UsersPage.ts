@@ -3,7 +3,6 @@ import { type Locator, type Page, expect } from '@playwright/test';
 export class UsersPage {
   readonly page: Page;
   readonly newUserLink: Locator;
-  readonly searchInput: Locator;
 
   readonly deactivateDialogText: Locator;
   readonly confirmDeactivateButton: Locator;
@@ -13,7 +12,6 @@ export class UsersPage {
   constructor(page: Page) {
     this.page = page;
     this.newUserLink = page.getByRole('link', { name: 'Nuevo Usuario' });
-    this.searchInput = page.getByLabel('Buscar');
 
     this.deactivateDialogText = page.getByText('¿Estás seguro de que querés desactivar este usuario?');
     this.confirmDeactivateButton = page.getByRole('button', { name: 'Desactivar', exact: true });
@@ -29,15 +27,41 @@ export class UsersPage {
     await this.newUserLink.click();
   }
 
+  async findUserRow(text: string) {
+    const row = this.page.getByRole('row', { name: text });
+    const nextButton = this.page.getByLabel('Next page');
+
+    let hasNextPage = true;
+
+    do {
+      await this.page.waitForTimeout(500);
+
+      if (await row.count() > 0 && await row.first().isVisible()) {
+        return row.first();
+      }
+
+      hasNextPage = await nextButton.isVisible() && !(await nextButton.isDisabled());
+
+      if (hasNextPage) {
+        const responsePromise = this.page.waitForResponse(response => 
+          response.url().includes('users') && response.request().method() === 'GET'
+        );
+        await nextButton.click();
+        await responsePromise;
+      }
+    } while (hasNextPage);
+    return row.first();
+  }
+
   async gotoEditUser(email: string) {
-    const userRow = this.page.getByRole('row', { name: email });
+    const userRow = await this.findUserRow(email);
     const editButton = userRow.getByRole('button').filter({ has: this.page.locator('i.mdi-pencil') });
     await editButton.waitFor({ state: 'visible' });
     await editButton.click();
   }
 
   async toggleUserStatus(email: string) {
-    const userRow = this.page.getByRole('row', { name: email });
+    const userRow = await this.findUserRow(email);
     await userRow.getByRole('button').filter({ has: this.page.locator('i.mdi-delete') }).click();
 
     await expect(this.deactivateDialogText).toBeVisible();
@@ -54,7 +78,7 @@ export class UsersPage {
   }
 
   async verifyUserVisible(text: string) {
-    await this.searchInput.fill(text);
-    await expect(this.page.getByText(text)).toBeVisible();
+    const userRow = await this.findUserRow(text);
+    await expect(userRow).toBeVisible();
   }
 }
