@@ -18,7 +18,7 @@ test.describe('Perfil de Usuario', () => {
     await expect(appBar.userName).toBeVisible()
 
     await profilePage.goto();
-    await profilePage.validateUserData('Ezequiel', 'Vilardo', 'ev@gmail.com', 'admin');
+    await profilePage.validateUserData('Ezequiel', 'Vilardo', 'ev@gmail.com', 'Owner');
   });
 
   test.fixme('debería cambiar la contraseña y volver a iniciar sesión', async ({ loginPage, profilePage, updatedPasswordDialog }) => {
