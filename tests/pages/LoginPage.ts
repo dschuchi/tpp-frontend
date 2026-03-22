@@ -9,9 +9,9 @@ export class LoginPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.emailInput = page.getByPlaceholder('your.email@pharmatech.com');
-        this.passwordInput = page.getByPlaceholder('Enter your password');
-        this.loginButton = page.getByRole('button', { name: 'Sign in' });
+        this.emailInput = page.getByPlaceholder('ejemplo@correo.com');
+        this.passwordInput = page.getByPlaceholder('Ingresá tu contraseña');
+        this.loginButton = page.getByRole('button', { name: 'Acceder' });
         this.notification = page.locator('.v-snackbar__content');
     }
 
