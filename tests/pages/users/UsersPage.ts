@@ -1,9 +1,10 @@
 import { type Locator, type Page, expect } from '@playwright/test';
+import { PaginatedTable } from '../components/PaginatedTable';
 
 export class UsersPage {
   readonly page: Page;
+  readonly table: PaginatedTable;
   readonly newUserLink: Locator;
-  readonly searchInput: Locator;
 
   readonly deactivateDialogText: Locator;
   readonly confirmDeactivateButton: Locator;
@@ -12,8 +13,8 @@ export class UsersPage {
 
   constructor(page: Page) {
     this.page = page;
+    this.table = new PaginatedTable(page, 'users');
     this.newUserLink = page.getByRole('link', { name: 'Nuevo Usuario' });
-    this.searchInput = page.getByLabel('Buscar');
 
     this.deactivateDialogText = page.getByText('¿Estás seguro de que querés desactivar este usuario?');
     this.confirmDeactivateButton = page.getByRole('button', { name: 'Desactivar', exact: true });
@@ -30,14 +31,14 @@ export class UsersPage {
   }
 
   async gotoEditUser(email: string) {
-    const userRow = this.page.getByRole('row', { name: email });
+    const userRow = await this.table.findRow(email);
     const editButton = userRow.getByRole('button').filter({ has: this.page.locator('i.mdi-pencil') });
     await editButton.waitFor({ state: 'visible' });
     await editButton.click();
   }
 
   async toggleUserStatus(email: string) {
-    const userRow = this.page.getByRole('row', { name: email });
+    const userRow = await this.table.findRow(email);
     await userRow.getByRole('button').filter({ has: this.page.locator('i.mdi-delete') }).click();
 
     await expect(this.deactivateDialogText).toBeVisible();
@@ -54,7 +55,7 @@ export class UsersPage {
   }
 
   async verifyUserVisible(text: string) {
-    await this.searchInput.fill(text);
-    await expect(this.page.getByText(text)).toBeVisible();
+    const userRow = await this.table.findRow(text);
+    await expect(userRow).toBeVisible();
   }
 }
