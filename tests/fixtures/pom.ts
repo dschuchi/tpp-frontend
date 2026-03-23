@@ -22,6 +22,13 @@ import { RawMaterialsPage } from '../pages/raw-materials/RawMaterialsPage';
 import { NewRawMaterialPage } from '../pages/raw-materials/NewRawMaterialPage';
 import { EditRawMaterialPage } from '../pages/raw-materials/EditRawMaterialPage';
 
+import { PackagingMaterialsPage } from '../pages/packaging-materials/PackagingMaterialsPage';
+import { NewPackagingMaterialPage } from '../pages/packaging-materials/NewPackagingMaterialPage';
+import { EditPackagingMaterialPage } from '../pages/packaging-materials/EditPackagingMaterialPage';
+
+import { ProductsPage } from '../pages/products/ProductsPage';
+import { NewProductPage } from '../pages/products/NewProductPage';
+import { EditProductPage } from '../pages/products/EditProductPage';
 import { ProfilePage } from '../pages/profile/ProfilePage';
 import { UpdatedPasswordDialog } from '../pages/profile/UpdatedPasswordDialog';
 
@@ -49,6 +56,13 @@ type POMFixtures = {
   newRawMaterialPage: NewRawMaterialPage
   editRawMaterialPage: EditRawMaterialPage
 
+  packagingMaterialsPage: PackagingMaterialsPage
+  newPackagingMaterialPage: NewPackagingMaterialPage
+  editPackagingMaterialPage: EditPackagingMaterialPage
+
+  productsPage: ProductsPage
+  newProductPage: NewProductPage
+  editProductPage: EditProductPage
   profilePage: ProfilePage
   updatedPasswordDialog: UpdatedPasswordDialog
 };
@@ -109,6 +123,26 @@ export const test = base.extend<POMFixtures>({
   },
   editRawMaterialPage: async ({ page }, use) => {
     await use(new EditRawMaterialPage(page));
+  },
+
+  packagingMaterialsPage: async ({ page }, use) => {
+    await use(new PackagingMaterialsPage(page));
+  },
+  newPackagingMaterialPage: async ({ page }, use) => {
+    await use(new NewPackagingMaterialPage(page));
+  },
+  editPackagingMaterialPage: async ({ page }, use) => {
+    await use(new EditPackagingMaterialPage(page));
+  },
+
+  productsPage: async ({ page }, use) => {
+    await use(new ProductsPage(page));
+  },
+  newProductPage: async ({ page }, use) => {
+    await use(new NewProductPage(page));
+  },
+  editProductPage: async ({ page }, use) => {
+    await use(new EditProductPage(page));
   },
 
   profilePage: async ({ page }, use) => {
