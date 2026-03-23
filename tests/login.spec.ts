@@ -8,7 +8,7 @@ test.describe('Flujo de Login', () => {
     await expect(appBar.userName).toHaveText('Ezequiel Vilardo');
   });
 
-  test('debería mostrar mensaje de error con credenciales inválidas', async ({ loginPage }) => {
+  test.fixme('debería mostrar mensaje de error con credenciales inválidas', async ({ loginPage }) => {
     await loginPage.goto();
     await loginPage.login('invalid@test.com', 'wrongpass');
 

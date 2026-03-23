@@ -61,7 +61,7 @@ test.describe('ABM Roles', () => {
 
     await rolesPage.restoreRole(roleToDelete.name);
 
-    const roleRow = await rolesPage.findRoleRow(roleToDelete.name);
+    const roleRow = await rolesPage.table.findRow(roleToDelete.name);
     await expect(roleRow.getByRole('button').filter({ has: page.locator('i.mdi-delete') })).toBeVisible();
   });
 
