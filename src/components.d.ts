@@ -11,6 +11,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BatchAnalysisForm: typeof import('./components/BatchAnalysisForm.vue')['default']
+    BatchForm: typeof import('./components/BatchForm.vue')['default']
     ChangePassword: typeof import('./components/ChangePassword.vue')['default']
     ConfirmDialog: typeof import('./components/ConfirmDialog.vue')['default']
     ConfirmDialogHost: typeof import('./components/ConfirmDialogHost.vue')['default']

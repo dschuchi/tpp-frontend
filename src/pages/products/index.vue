@@ -30,6 +30,24 @@
         </template>
         <template #item.actions="{ item }">
           <div class="d-flex ga-2 justify-end align-center">
+            <v-tooltip text="Fórmula (Materias Primas)" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-if="can('products:view')" v-bind="props" icon variant="text" size="small" color="secondary"
+                  @click="goToRecipe(item.id)">
+                  <v-icon icon="mdi-flask-outline" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
+            <v-tooltip text="Material de Empaque" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-if="can('products:view')" v-bind="props" icon variant="text" size="small" color="secondary"
+                  @click="goToPackages(item.id)">
+                  <v-icon icon="mdi-package-variant-closed" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
             <v-tooltip :text="item.is_active ? 'Desactivar' : 'Restaurar'" location="top">
               <template v-slot:activator="{ props }">
                 <v-btn v-if="can('products:edit')" v-bind="props" icon variant="text" size="small"
@@ -84,6 +102,8 @@ const headers: DataTableHeader[] = [
 
 const router = useRouter()
 const editProduct = (id: any) => router.push({ name: '/products/[id]/edit', params: { id } })
+const goToRecipe = (id: any) => router.push({ name: '/products/[id]/recipe/', params: { id } })
+const goToPackages = (id: any) => router.push({ name: '/products/[id]/packages/', params: { id } })
 
 const { confirm } = useConfirm()
 
