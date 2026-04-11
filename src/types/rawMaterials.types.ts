@@ -6,6 +6,7 @@ export interface RawMaterial {
   id?: number
   name: string
   is_active?: boolean
+  density?: number
 }
 
 export interface RawMaterialsResponse {
