@@ -1,14 +1,21 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <page-header title="Detalle del Rol" subtitle="Visualización de permisos y datos." :back-route="{name:'/roles/'}"
-        back-text="Roles" />
+      <page-header
+        title="Detalle del Rol"
+        subtitle="Visualización de permisos y datos."
+        :back-route="{ name: '/roles/' }"
+        back-text="Roles"
+      />
     </v-col>
   </v-row>
 
   <v-row>
     <v-col cols="12">
-      <role-form v-model="form" readonly />
+      <role-form
+        v-model="form"
+        readonly
+      />
     </v-col>
   </v-row>
 </template>
@@ -35,8 +42,12 @@ const form = ref<CreateRoleRequest>({
 const rolesStore = useRolesStore()
 
 onMounted(async () => {
-  await rolesStore.getRole(Number(props.id))
-  form.value.name = rolesStore.role ? rolesStore.role.name : ''
-  form.value.description = rolesStore.role ? rolesStore.role.description : ''
+  try {
+    const role = await rolesStore.getRole(Number(props.id))
+    form.value.name = role ? role.name : ''
+    form.value.description = role ? role.description : ''
+  } catch (error) {
+    console.error('Error fetching product:', error)
+  }
 })
 </script>

@@ -1,9 +1,12 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <page-header title="Editar Rol"
+      <page-header
+        title="Editar Rol"
         subtitle="Actualice los detalles del nuevo rol, establece su nivel de acceso y asigna los permisos correspondientes por módulo."
-        :back-route="{name:'/roles/'}" back-text="Roles">
+        :back-route="{ name: '/roles/' }"
+        back-text="Roles"
+      >
         <template #actions>
           <v-btn @click="handleCancel">
             Cancelar
@@ -18,7 +21,10 @@
 
   <v-row>
     <v-col cols="12">
-      <role-form ref="roleFormRef" v-model="form" />
+      <role-form
+        ref="roleFormRef"
+        v-model="form"
+      />
     </v-col>
   </v-row>
 </template>
@@ -49,9 +55,13 @@ const form = ref<UpdateRoleRequest>({
 const rolesStore = useRolesStore()
 
 onMounted(async () => {
-  await rolesStore.getRole(Number(props.id))
-  form.value.name = rolesStore.role ? rolesStore.role.name : ''
-  form.value.description = rolesStore.role ? rolesStore.role.description : ''
+  try {
+    const role = await rolesStore.getRole(Number(props.id))
+    form.value.name = role ? role.name : ''
+    form.value.description = role ? role.description : ''
+  } catch (error) {
+    console.error('Error fetching product:', error)
+  }
 })
 
 const handleSave = async () => {
