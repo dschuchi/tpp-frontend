@@ -21,8 +21,10 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
 import UserForm from '@/components/UserForm.vue'
+import { useSnackbarStore } from '@/stores/snackbar.store'
 import { useUsersStore } from '@/stores/users.store'
 import type { UpdateUserRequest } from '@/types/users.types'
+import { AxiosError } from 'axios'
 import { useRouter } from 'vue-router'
 
 definePage({
@@ -63,6 +65,8 @@ onMounted(async () => {
   }
 })
 
+const snackbarStore = useSnackbarStore()
+
 const handleSave = async () => {
   const { valid } = await userFormRef.value.validate()
   if (!valid) return
@@ -72,7 +76,16 @@ const handleSave = async () => {
     await usersStore.updateUser(props.id, form.value)
     router.push({name:'/users/'})
   } catch (error) {
-    console.error('Error updating user:', error)
+    if (error instanceof AxiosError) {
+      const {message} = error.response?.data
+      snackbarStore.showMessage({
+        message
+      })
+    } else {
+      snackbarStore.showMessage({
+        message: "Error inesperado"
+      })
+    }
   } finally {
     loading.value = false
   }
