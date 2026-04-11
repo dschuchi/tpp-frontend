@@ -57,6 +57,8 @@ import PageHeader from '@/components/PageHeader.vue'
 import UserForm from '@/components/UserForm.vue'
 import { useUsersStore } from '@/stores/users.store'
 import type { CreateUserRequest } from '@/types/users.types'
+import { useSnackbarStore } from '@/stores/snackbar.store'
+import { AxiosError } from 'axios'
 
 definePage({
   meta: {
@@ -79,6 +81,8 @@ const form = ref<CreateUserRequest>({
   email: ''
 })
 
+const snackbarStore = useSnackbarStore()
+
 const handleSave = async () => {
   const { valid } = await userFormRef.value.validate()
   if (!valid) return
@@ -90,7 +94,16 @@ const handleSave = async () => {
     generatedPassword.value = response.password
     showPasswordDialog.value = true
   } catch (error) {
-    console.error(error)
+    if (error instanceof AxiosError) {
+      const {message} = error.response?.data
+      snackbarStore.showMessage({
+        message
+      })
+    } else {
+      snackbarStore.showMessage({
+        message: "Error inesperado"
+      })
+    }
   } finally {
     loading.value = false
   }

@@ -40,6 +40,16 @@
     <v-container class="px-16 py-8">
       <router-view />
       <confirm-dialog-host />
+      <v-snackbar
+        v-model="snackbarStore.show"
+        :color="snackbarStore.color"
+        :timeout="snackbarStore.timeout"
+      >
+        {{ snackbarStore.message }}
+        <template v-slot:actions>
+          <v-btn icon="mdi-close" @click="snackbarStore.show = false"></v-btn>
+        </template>
+      </v-snackbar>
     </v-container>
   </v-main>
 </template>
@@ -47,6 +57,7 @@
 <script lang="ts" setup>
 import ConfirmDialogHost from '@/components/ConfirmDialogHost.vue';
 import { useAuthStore } from '@/stores/auth.store';
+import { useSnackbarStore } from '@/stores/snackbar.store';
 import { useUserStore } from '@/stores/user.store';
 import { useDisplay, useTheme } from 'vuetify'
 
@@ -150,6 +161,8 @@ const logout = () => {
   authStore.logout()
   userStore.clearUser()
 }
+
+const snackbarStore = useSnackbarStore()
 
 </script>
 
