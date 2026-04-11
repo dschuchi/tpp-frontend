@@ -3,10 +3,7 @@ import http from "@/api/http"
 import type { CreateRoleRequest, Role, RolesResponse, RolesState, UpdateRoleRequest } from "@/types/roles.types"
 
 export const useRolesStore = defineStore('roles', {
-  state: (): RolesState => ({
-    roles: [],
-    permissions: []
-  }),
+  state: () => ({}),
 
   getters: {
 
@@ -21,7 +18,6 @@ export const useRolesStore = defineStore('roles', {
           ...filters
         }
       })
-      this.roles = response.roles
       return response
     },
     async deactivateRole(id: number) {
@@ -33,18 +29,14 @@ export const useRolesStore = defineStore('roles', {
     async createRole(role: CreateRoleRequest) {
       await http.post(ROLES_ENDPOINTS.ROLE, role)
     },
-    async removePermission(id: number, permissionId: number) {
-      await http.delete(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { data: { permissionIds: [permissionId] } })
-      await this.getRole(id)
+    async removePermission(id: number, permissionIds: number[]) {
+      await http.delete(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { data: { permissionIds } })
     },
-    async addPermission(id: number, permissionId: number) {
-      await http.patch(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { permissionIds: [permissionId] })
-      await this.getRole(id)
+    async addPermission(id: number, permissionIds: number[]) {
+      await http.patch(ROLES_ENDPOINTS.ROLE_PERMISSIONS_BY_ID(id), { permissionIds })
     },
     async getRole(id: number) {
       const response: Role = await http.get(ROLES_ENDPOINTS.ROLE_BY_ID(id))
-      this.role = response
-      this.permissions = response.permissions
       return response
     },
     async updateRole(id: number, role: UpdateRoleRequest) {
