@@ -21,6 +21,13 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/403': RouteRecordInfo<'/403', '/403', Record<never, never>, Record<never, never>>,
+    '/batchs/': RouteRecordInfo<'/batchs/', '/batchs', Record<never, never>, Record<never, never>>,
+    '/batchs/[id]/analysis/': RouteRecordInfo<'/batchs/[id]/analysis/', '/batchs/:id/analysis', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/batchs/[id]/edit': RouteRecordInfo<'/batchs/[id]/edit', '/batchs/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/batchs/new': RouteRecordInfo<'/batchs/new', '/batchs/new', Record<never, never>, Record<never, never>>,
+    '/customer-orders/': RouteRecordInfo<'/customer-orders/', '/customer-orders', Record<never, never>, Record<never, never>>,
+    '/customer-orders/[id]/': RouteRecordInfo<'/customer-orders/[id]/', '/customer-orders/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/customer-orders/new': RouteRecordInfo<'/customer-orders/new', '/customer-orders/new', Record<never, never>, Record<never, never>>,
     '/customers/': RouteRecordInfo<'/customers/', '/customers', Record<never, never>, Record<never, never>>,
     '/customers/[id]/edit': RouteRecordInfo<'/customers/[id]/edit', '/customers/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/customers/new': RouteRecordInfo<'/customers/new', '/customers/new', Record<never, never>, Record<never, never>>,
@@ -28,8 +35,13 @@ declare module 'vue-router/auto-routes' {
     '/packaging-materials/': RouteRecordInfo<'/packaging-materials/', '/packaging-materials', Record<never, never>, Record<never, never>>,
     '/packaging-materials/[id]/edit': RouteRecordInfo<'/packaging-materials/[id]/edit', '/packaging-materials/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/packaging-materials/new': RouteRecordInfo<'/packaging-materials/new', '/packaging-materials/new', Record<never, never>, Record<never, never>>,
+    '/product-orders/': RouteRecordInfo<'/product-orders/', '/product-orders', Record<never, never>, Record<never, never>>,
+    '/product-orders/[id]/': RouteRecordInfo<'/product-orders/[id]/', '/product-orders/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/product-orders/new': RouteRecordInfo<'/product-orders/new', '/product-orders/new', Record<never, never>, Record<never, never>>,
     '/products/': RouteRecordInfo<'/products/', '/products', Record<never, never>, Record<never, never>>,
     '/products/[id]/edit': RouteRecordInfo<'/products/[id]/edit', '/products/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/products/[id]/packages/': RouteRecordInfo<'/products/[id]/packages/', '/products/:id/packages', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/products/[id]/recipe/': RouteRecordInfo<'/products/[id]/recipe/', '/products/:id/recipe', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/products/new': RouteRecordInfo<'/products/new', '/products/new', Record<never, never>, Record<never, never>>,
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
     '/raw-materials/': RouteRecordInfo<'/raw-materials/', '/raw-materials', Record<never, never>, Record<never, never>>,
@@ -72,6 +84,34 @@ declare module 'vue-router/auto-routes' {
       routes: '/403'
       views: never
     }
+    'src/pages/batchs/index.vue': {
+      routes: '/batchs/'
+      views: never
+    }
+    'src/pages/batchs/[id]/analysis/index.vue': {
+      routes: '/batchs/[id]/analysis/'
+      views: never
+    }
+    'src/pages/batchs/[id]/edit.vue': {
+      routes: '/batchs/[id]/edit'
+      views: never
+    }
+    'src/pages/batchs/new.vue': {
+      routes: '/batchs/new'
+      views: never
+    }
+    'src/pages/customer-orders/index.vue': {
+      routes: '/customer-orders/'
+      views: never
+    }
+    'src/pages/customer-orders/[id]/index.vue': {
+      routes: '/customer-orders/[id]/'
+      views: never
+    }
+    'src/pages/customer-orders/new.vue': {
+      routes: '/customer-orders/new'
+      views: never
+    }
     'src/pages/customers/index.vue': {
       routes: '/customers/'
       views: never
@@ -100,12 +140,32 @@ declare module 'vue-router/auto-routes' {
       routes: '/packaging-materials/new'
       views: never
     }
+    'src/pages/product-orders/index.vue': {
+      routes: '/product-orders/'
+      views: never
+    }
+    'src/pages/product-orders/[id]/index.vue': {
+      routes: '/product-orders/[id]/'
+      views: never
+    }
+    'src/pages/product-orders/new.vue': {
+      routes: '/product-orders/new'
+      views: never
+    }
     'src/pages/products/index.vue': {
       routes: '/products/'
       views: never
     }
     'src/pages/products/[id]/edit.vue': {
       routes: '/products/[id]/edit'
+      views: never
+    }
+    'src/pages/products/[id]/packages/index.vue': {
+      routes: '/products/[id]/packages/'
+      views: never
+    }
+    'src/pages/products/[id]/recipe/index.vue': {
+      routes: '/products/[id]/recipe/'
       views: never
     }
     'src/pages/products/new.vue': {

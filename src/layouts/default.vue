@@ -121,6 +121,33 @@ const allMenuItems = [
       to: '/products',
     },
     permission: 'products:view'
+  },
+  {
+    title: 'Lotes',
+    value: 'batchs',
+    props: {
+      prependIcon: 'mdi-flask-outline',
+      to: '/batchs',
+    },
+    permission: 'batchs:view'
+  },
+  {
+    title: 'Órdenes de Pedido',
+    value: 'customer-orders',
+    props: {
+      prependIcon: 'mdi-clipboard-list-outline',
+      to: '/customer-orders',
+    },
+    permission: 'customer-orders:view'
+  },
+  {
+    title: 'Órdenes de Producción',
+    value: 'product-orders',
+    props: {
+      prependIcon: 'mdi-factory',
+      to: '/product-orders',
+    },
+    permission: 'product-orders:view'
   }
 ]
 
