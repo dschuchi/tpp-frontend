@@ -153,7 +153,7 @@ const toggleStatus = async (item: any) => {
 
 const formatDate = (value: string | Date) => {
   if (!value) return '—'
-  return new Date(value).toLocaleDateString('es-AR')
+  return new Date(value).toLocaleDateString('es-AR', { timeZone: 'UTC' })
 }
 
 const isExpired = (value: string | Date) => new Date(value) < new Date()
