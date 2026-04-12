@@ -147,7 +147,7 @@ const handleSave = async () => {
       ...form.value,
       estimated_date: form.value.estimated_date ? new Date(form.value.estimated_date).toISOString() : null
     })
-    await router.push({ name: '/customer-orders/[id]/', params: { id: created.id } })
+    await router.push({ name: '/customer-orders/[id]/', params: { id: created.id! } })
   } catch (error) {
     console.error(error)
   } finally {

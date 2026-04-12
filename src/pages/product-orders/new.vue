@@ -119,7 +119,7 @@ const handleSave = async () => {
       ...form.value,
       customer_order_id: form.value.customer_order_id || null
     })
-    await router.push({ name: '/product-orders/[id]/', params: { id: created.id } })
+    await router.push({ name: '/product-orders/[id]/', params: { id: created.id! } })
   } catch (error) {
     console.error(error)
   } finally {

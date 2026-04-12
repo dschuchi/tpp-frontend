@@ -37,10 +37,10 @@ export const useCustomerOrdersStore = defineStore('customer-orders', {
     },
 
     async getStatuses(): Promise<CustomerOrderStatus[]> {
-      const res = await http.get(CUSTOMER_ORDERS_ENDPOINTS.CUSTOMER_ORDER_STATUSES, {
+      const res: any = await http.get(CUSTOMER_ORDERS_ENDPOINTS.CUSTOMER_ORDER_STATUSES, {
         params: { limit: 100 }
       })
-      return res.customerOrderStatuses ?? res.statuses ?? []
+      return res.customerOrderStatuses ?? []
     },
 
     // Items

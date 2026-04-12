@@ -136,7 +136,7 @@ const openEditDialog = (item: BatchAnalysis) => {
   editingId.value = item.id ?? null
   form.value = {
     batch_id: item.batch_id,
-    analyzed_at: item.analyzed_at ? new Date(item.analyzed_at).toISOString().split('T')[0] : '',
+    analyzed_at: item.analyzed_at ? (new Date(item.analyzed_at).toISOString().split('T')[0] ?? '') : '',
     quantity_analyzed: item.quantity_analyzed,
     quantity_available: item.quantity_available,
     quantity_used: item.quantity_used,

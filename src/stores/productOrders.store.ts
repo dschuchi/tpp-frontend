@@ -37,10 +37,10 @@ export const useProductOrdersStore = defineStore('product-orders', {
     },
 
     async getStatuses(): Promise<ProductOrderStatus[]> {
-      const res = await http.get(PRODUCT_ORDERS_ENDPOINTS.PRODUCT_ORDER_STATUSES, {
+      const res: any = await http.get(PRODUCT_ORDERS_ENDPOINTS.PRODUCT_ORDER_STATUSES, {
         params: { limit: 100 }
       })
-      return res.productOrderStatuses ?? res.statuses ?? []
+      return res.productOrderStatuses ?? []
     },
 
     // Items (batch allocations)
