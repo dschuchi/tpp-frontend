@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/pom';
+import { PACKAGING_MATERIALS_ENDPOINTS } from '../src/api/endpoints';
 
 test.describe('ABM Materiales de Empaque', () => {
 
@@ -22,42 +23,32 @@ test.describe('ABM Materiales de Empaque', () => {
     await packagingMaterialsPage.verifyPackagingMaterialVisible(packagingMaterialToCreate.code);
   });
 
-  test('debería editar un material de empaque existente', async ({ page, packagingMaterialsPage, newPackagingMaterialPage, editPackagingMaterialPage }) => {
+  test('debería editar un material de empaque existente', async ({ apiOwner, packagingMaterialsPage, editPackagingMaterialPage }) => {
     const packagingMaterialToEdit = {
       code: `PME-${Date.now()}`,
       description: `To Edit ${Date.now()}`
     };
 
-    await packagingMaterialsPage.goto();
-    await packagingMaterialsPage.gotoNewPackagingMaterial();
-    await newPackagingMaterialPage.createPackagingMaterial(packagingMaterialToEdit);
-    await expect(page).toHaveURL('/packaging-materials');
-    await packagingMaterialsPage.verifyPackagingMaterialVisible(packagingMaterialToEdit.code);
+    await apiOwner.post(PACKAGING_MATERIALS_ENDPOINTS.PACKAGING_MATERIAL, { data: packagingMaterialToEdit });
 
     const newDescription = packagingMaterialToEdit.description + ' Edited';
 
+    await packagingMaterialsPage.goto();
     await packagingMaterialsPage.gotoEditPackagingMaterial(packagingMaterialToEdit.code);
     await editPackagingMaterialPage.updatePackagingMaterial({ description: newDescription });
-
-    await expect(page).toHaveURL('/packaging-materials');
     await packagingMaterialsPage.verifyPackagingMaterialVisible(packagingMaterialToEdit.code);
   });
 
-  test('debería cambiar el estado de un material de empaque', async ({ page, packagingMaterialsPage, newPackagingMaterialPage }) => {
+  test('debería cambiar el estado de un material de empaque', async ({ apiOwner, packagingMaterialsPage }) => {
     const packagingMaterialToToggle = {
       code: `PMT-${Date.now()}`,
       description: `To Toggle ${Date.now()}`
     };
 
+    await apiOwner.post(PACKAGING_MATERIALS_ENDPOINTS.PACKAGING_MATERIAL, { data: packagingMaterialToToggle });
+
     await packagingMaterialsPage.goto();
-    await packagingMaterialsPage.gotoNewPackagingMaterial();
-    await newPackagingMaterialPage.createPackagingMaterial(packagingMaterialToToggle);
-    await expect(page).toHaveURL('/packaging-materials');
-    await packagingMaterialsPage.verifyPackagingMaterialVisible(packagingMaterialToToggle.code);
-
     await packagingMaterialsPage.deletePackagingMaterial(packagingMaterialToToggle.code);
-
     await packagingMaterialsPage.restorePackagingMaterial(packagingMaterialToToggle.code);
   });
-
 });
