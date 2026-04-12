@@ -51,4 +51,21 @@ test.describe('ABM Materiales de Empaque', () => {
     await packagingMaterialsPage.deletePackagingMaterial(packagingMaterialToToggle.code);
     await packagingMaterialsPage.restorePackagingMaterial(packagingMaterialToToggle.code);
   });
+
+  test('debería ser el cliente y proveedor excluyentes en el formulario de material de empaque', async ({ packagingMaterialsPage, newPackagingMaterialPage }) => {
+    await packagingMaterialsPage.goto();
+    await packagingMaterialsPage.gotoNewPackagingMaterial();
+
+    await newPackagingMaterialPage.packagingMaterialForm.selectCustomer();
+    await expect(newPackagingMaterialPage.packagingMaterialForm.supplierInput).toBeDisabled();
+
+    await newPackagingMaterialPage.packagingMaterialForm.clearCustomer();
+    await expect(newPackagingMaterialPage.packagingMaterialForm.supplierInput).toBeEnabled();
+
+    await newPackagingMaterialPage.packagingMaterialForm.selectSupplier();
+    await expect(newPackagingMaterialPage.packagingMaterialForm.customerInput).toBeDisabled();
+
+    await newPackagingMaterialPage.packagingMaterialForm.clearSupplier();
+    await expect(newPackagingMaterialPage.packagingMaterialForm.customerInput).toBeEnabled();
+  });
 });
