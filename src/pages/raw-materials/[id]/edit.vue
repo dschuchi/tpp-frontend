@@ -1,11 +1,22 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <page-header title="Editar Materia Prima" subtitle="Modifique los datos de la materia prima."
-        :back-route="{name:'/raw-materials/'}" back-text="Materias Primas">
+      <page-header
+        title="Editar Materia Prima"
+        subtitle="Modifique los datos de la materia prima."
+        :back-route="{ name: '/raw-materials/' }"
+        back-text="Materias Primas"
+      >
         <template #actions>
-          <v-btn @click="handleCancel" :disabled="loading"> Cancelar </v-btn>
-          <v-btn color="primary" @click="handleSave" :loading="loading"> Guardar </v-btn>
+          <v-btn
+            @click="handleCancel"
+            :disabled="loading"
+          > Cancelar </v-btn>
+          <v-btn
+            color="primary"
+            @click="handleSave"
+            :loading="loading"
+          > Guardar </v-btn>
         </template>
       </page-header>
     </v-col>
@@ -13,7 +24,11 @@
 
   <v-row>
     <v-col cols="12">
-      <raw-material-form ref="rawMaterialFormRef" v-model="form" :readonly="loading" />
+      <raw-material-form
+        ref="rawMaterialFormRef"
+        v-model="form"
+        :readonly="loading"
+      />
     </v-col>
   </v-row>
 </template>
@@ -48,6 +63,7 @@ onMounted(async () => {
     const rawMaterial = await rawMaterialsStore.getRawMaterial(Number(props.id))
     if (rawMaterial) {
       form.value.name = rawMaterial.name
+      form.value.density = rawMaterial.density
     }
   } catch (error) {
     console.error('Error fetching raw material:', error)
@@ -63,7 +79,7 @@ const handleSave = async () => {
   loading.value = true
   try {
     await rawMaterialsStore.update(Number(props.id), form.value)
-    router.push({name:'/raw-materials/'})
+    router.push({ name: '/raw-materials/' })
   } catch (error) {
     console.error('Error updating raw material:', error)
   } finally {
