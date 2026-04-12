@@ -1,8 +1,12 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <page-header title="Permisos del Rol" subtitle="Configuración de permisos" :back-route="{name:'/roles/'}"
-        back-text="Roles" />
+      <page-header
+        :title="`Permisos del Rol: ${roleName}`"
+        subtitle="Configuración de permisos"
+        :back-route="{name:'/roles/'}"
+        back-text="Roles"
+      />
     </v-col>
   </v-row>
 
@@ -46,6 +50,14 @@ const props = defineProps<{ id: string }>()
 
 const rolesStore = useRolesStore()
 const permissionsStore = usePermissionsStore()
+const roleName = ref('')
+
+onMounted(async () => {
+  if (props.id) {
+    const role = await rolesStore.getRole(Number(props.id))
+    roleName.value = role.name
+  }
+})
 
 const activeSearch = ref('')
 const searchInput = ref('')
