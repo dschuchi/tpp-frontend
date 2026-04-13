@@ -18,4 +18,8 @@ export class EditUserPage {
     await this.saveButton.click();
     await expect(this.page).toHaveURL('/users');
   }
+
+  async save() {
+    await this.saveButton.click();
+  }
 }
