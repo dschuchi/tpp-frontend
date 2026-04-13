@@ -1,10 +1,29 @@
 <template>
   <v-card :title="title">
     <v-card-text>
-      <v-form ref="formRef" :readonly="readonly" @submit.prevent>
+      <v-form
+        ref="formRef"
+        :readonly="readonly"
+        @submit.prevent
+      >
         <v-row>
           <v-col cols="12">
-            <v-text-field v-model="model.name" label="Nombre" variant="outlined" :rules="readonly ? [] : [required]" />
+            <v-text-field
+              v-model="model.name"
+              label="Nombre"
+              variant="outlined"
+              :rules="readonly ? [] : [required]"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-number-input
+              v-model="model.density"
+              label="Densidad"
+              variant="outlined"
+              :precision="null"
+              control-variant="hidden"
+              :rules="readonly ? [] : [required]"
+            />
           </v-col>
         </v-row>
       </v-form>

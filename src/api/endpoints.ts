@@ -53,3 +53,50 @@ export const PRODUCTS_ENDPOINTS = {
   PRODUCT_BY_ID: (id: number) => `/product/${id}`,
   ACTIVATE_PRODUCT_BY_ID: (id: number) => `/product/${id}/activate`
 } as const
+
+export const BATCHS_ENDPOINTS = {
+  BATCHS: '/batchs',
+  BATCH: '/batch',
+  BATCH_BY_ID: (id: number) => `/batch/${id}`,
+} as const
+
+export const BATCH_ANALYSIS_ENDPOINTS = {
+  BATCH_ANALYSES: '/batchs-analysis',
+  BATCH_ANALYSIS: '/batch-analysis',
+  BATCH_ANALYSIS_BY_ID: (id: number) => `/batch-analysis/${id}`,
+  BATCH_ANALYSIS_BY_BATCH_ID: (batchId: number) => `/batch-analysis/${batchId}`,
+} as const
+
+export const PRODUCT_RECIPES_ENDPOINTS = {
+  PRODUCT_RECIPES: '/product-recipes',
+  PRODUCT_RECIPE_BY_PRODUCT_ID: (productId: number) => `/product-recipes/${productId}`,
+  PRODUCT_RECIPE: '/product-recipe',
+  PRODUCT_RECIPE_BY_ID: (id: number) => `/product-recipe/${id}`,
+  ACTIVATE_PRODUCT_RECIPE_BY_ID: (id: number) => `/product-recipe/${id}/activate`,
+} as const
+
+export const PRODUCT_PACKAGE_MATERIALS_ENDPOINTS = {
+  PRODUCT_PACKAGE_MATERIALS_BY_PRODUCT_ID: (productId: number) => `/product-package-materials/${productId}`,
+  PRODUCT_PACKAGE_MATERIAL: '/product-package-material',
+  PRODUCT_PACKAGE_MATERIAL_BY_ID: (id: number) => `/product-package-material/${id}`,
+} as const
+
+export const CUSTOMER_ORDERS_ENDPOINTS = {
+  CUSTOMER_ORDERS: '/customer-orders',
+  CUSTOMER_ORDER: '/customer-order',
+  CUSTOMER_ORDER_BY_ID: (id: number) => `/customer-order/${id}`,
+  ACTIVATE_CUSTOMER_ORDER_BY_ID: (id: number) => `/customer-order/${id}/activate`,
+  CUSTOMER_ORDER_STATUSES: '/customer-order-statuses',
+  CUSTOMER_ORDER_ITEM: (orderId: number) => `/customer-order/${orderId}/item`,
+  CUSTOMER_ORDER_ITEM_BY_ID: (orderId: number, itemId: number) => `/customer-order/${orderId}/item/${itemId}`,
+} as const
+
+export const PRODUCT_ORDERS_ENDPOINTS = {
+  PRODUCT_ORDERS: '/product-orders',
+  PRODUCT_ORDER: '/product-order',
+  PRODUCT_ORDER_BY_ID: (id: number) => `/product-order/${id}`,
+  ACTIVATE_PRODUCT_ORDER_BY_ID: (id: number) => `/product-order/${id}/activate`,
+  PRODUCT_ORDER_STATUSES: '/product-order-statuses',
+  PRODUCT_ORDER_ITEM: (orderId: number) => `/product-order/${orderId}/item`,
+  PRODUCT_ORDER_ITEM_BY_ID: (orderId: number, itemId: number) => `/product-order/${orderId}/item/${itemId}`,
+} as const

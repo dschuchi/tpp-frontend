@@ -40,6 +40,16 @@
     <v-container class="px-16 py-8">
       <router-view />
       <confirm-dialog-host />
+      <v-snackbar
+        v-model="snackbarStore.show"
+        :color="snackbarStore.color"
+        :timeout="snackbarStore.timeout"
+      >
+        {{ snackbarStore.message }}
+        <template v-slot:actions>
+          <v-btn icon="mdi-close" @click="snackbarStore.show = false"></v-btn>
+        </template>
+      </v-snackbar>
     </v-container>
   </v-main>
 </template>
@@ -47,6 +57,7 @@
 <script lang="ts" setup>
 import ConfirmDialogHost from '@/components/ConfirmDialogHost.vue';
 import { useAuthStore } from '@/stores/auth.store';
+import { useSnackbarStore } from '@/stores/snackbar.store';
 import { useUserStore } from '@/stores/user.store';
 import { useDisplay, useTheme } from 'vuetify'
 
@@ -121,6 +132,33 @@ const allMenuItems = [
       to: '/products',
     },
     permission: 'products:view'
+  },
+  {
+    title: 'Lotes',
+    value: 'batchs',
+    props: {
+      prependIcon: 'mdi-flask-outline',
+      to: '/batchs',
+    },
+    permission: 'batchs:view'
+  },
+  {
+    title: 'Órdenes de Pedido',
+    value: 'customer-orders',
+    props: {
+      prependIcon: 'mdi-clipboard-list-outline',
+      to: '/customer-orders',
+    },
+    permission: 'customer-orders:view'
+  },
+  {
+    title: 'Órdenes de Producción',
+    value: 'product-orders',
+    props: {
+      prependIcon: 'mdi-factory',
+      to: '/product-orders',
+    },
+    permission: 'product-orders:view'
   }
 ]
 
@@ -150,6 +188,8 @@ const logout = () => {
   authStore.logout()
   userStore.clearUser()
 }
+
+const snackbarStore = useSnackbarStore()
 
 </script>
 
