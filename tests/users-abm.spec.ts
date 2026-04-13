@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/pom';
+import { USERS_ENDPOINTS } from '../src/api/endpoints';
 
 test.describe('ABM Usuarios', () => {
 
@@ -21,39 +22,34 @@ test.describe('ABM Usuarios', () => {
     await usersPage.verifyUserVisible(testUser.email);
   });
 
-  test('debería editar un usuario existente', async ({ usersPage, newUserPage, editUserPage }) => {
+  test('debería editar un usuario existente', async ({ apiOwner, usersPage, editUserPage }) => {
     const testUser = {
       username: `TestEdit_${Date.now()}`,
       lastname: 'User',
       email: `test.edit.${Date.now()}@pharmatech.com`,
     };
 
-    await usersPage.goto();
-
-    await usersPage.gotoNewUser();
-    await newUserPage.createUser(testUser);
-    await usersPage.verifyUserVisible(testUser.email);
+    await apiOwner.post(USERS_ENDPOINTS.USER, { data: testUser });
 
     const newName = testUser.username + 'Edited';
+
+    await usersPage.goto();
     await usersPage.gotoEditUser(testUser.email);
     await editUserPage.updateUser(newName);
 
     await usersPage.verifyUserVisible(newName);
   });
 
-  test('debería cambiar el estado del usuario', async ({ usersPage, newUserPage }) => {
+  test('debería cambiar el estado del usuario', async ({ apiOwner, usersPage }) => {
     const testUser = {
       username: `TestToggle_${Date.now()}`,
       lastname: 'User',
       email: `test.toggle.${Date.now()}@pharmatech.com`,
     };
 
+    await apiOwner.post(USERS_ENDPOINTS.USER, { data: testUser });
+
     await usersPage.goto();
-
-    await usersPage.gotoNewUser();
-    await newUserPage.createUser(testUser);
-    await usersPage.verifyUserVisible(testUser.email);
-
     await usersPage.toggleUserStatus(testUser.email);
   });
 
