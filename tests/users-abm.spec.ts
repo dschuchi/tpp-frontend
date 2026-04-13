@@ -53,4 +53,21 @@ test.describe('ABM Usuarios', () => {
     await usersPage.toggleUserStatus(testUser.email);
   });
 
+  test('debería mostrar un error al ingresar un mail existente', async ({ appBar, usersPage, newUserPage }) => {
+    const existingEmail = 'ev@gmail.com';
+    const testUser = {
+      username: 'Duplicate',
+      lastname: 'User',
+      email: existingEmail,
+    };
+
+    await usersPage.goto();
+    await usersPage.gotoNewUser();
+    await newUserPage.fillForm(testUser);
+    await newUserPage.save();
+
+    await expect(appBar.snackbar).toBeVisible();
+    await expect(appBar.snackbar).toHaveText(`Ya existe un usuario con el mail ${existingEmail}`);
+  });
+
 });
