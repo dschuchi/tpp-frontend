@@ -19,5 +19,6 @@ export async function getAuthContext(): Promise<APIRequestContext> {
       'Authorization': `Bearer ${accessToken}`,
       'Accept': 'application/json',
     },
+    failOnStatusCode: true
   });
 }
