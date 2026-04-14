@@ -41,6 +41,7 @@ export class ProductsPage {
     await row.getByRole('button').filter({ has: this.page.locator('i.mdi-delete') }).click();
     await expect(this.page.getByText('¿Estás seguro de que querés desactivar este producto?')).toBeVisible();
     await this.confirmDeleteButton.click();
+    expect(row).toContainText('Inactivo')
   }
 
   async restoreProduct(name: string) {
@@ -48,5 +49,6 @@ export class ProductsPage {
     await row.getByRole('button').filter({ has: this.page.locator('i.mdi-delete-restore') }).click();
     await expect(this.page.getByText('¿Estás seguro de que querés activar este producto?')).toBeVisible();
     await this.confirmRestoreButton.click();
+    expect(row).toContainText('Activo')
   }
 }
