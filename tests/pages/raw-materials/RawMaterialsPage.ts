@@ -41,6 +41,7 @@ export class RawMaterialsPage {
     await row.getByRole('button').filter({ has: this.page.locator('i.mdi-delete') }).click();
     await expect(this.page.getByText('¿Estás seguro de que querés desactivar esta materia prima?')).toBeVisible();
     await this.confirmDeleteButton.click();
+    expect(row).toContainText('Inactivo')
   }
 
   async restoreRawMaterial(name: string) {
@@ -48,5 +49,6 @@ export class RawMaterialsPage {
     await row.getByRole('button').filter({ has: this.page.locator('i.mdi-delete-restore') }).click();
     await expect(this.page.getByText('¿Estás seguro de que querés activar esta materia prima?')).toBeVisible();
     await this.confirmRestoreButton.click();
+    expect(row).toContainText('Activo')
   }
 }

@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/pom';
+import { RAW_MATERIALS_ENDPOINTS } from '../src/api/endpoints';
 
 test.describe('ABM Materias Primas', () => {
 
@@ -21,39 +22,30 @@ test.describe('ABM Materias Primas', () => {
     await rawMaterialsPage.verifyRawMaterialVisible(rawMaterialToCreate.name);
   });
 
-  test('debería editar una materia prima existente', async ({ page, rawMaterialsPage, newRawMaterialPage, editRawMaterialPage }) => {
+  test('debería editar una materia prima existente', async ({ apiOwner, rawMaterialsPage, editRawMaterialPage }) => {
     const rawMaterialToEdit = {
       name: `RawMaterialToEdit_${Date.now()}`
     };
 
-    await rawMaterialsPage.goto();
-    await rawMaterialsPage.gotoNewRawMaterial();
-    await newRawMaterialPage.createRawMaterial(rawMaterialToEdit);
-    await expect(page).toHaveURL('/raw-materials');
-    await rawMaterialsPage.verifyRawMaterialVisible(rawMaterialToEdit.name);
+    await apiOwner.post(RAW_MATERIALS_ENDPOINTS.RAW_MATERIAL, { data: rawMaterialToEdit });
 
     const newName = rawMaterialToEdit.name + ' Edited';
 
+    await rawMaterialsPage.goto();
     await rawMaterialsPage.gotoEditRawMaterial(rawMaterialToEdit.name);
     await editRawMaterialPage.updateRawMaterial({ name: newName });
-
-    await expect(page).toHaveURL('/raw-materials');
     await rawMaterialsPage.verifyRawMaterialVisible(newName);
   });
 
-  test('debería cambiar el estado de una materia prima', async ({ page, rawMaterialsPage, newRawMaterialPage }) => {
+  test('debería cambiar el estado de una materia prima', async ({ apiOwner, rawMaterialsPage }) => {
     const rawMaterialToToggle = {
       name: `RawMaterialToToggle_${Date.now()}`
     };
 
+    await apiOwner.post(RAW_MATERIALS_ENDPOINTS.RAW_MATERIAL, { data: rawMaterialToToggle });
+
     await rawMaterialsPage.goto();
-    await rawMaterialsPage.gotoNewRawMaterial();
-    await newRawMaterialPage.createRawMaterial(rawMaterialToToggle);
-    await expect(page).toHaveURL('/raw-materials');
-    await rawMaterialsPage.verifyRawMaterialVisible(rawMaterialToToggle.name);
-
     await rawMaterialsPage.deleteRawMaterial(rawMaterialToToggle.name);
-
     await rawMaterialsPage.restoreRawMaterial(rawMaterialToToggle.name);
   });
 
