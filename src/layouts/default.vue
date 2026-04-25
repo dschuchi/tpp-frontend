@@ -159,6 +159,15 @@ const allMenuItems = [
       to: '/product-orders',
     },
     permission: 'product-orders:view'
+  },
+  {
+    title: 'Compras',
+    value: 'purchases',
+    props: {
+      prependIcon: 'mdi-cart-outline',
+      to: '/purchases',
+    },
+    permission: 'purchases:view'
   }
 ]
 

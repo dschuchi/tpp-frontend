@@ -44,6 +44,10 @@ declare module 'vue-router/auto-routes' {
     '/products/[id]/recipe/': RouteRecordInfo<'/products/[id]/recipe/', '/products/:id/recipe', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/products/new': RouteRecordInfo<'/products/new', '/products/new', Record<never, never>, Record<never, never>>,
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
+    '/purchases/': RouteRecordInfo<'/purchases/', '/purchases', Record<never, never>, Record<never, never>>,
+    '/purchases/[id]/': RouteRecordInfo<'/purchases/[id]/', '/purchases/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/purchases/[id]/edit': RouteRecordInfo<'/purchases/[id]/edit', '/purchases/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/purchases/new': RouteRecordInfo<'/purchases/new', '/purchases/new', Record<never, never>, Record<never, never>>,
     '/raw-materials/': RouteRecordInfo<'/raw-materials/', '/raw-materials', Record<never, never>, Record<never, never>>,
     '/raw-materials/[id]/edit': RouteRecordInfo<'/raw-materials/[id]/edit', '/raw-materials/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/raw-materials/new': RouteRecordInfo<'/raw-materials/new', '/raw-materials/new', Record<never, never>, Record<never, never>>,
@@ -174,6 +178,22 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/profile.vue': {
       routes: '/profile'
+      views: never
+    }
+    'src/pages/purchases/index.vue': {
+      routes: '/purchases/'
+      views: never
+    }
+    'src/pages/purchases/[id]/index.vue': {
+      routes: '/purchases/[id]/'
+      views: never
+    }
+    'src/pages/purchases/[id]/edit.vue': {
+      routes: '/purchases/[id]/edit'
+      views: never
+    }
+    'src/pages/purchases/new.vue': {
+      routes: '/purchases/new'
       views: never
     }
     'src/pages/raw-materials/index.vue': {
