@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { APIRequestContext, test as base } from '@playwright/test';
 import { AppBar } from '../layouts/AppBar';
 import { LoginPage } from '../pages/LoginPage';
 
@@ -31,8 +31,11 @@ import { NewProductPage } from '../pages/products/NewProductPage';
 import { EditProductPage } from '../pages/products/EditProductPage';
 import { ProfilePage } from '../pages/profile/ProfilePage';
 import { UpdatedPasswordDialog } from '../pages/profile/UpdatedPasswordDialog';
+import { getAuthContext } from '../utils/api-client';
 
 type POMFixtures = {
+  apiOwner: APIRequestContext
+
   appBar: AppBar
   loginPage: LoginPage
 
@@ -68,6 +71,11 @@ type POMFixtures = {
 };
 
 export const test = base.extend<POMFixtures>({
+  apiOwner: async ({}, use) => {
+    const context = await getAuthContext();
+    await use(context);
+    await context.dispose();
+  },
   appBar: async ({ page }, use) => {
     await use(new AppBar(page));
   },

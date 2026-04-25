@@ -25,7 +25,7 @@ export const useProductsStore = defineStore('products', {
       await http.post(PRODUCTS_ENDPOINTS.PRODUCT, product)
     },
     async update(id: number, product: Product) {
-      await http.put(PRODUCTS_ENDPOINTS.PRODUCT_BY_ID(id), product)
+      await http.patch(PRODUCTS_ENDPOINTS.PRODUCT_BY_ID(id), product)
     },
     async deactivate(id: number) {
       await http.delete(PRODUCTS_ENDPOINTS.PRODUCT_BY_ID(id))

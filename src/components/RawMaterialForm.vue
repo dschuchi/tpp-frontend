@@ -22,7 +22,7 @@
               variant="outlined"
               :precision="null"
               control-variant="hidden"
-              :rules="readonly ? [] : [required]"
+              :rules="readonly ? [] : []"
             />
           </v-col>
         </v-row>

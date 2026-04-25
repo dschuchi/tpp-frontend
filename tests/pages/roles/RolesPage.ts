@@ -43,6 +43,7 @@ export class RolesPage {
     await roleRow.getByRole('button').filter({ has: this.page.locator('i.mdi-delete') }).click();
     await expect(this.deleteDialogParams).toBeVisible();
     await this.confirmDeleteButton.click();
+    expect(roleRow).toContainText('Inactivo')
   }
 
   async restoreRole(roleName: string) {
@@ -50,5 +51,6 @@ export class RolesPage {
     await roleRow.getByRole('button').filter({ has: this.page.locator('i.mdi-delete-restore') }).click();
     await expect(this.page.getByText('¿Estás seguro de que querés activar este rol?')).toBeVisible();
     await this.confirmRestoreButton.click();
+    expect(roleRow).toContainText('Activo')
   }
 }

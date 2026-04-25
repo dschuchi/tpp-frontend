@@ -33,4 +33,14 @@ export class NewUserPage {
     await this.closeSuccessDialogButton.click();
     await expect(this.page).toHaveURL('/users');
   }
+
+  async fillForm(user: { username: string, lastname: string, email: string }) {
+    await this.usersForm.fillName(user.username);
+    await this.usersForm.fillLastname(user.lastname);
+    await this.usersForm.fillEmail(user.email);
+  }
+
+  async save() {
+    await this.saveButton.click();
+  }
 }

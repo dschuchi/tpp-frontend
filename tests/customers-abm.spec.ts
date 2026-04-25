@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/pom';
+import { CUSTOMERS_ENDPOINTS } from '../src/api/endpoints';
 
 test.describe('ABM Clientes', () => {
 
@@ -25,7 +26,7 @@ test.describe('ABM Clientes', () => {
     await customersPage.verifyCustomerVisible(customerToCreate.name);
   });
 
-  test('debería editar un cliente existente', async ({ page, customersPage, newCustomerPage, editCustomerPage }) => {
+  test('debería editar un cliente existente', async ({ apiOwner, customersPage, editCustomerPage }) => {
     const customerToEdit = {
       name: `CustomerToEdit_${Date.now()}`,
       tax_id: '20-87654321-0',
@@ -34,22 +35,17 @@ test.describe('ABM Clientes', () => {
       email: `edit.customer.${Date.now()}@test.com`
     };
 
-    await customersPage.goto();
-    await customersPage.gotoNewCustomer();
-    await newCustomerPage.createCustomer(customerToEdit);
-    await expect(page).toHaveURL('/customers');
-    await customersPage.verifyCustomerVisible(customerToEdit.name);
+    await apiOwner.post(CUSTOMERS_ENDPOINTS.CUSTOMER, { data: customerToEdit })
 
     const newName = customerToEdit.name + ' Edited';
 
+    await customersPage.goto();
     await customersPage.gotoEditCustomer(customerToEdit.name);
     await editCustomerPage.updateCustomer({ name: newName });
-
-    await expect(page).toHaveURL('/customers');
     await customersPage.verifyCustomerVisible(newName);
   });
 
-  test('debería cambiar el estado del cliente', async ({ page, customersPage, newCustomerPage }) => {
+  test('debería cambiar el estado del cliente', async ({ apiOwner, customersPage }) => {
     const customerToToggle = {
       name: `CustomerToToggle_${Date.now()}`,
       tax_id: '20-11223344-5',
@@ -58,14 +54,10 @@ test.describe('ABM Clientes', () => {
       email: `toggle.customer.${Date.now()}@test.com`
     };
 
+    await apiOwner.post(CUSTOMERS_ENDPOINTS.CUSTOMER, { data: customerToToggle })
+
     await customersPage.goto();
-    await customersPage.gotoNewCustomer();
-    await newCustomerPage.createCustomer(customerToToggle);
-    await expect(page).toHaveURL('/customers');
-    await customersPage.verifyCustomerVisible(customerToToggle.name);
-
     await customersPage.deleteCustomer(customerToToggle.name);
-
     await customersPage.restoreCustomer(customerToToggle.name);
   });
 

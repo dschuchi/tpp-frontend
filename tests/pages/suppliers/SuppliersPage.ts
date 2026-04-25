@@ -41,6 +41,7 @@ export class SuppliersPage {
     await row.getByRole('button').filter({ has: this.page.locator('i.mdi-delete') }).click();
     await expect(this.page.getByText('¿Estás seguro de que querés desactivar este proveedor?')).toBeVisible();
     await this.confirmDeleteButton.click();
+    expect(row).toContainText('Inactivo')
   }
 
   async restoreSupplier(name: string) {
@@ -48,5 +49,6 @@ export class SuppliersPage {
     await row.getByRole('button').filter({ has: this.page.locator('i.mdi-delete-restore') }).click();
     await expect(this.page.getByText('¿Estás seguro de que querés activar este proveedor?')).toBeVisible();
     await this.confirmRestoreButton.click();
+    expect(row).toContainText('Activo')
   }
 }

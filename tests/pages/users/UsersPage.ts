@@ -43,6 +43,7 @@ export class UsersPage {
 
     await expect(this.deactivateDialogText).toBeVisible();
     await this.confirmDeactivateButton.click();
+    expect(userRow).toContainText('Inactivo')
 
     const restoreButton = userRow.getByRole('button').filter({ has: this.page.locator('i.mdi-delete-restore') });
     await expect(restoreButton).toBeVisible();
@@ -50,6 +51,7 @@ export class UsersPage {
     await restoreButton.click();
     await expect(this.activateDialogText).toBeVisible();
     await this.confirmActivateButton.click();
+    expect(userRow).toContainText('Activo')
 
     await expect(userRow.getByRole('button').filter({ has: this.page.locator('i.mdi-delete') })).toBeVisible();
   }

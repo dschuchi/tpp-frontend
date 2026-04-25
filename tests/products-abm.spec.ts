@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/pom';
+import { PRODUCTS_ENDPOINTS } from '../src/api/endpoints';
 
 test.describe('ABM Productos', () => {
 
@@ -23,41 +24,34 @@ test.describe('ABM Productos', () => {
     await productsPage.verifyProductVisible(productToCreate.name);
   });
 
-  test('debería editar un producto existente', async ({ page, productsPage, newProductPage, editProductPage }) => {
+  test('debería editar un producto existente', async ({ apiOwner, productsPage, editProductPage }) => {
     const productToEdit = {
       name: `ProdEdit-${Date.now()}`,
-      version: '1.0.0'
+      version: '1.0.0',
+      customer_id: 1
     };
 
-    await productsPage.goto();
-    await productsPage.gotoNewProduct();
-    await newProductPage.createProduct(productToEdit);
-    await expect(page).toHaveURL('/products');
-    await productsPage.verifyProductVisible(productToEdit.name);
+    await apiOwner.post(PRODUCTS_ENDPOINTS.PRODUCT, { data: productToEdit });
 
     const newVersion = '1.0.1';
 
+    await productsPage.goto();
     await productsPage.gotoEditProduct(productToEdit.name);
     await editProductPage.updateProduct({ version: newVersion });
-
-    await expect(page).toHaveURL('/products');
     await productsPage.verifyProductVisible(productToEdit.name);
   });
 
-  test('debería cambiar el estado de un producto', async ({ page, productsPage, newProductPage }) => {
+  test('debería cambiar el estado de un producto', async ({ apiOwner, productsPage }) => {
     const productToToggle = {
       name: `ProdToggle-${Date.now()}`,
-      version: '1.0.0'
+      version: '1.0.0',
+      customer_id: 1
     };
 
+    await apiOwner.post(PRODUCTS_ENDPOINTS.PRODUCT, { data: productToToggle });
+
     await productsPage.goto();
-    await productsPage.gotoNewProduct();
-    await newProductPage.createProduct(productToToggle);
-    await expect(page).toHaveURL('/products');
-    await productsPage.verifyProductVisible(productToToggle.name);
-
     await productsPage.deleteProduct(productToToggle.name);
-
     await productsPage.restoreProduct(productToToggle.name);
   });
 

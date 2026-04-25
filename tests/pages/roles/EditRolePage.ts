@@ -12,11 +12,11 @@ export class EditRolePage {
     this.saveButton = page.getByRole('button', { name: 'Guardar' });
   }
 
-  async updateRole(name: string, description: string) {
-     await expect(this.rolesForm.nameInput).not.toHaveValue('');
-     await expect(this.rolesForm.descriptionInput).not.toHaveValue('');
-     if (name) await this.rolesForm.fillName(name);
-     if (description) await this.rolesForm.fillDescription(description);
-     await this.saveButton.click();
+  async updateRole(role: { name?: string; description?: string }) {
+    await expect(this.rolesForm.nameInput).not.toHaveValue('');
+    await expect(this.rolesForm.descriptionInput).not.toHaveValue('');
+    if (role.name) await this.rolesForm.fillName(role.name);
+    if (role.description) await this.rolesForm.fillDescription(role.description);
+    await this.saveButton.click();
   }
 }

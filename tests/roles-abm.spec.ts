@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/pom';
+import { ROLES_ENDPOINTS } from '../src/api/endpoints';
 
 test.describe('ABM Roles', () => {
 
@@ -22,47 +23,33 @@ test.describe('ABM Roles', () => {
     await rolesPage.verifyRoleVisible(roleToCreate.name);
   });
 
-  test('debería editar un rol existente', async ({ page, rolesPage, newRolePage, editRolePage }) => {
+  test('debería editar un rol existente', async ({ apiOwner, rolesPage, editRolePage }) => {
     const roleToEdit = {
       name: `RoleToEdit_${Date.now()}`,
       description: 'Role created by Playwright for edit test'
     };
 
-    await rolesPage.goto();
-
-    await rolesPage.gotoNewRole();
-    await newRolePage.createRole(roleToEdit.name, roleToEdit.description);
-    await expect(page).toHaveURL('/roles');
-    await rolesPage.verifyRoleVisible(roleToEdit.name);
+    await apiOwner.post(ROLES_ENDPOINTS.ROLE, { data: roleToEdit });
 
     const newDesc = roleToEdit.description + ' Edited ' + Date.now();
 
+    await rolesPage.goto();
     await rolesPage.gotoEditRole(roleToEdit.name);
-    await editRolePage.updateRole('', newDesc);
-
-    await expect(page).toHaveURL('/roles');
+    await editRolePage.updateRole({ description: newDesc });
     await rolesPage.verifyRoleVisible(newDesc);
   });
 
-  test('debería cambiar el estado del rol', async ({ page, rolesPage, newRolePage }) => {
+  test('debería cambiar el estado del rol', async ({ page, apiOwner, rolesPage }) => {
     const roleToDelete = {
       name: `RoleToDelete_${Date.now()}`,
       description: 'Role created by Playwright for delete test'
     };
 
+    await apiOwner.post(ROLES_ENDPOINTS.ROLE, { data: roleToDelete });
+
     await rolesPage.goto();
-
-    await rolesPage.gotoNewRole();
-    await newRolePage.createRole(roleToDelete.name, roleToDelete.description);
-    await expect(page).toHaveURL('/roles');
-    await rolesPage.verifyRoleVisible(roleToDelete.name);
-
     await rolesPage.deleteRole(roleToDelete.name);
-
     await rolesPage.restoreRole(roleToDelete.name);
-
-    const roleRow = await rolesPage.table.findRow(roleToDelete.name);
-    await expect(roleRow.getByRole('button').filter({ has: page.locator('i.mdi-delete') })).toBeVisible();
   });
 
 });

@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/pom';
+import { SUPPLIERS_ENDPOINTS } from '../src/api/endpoints';
 
 test.describe('ABM Proveedores', () => {
 
@@ -25,7 +26,7 @@ test.describe('ABM Proveedores', () => {
     await suppliersPage.verifySupplierVisible(supplierToCreate.name);
   });
 
-  test('debería editar un proveedor existente', async ({ page, suppliersPage, newSupplierPage, editSupplierPage }) => {
+  test('debería editar un proveedor existente', async ({ apiOwner, suppliersPage, editSupplierPage }) => {
     const supplierToEdit = {
       name: `SupplierToEdit_${Date.now()}`,
       tax_id: '20-87654321-0',
@@ -34,22 +35,17 @@ test.describe('ABM Proveedores', () => {
       email: `edit.supplier.${Date.now()}@test.com`
     };
 
-    await suppliersPage.goto();
-    await suppliersPage.gotoNewSupplier();
-    await newSupplierPage.createSupplier(supplierToEdit);
-    await expect(page).toHaveURL('/suppliers');
-    await suppliersPage.verifySupplierVisible(supplierToEdit.name);
+    await apiOwner.post(SUPPLIERS_ENDPOINTS.SUPPLIER, { data: supplierToEdit });
 
     const newName = supplierToEdit.name + ' Edited';
 
+    await suppliersPage.goto();
     await suppliersPage.gotoEditSupplier(supplierToEdit.name);
     await editSupplierPage.updateSupplier({ name: newName });
-
-    await expect(page).toHaveURL('/suppliers');
     await suppliersPage.verifySupplierVisible(newName);
   });
 
-  test('debería cambiar el estado del proveedor', async ({ page, suppliersPage, newSupplierPage }) => {
+  test('debería cambiar el estado del proveedor', async ({ apiOwner, suppliersPage }) => {
     const supplierToToggle = {
       name: `SupplierToToggle_${Date.now()}`,
       tax_id: '20-11223344-5',
@@ -58,14 +54,10 @@ test.describe('ABM Proveedores', () => {
       email: `toggle.supplier.${Date.now()}@test.com`
     };
 
+    await apiOwner.post(SUPPLIERS_ENDPOINTS.SUPPLIER, { data: supplierToToggle });
+
     await suppliersPage.goto();
-    await suppliersPage.gotoNewSupplier();
-    await newSupplierPage.createSupplier(supplierToToggle);
-    await expect(page).toHaveURL('/suppliers');
-    await suppliersPage.verifySupplierVisible(supplierToToggle.name);
-
     await suppliersPage.deleteSupplier(supplierToToggle.name);
-
     await suppliersPage.restoreSupplier(supplierToToggle.name);
   });
 
