@@ -12,7 +12,7 @@
 import { useSuppliersStore } from '@/stores/suppliers.store'
 import PaginatedSelect from './PaginatedSelect.vue'
 
-const model = defineModel<number | null>({ required: true })
+const model = defineModel<number | null | undefined>({ required: true })
 
 const suppliersStore = useSuppliersStore()
 
