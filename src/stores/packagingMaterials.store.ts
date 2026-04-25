@@ -8,11 +8,12 @@ export const usePackagingMaterialsStore = defineStore('packagingMaterials', {
   }),
 
   actions: {
-    async getPackagingMaterials(page: number, limit: number) {
+    async getPackagingMaterials(page: number, limit: number, filters?: any) {
       const response: PackagingMaterialsResponse = await http.get(PACKAGING_MATERIALS_ENDPOINTS.PACKAGING_MATERIALS, {
         params: {
           page,
-          limit
+          limit,
+          ...filters
         }
       })
       this.packagingMaterials = response.packagingMaterials

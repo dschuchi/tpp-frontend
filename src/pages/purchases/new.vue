@@ -98,23 +98,15 @@
         <v-form ref="itemFormRef">
           <v-row>
             <v-col cols="12" md="6">
-              <paginated-select
+              <raw-material-selector
                 v-model="itemForm.raw_material_id"
-                label="Materia Prima"
-                item-title="name"
                 clearable
-                :load-fn="loadRawMaterials"
-                :fetch-by-id-fn="(id) => rawMaterialsStore.getRawMaterial(Number(id))"
               />
             </v-col>
             <v-col cols="12" md="6">
-              <paginated-select
+              <packaging-material-selector
                 v-model="itemForm.packaging_material_id"
-                label="Material de Empaque"
-                item-title="code"
                 clearable
-                :load-fn="loadPackagingMaterials"
-                :fetch-by-id-fn="(id) => packagingMaterialsStore.getPackagingMaterial(Number(id))"
               />
             </v-col>
             <v-col cols="12" md="6">
@@ -150,7 +142,8 @@
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue'
 import SupplierSelector from '@/components/SupplierSelector.vue'
-import PaginatedSelect from '@/components/PaginatedSelect.vue'
+import RawMaterialSelector from '@/components/RawMaterialSelector.vue'
+import PackagingMaterialSelector from '@/components/PackagingMaterialSelector.vue'
 import { usePurchasesStore } from '@/stores/purchases.store'
 import { useRawMaterialsStore } from '@/stores/rawMaterials.store'
 import { usePackagingMaterialsStore } from '@/stores/packagingMaterials.store'
@@ -209,16 +202,6 @@ const emptyItemForm = () => ({
 })
 
 const itemForm = ref(emptyItemForm())
-
-const loadRawMaterials = async (page: number, search: string) => {
-  const res = await rawMaterialsStore.getRawMaterials(page, 5, { name: search })
-  return { items: res.rawMaterials, total: res.total }
-}
-
-const loadPackagingMaterials = async (page: number, search: string) => {
-  const res = await packagingMaterialsStore.getPackagingMaterials(page, 5, { code: search })
-  return { items: res.packagingMaterials, total: res.total }
-}
 
 const openAddItemDialog = () => {
   itemForm.value = emptyItemForm()
