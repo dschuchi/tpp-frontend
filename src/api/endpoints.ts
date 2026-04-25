@@ -12,7 +12,8 @@ export const ROLES_ENDPOINTS = {
   ROLE: '/role',
   ROLE_BY_ID: (id: number) => `/role/${id}`,
   ACTIVATE_ROLE_BY_ID: (id: number) => `/role/${id}/activate`,
-  ROLE_PERMISSIONS_BY_ID: (id: number) => `/role/${id}/permissions`
+  ROLE_PERMISSIONS_BY_ID: (id: number) => `/role/${id}/permissions`,
+  COPY_ROLE_BY_ID: (id: number) => `/role/${id}/copy`
 } as const
 
 export const PERMISSIONS_ENDPOINTS = {

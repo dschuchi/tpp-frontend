@@ -37,6 +37,15 @@
               </template>
             </v-tooltip>
 
+            <v-tooltip text="Copiar rol" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
+                  @click="handleCopy(item.id)">
+                  <v-icon icon="mdi-content-copy" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
             <v-tooltip text="Configurar permisos" location="top">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
@@ -78,6 +87,7 @@ import PageHeader from '@/components/PageHeader.vue'
 import type { Role } from '@/types/roles.types'
 import { useUserStore } from '@/stores/user.store'
 import type { DataTableOptions } from '@/types/table.types'
+import { useSnackbarStore } from '@/stores/snackbar.store'
 
 definePage({
   meta: {
@@ -114,6 +124,27 @@ const toggleStatus = async (item: Role) => {
   if (ok) {
     isDeactivating ? rolesStore.deactivateRole(id) : rolesStore.activateRole(id)
     item.is_active = !item.is_active
+  }
+}
+
+const snackbarStore = useSnackbarStore()
+
+const handleCopy = async (id: number) => {
+  const ok = await confirm({
+    title: 'Copiar rol',
+    message: '¿Estás seguro de que querés copiar este rol?',
+    confirmText: 'Copiar',
+    confirmColor: 'primary'
+  })
+
+  if (ok) {
+    try {
+      await rolesStore.copyRole(id)
+      snackbarStore.showMessage({ message: 'Rol copiado exitosamente', color: 'success' })
+      loadItems({ page: 1, itemsPerPage: itemsPerPage.value })
+    } catch (error) {
+      snackbarStore.showMessage({ message: 'Ocurrió un error al copiar el rol', color: 'error' })
+    }
   }
 }
 

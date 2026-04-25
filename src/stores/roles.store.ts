@@ -41,6 +41,9 @@ export const useRolesStore = defineStore('roles', {
     },
     async updateRole(id: number, role: UpdateRoleRequest) {
       await http.patch(ROLES_ENDPOINTS.ROLE_BY_ID(id), role)
+    },
+    async copyRole(id: number) {
+      await http.post(ROLES_ENDPOINTS.COPY_ROLE_BY_ID(id))
     }
   }
 })
