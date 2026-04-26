@@ -28,6 +28,14 @@
         hover
         @update:options="loadItems"
       >
+        <template #item.scheduled_date="{ item }">
+          {{ item.scheduled_date ? new Date(item.scheduled_date).toLocaleDateString() : '-' }}
+        </template>
+
+        <template #item.received_date="{ item }">
+          {{ item.received_date ? new Date(item.received_date).toLocaleDateString() : '-' }}
+        </template>
+
         <template #item.status="{ item }">
           <v-chip
             :color="getStatusColor(item.status_id)"

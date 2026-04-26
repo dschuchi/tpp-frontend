@@ -25,6 +25,10 @@ export const usePurchasesStore = defineStore('purchases', {
     async create(purchase: Partial<Purchase>) {
       const response: Purchase = await http.post(PURCHASES_ENDPOINTS.PURCHASES, purchase)
       return response
+    },
+    async update(id: number, purchase: Partial<Purchase>) {
+      const response: Purchase = await http.put(PURCHASES_ENDPOINTS.PURCHASE_BY_ID(id), purchase)
+      return response
     }
   }
 })
