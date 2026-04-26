@@ -65,8 +65,8 @@ const handleSave = async () => {
   try {
     const payload = {
       ...form.value,
-      scheduled_date: form.value.scheduled_date ? new Date(form.value.scheduled_date).toISOString() : null,
-      received_date: form.value.received_date ? new Date(form.value.received_date).toISOString() : null,
+      scheduled_date: form.value.scheduled_date ? new Date(form.value.scheduled_date).toISOString() : undefined,
+      received_date: form.value.received_date ? new Date(form.value.received_date).toISOString() : undefined,
       purchase_items: items.value.map(i => ({
         raw_material_id: i.raw_material_id || undefined,
         packaging_material_id: i.packaging_material_id || undefined,

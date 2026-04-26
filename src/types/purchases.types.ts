@@ -1,8 +1,8 @@
 export interface PurchaseItem {
-  id: number
-  purchase_id: number
-  raw_material_id: number
-  packaging_material_id: number
+  id?: number
+  purchase_id?: number
+  raw_material_id?: number
+  packaging_material_id?: number
   unit_price: string
   quantity: number
 }
