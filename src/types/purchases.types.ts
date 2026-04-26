@@ -7,6 +7,15 @@ export interface PurchaseItem {
   quantity: number
 }
 
+export interface PurchaseFormItem {
+  raw_material_id?: number | null
+  raw_material_name?: string
+  packaging_material_id?: number | null
+  packaging_material_name?: string
+  unit_price: string
+  quantity: number
+}
+
 export interface Purchase {
   id: number
   supplier_id: number
