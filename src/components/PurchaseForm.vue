@@ -76,21 +76,33 @@
     <v-card>
       <v-card-title class="pa-4">Agregar Ítem</v-card-title>
       <v-card-text>
+        <v-alert
+          v-if="errorMessage"
+          type="error"
+          variant="tonal"
+          class="mb-4"
+          closable
+          @click:close="errorMessage = ''"
+        >
+          {{ errorMessage }}
+        </v-alert>
         <v-form ref="itemFormRef">
           <v-row>
-            <v-col cols="12" md="6">
+            <v-col cols="12">
               <raw-material-selector
                 v-model="itemForm.raw_material_id"
                 clearable
+                :disabled="!!itemForm.packaging_material_id"
               />
             </v-col>
-            <v-col cols="12" md="6">
+            <v-col cols="12">
               <packaging-material-selector
                 v-model="itemForm.packaging_material_id"
                 clearable
+                :disabled="!!itemForm.raw_material_id"
               />
             </v-col>
-            <v-col cols="12" md="6">
+            <v-col cols="12">
               <v-text-field
                 v-model.number="itemForm.quantity"
                 label="Cantidad"
@@ -99,7 +111,7 @@
                 :readonly="savingItem"
               />
             </v-col>
-            <v-col cols="12" md="6">
+            <v-col cols="12">
               <v-text-field
                 v-model="itemForm.unit_price"
                 label="Precio Unitario"
@@ -145,6 +157,7 @@ const formRef = ref<VForm>()
 const itemFormRef = ref<VForm>()
 const dialog = ref(false)
 const savingItem = ref(false)
+const errorMessage = ref('')
 
 const itemsHeaders: DataTableHeader[] = [
   { title: 'Materia Prima', key: 'raw_material_name' },
@@ -168,6 +181,7 @@ const itemForm = ref(emptyItemForm())
 
 const openAddItemDialog = () => {
   itemForm.value = emptyItemForm()
+  errorMessage.value = ''
   dialog.value = true
 }
 
@@ -176,10 +190,15 @@ const closeDialog = () => {
 }
 
 const handleAddItem = async () => {
+  errorMessage.value = ''
   const { valid } = await itemFormRef.value!.validate()
   if (!valid) return
   if (!itemForm.value.raw_material_id && !itemForm.value.packaging_material_id) {
-    alert('Debe seleccionar una Materia Prima o un Material de Empaque.')
+    errorMessage.value = 'Debe seleccionar una Materia Prima o un Material de Empaque.'
+    return
+  }
+  if (itemForm.value.raw_material_id && itemForm.value.packaging_material_id) {
+    errorMessage.value = 'Debe seleccionar una Materia Prima o un Material de Empaque.'
     return
   }
 
@@ -194,7 +213,7 @@ const handleAddItem = async () => {
     }
     if (itemForm.value.packaging_material_id) {
       const pm = await packagingMaterialsStore.getPackagingMaterial(itemForm.value.packaging_material_id)
-      packaging_material_name = pm?.code ?? pm?.name ?? ''
+      packaging_material_name = pm?.code ?? ''
     }
 
     items.value.push({
