@@ -2,7 +2,7 @@
   <paginated-select
     v-model="model"
     label="Material de Empaque"
-    item-title="code"
+    :item-title="(item) => `${item.code} - ${item.description}`"
     :load-fn="loadPackagingMaterials"
     :fetch-by-id-fn="(id) => packagingMaterialsStore.getPackagingMaterial(Number(id))"
   />
