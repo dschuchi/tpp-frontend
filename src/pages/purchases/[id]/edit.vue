@@ -48,8 +48,6 @@ const props = defineProps<{ id: string }>()
 
 const router = useRouter()
 const purchasesStore = usePurchasesStore()
-const rawMaterialsStore = useRawMaterialsStore()
-const packagingMaterialsStore = usePackagingMaterialsStore()
 
 const purchaseFormRef = ref()
 const loading = ref(false)
@@ -69,42 +67,10 @@ onMounted(async () => {
   try {
     const purchase = await purchasesStore.getPurchase(Number(props.id))
     if (purchase) {
-      form.value = { 
-        ...purchase,
-        scheduled_date: purchase.scheduled_date ? new Date(purchase.scheduled_date).toISOString().split('T')[0] : '',
-        received_date: purchase.received_date ? new Date(purchase.received_date).toISOString().split('T')[0] : '',
+      form.value = {
+        ...purchase
       }
-      
-      const loadedItems: PurchaseFormItem[] = []
-      for (const item of purchase.purchase_items) {
-        let raw_material_name = ''
-        let packaging_material_name = ''
-        
-        if (item.raw_material_id) {
-          try {
-            const rm = await rawMaterialsStore.getRawMaterial(item.raw_material_id)
-            raw_material_name = rm?.name || ''
-          } catch (e) {}
-        }
-        
-        if (item.packaging_material_id) {
-          try {
-            const pm = await packagingMaterialsStore.getPackagingMaterial(item.packaging_material_id)
-            packaging_material_name = pm?.code || ''
-          } catch (e) {}
-        }
-
-        loadedItems.push({
-          raw_material_id: item.raw_material_id,
-          raw_material_name,
-          packaging_material_id: item.packaging_material_id,
-          packaging_material_name,
-          quantity: item.quantity,
-          unit_price: item.unit_price
-        })
-      }
-      
-      items.value = loadedItems
+      items.value = purchase.purchase_items
     }
   } catch (error) {
     console.error("Error cargando compra", error)
