@@ -111,7 +111,7 @@ const router = useRouter()
 
 const headers: DataTableHeader[] = [
   { title: 'Codigo', key: 'id' },
-  { title: 'Proveedor', key: 'supplier_id' },
+  { title: 'Proveedor', key: 'supplier_name' },
   { title: 'Fecha Programada', key: 'scheduled_date' },
   { title: 'Fecha Recibida', key: 'received_date' },
   { title: 'Estado', key: 'status' },
