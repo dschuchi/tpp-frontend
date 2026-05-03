@@ -116,6 +116,7 @@ const usersStore = useUsersStore()
 const { can } = useUserStore()
 
 const headers: DataTableHeader[] = [
+  { title: 'Legajo', key: 'employee_id' },
   { title: 'Nombre', key: 'username' },
   { title: 'Apellido', key: 'lastname' },
   { title: 'Correo', key: 'email' },
