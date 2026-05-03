@@ -34,6 +34,7 @@
             <v-form
               ref="form"
               class="typo-body-lg"
+              @submit.prevent="submit"
             >
               <div class="text-subtitle-1 font-weight-bold">Correo electrónico</div>
 
@@ -59,6 +60,7 @@
               />
 
               <v-btn
+                type="submit"
                 block
                 color="primary"
                 :ripple="false"
@@ -66,7 +68,6 @@
                 elevation="0"
                 rounded="lg"
                 class="minus-btn font-weight-bold"
-                @click="submit"
               >
                 Acceder
               </v-btn>
