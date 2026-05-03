@@ -6,7 +6,7 @@
           <v-col cols="12">
             <supplier-selector v-model="model.supplier_id" :rules="[required]" :readonly="readonly" />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col cols="12">
             <v-text-field
               v-model="model.scheduled_date"
               label="Fecha Programada"
@@ -16,7 +16,7 @@
               :readonly="readonly"
             />
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col cols="12">
             <v-text-field
               v-model="model.received_date"
               label="Fecha de Recepción"
