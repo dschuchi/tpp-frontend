@@ -99,7 +99,8 @@ const handleSearch = () => {
 }
 
 const headers: DataTableHeader[] = [
-  { title: 'Nombre', key: 'name', align: 'start', width: '200px' },
+  { title: 'Codigo', key: 'name', align: 'start', width: '200px' },
+  { title: 'Nombre', key: 'publicName', align: 'start' },
   { title: 'Descripción', key: 'description', align: 'start' },
   { title: 'Habilitado', key: 'assigned', align: 'center', sortable: false, width: '100px' },
 ]
