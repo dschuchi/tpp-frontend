@@ -7,6 +7,18 @@
             <supplier-selector v-model="model.supplier_id" :rules="[required]" :readonly="readonly" />
           </v-col>
           <v-col cols="12">
+            <v-select
+              v-model="model.status_id"
+              :items="statuses"
+              item-title="name"
+              item-value="id"
+              label="Estado"
+              variant="outlined"
+              :rules="[required]"
+              :readonly="readonly"
+            />
+          </v-col>
+          <v-col cols="12">
             <v-text-field
               v-model="model.scheduled_date"
               label="Fecha Programada"
@@ -102,12 +114,21 @@
                 :disabled="!!itemForm.raw_material_id"
               />
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model.number="itemForm.quantity"
                 label="Cantidad"
                 type="number"
                 :rules="[v => !!v || 'Requerido', v => v > 0 || 'Debe ser mayor a 0']"
+                :readonly="savingItem"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="itemForm.unit"
+                :items="['Unidades','Gramos', 'Litros']"
+                label="Unidad"
+                :rules="[v => !!v || 'Requerido']"
                 :readonly="savingItem"
               />
             </v-col>
@@ -153,6 +174,13 @@ const items = defineModel<PurchaseFormItem[]>('items', { required: true })
 const rawMaterialsStore = useRawMaterialsStore()
 const packagingMaterialsStore = usePackagingMaterialsStore()
 
+const statuses = [
+  { id: 1, name: 'Pendiente' },
+  { id: 2, name: 'En proceso' },
+  { id: 3, name: 'Completado' },
+  { id: 4, name: 'Cancelado' }
+]
+
 const formRef = ref<VForm>()
 const itemFormRef = ref<VForm>()
 const dialog = ref(false)
@@ -163,6 +191,7 @@ const itemsHeaders: DataTableHeader[] = [
   { title: 'Materia Prima', key: 'raw_material_name' },
   { title: 'Mat. Empaque', key: 'packaging_material_name' },
   { title: 'Cantidad', key: 'quantity' },
+  { title: 'Unidad', key: 'unit' },
   { title: 'Precio Unit.', key: 'unit_price' }
 ]
 
@@ -174,6 +203,7 @@ const emptyItemForm = () => ({
   raw_material_id: null as number | null,
   packaging_material_id: null as number | null,
   quantity: 0,
+  unit: '',
   unit_price: ''
 })
 
@@ -222,6 +252,7 @@ const handleAddItem = async () => {
       packaging_material_id: itemForm.value.packaging_material_id,
       packaging_material_name,
       quantity: itemForm.value.quantity,
+      unit: itemForm.value.unit,
       unit_price: itemForm.value.unit_price
     })
     closeDialog()

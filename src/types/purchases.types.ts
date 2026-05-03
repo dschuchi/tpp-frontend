@@ -5,6 +5,7 @@ export interface PurchaseItem {
   packaging_material_id?: number
   unit_price: string
   quantity: number
+  unit: string
 }
 
 export interface PurchaseFormItem {
@@ -14,6 +15,7 @@ export interface PurchaseFormItem {
   packaging_material_name?: string
   unit_price: string
   quantity: number
+  unit: string
 }
 
 export interface Purchase {
