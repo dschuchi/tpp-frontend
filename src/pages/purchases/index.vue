@@ -48,20 +48,20 @@
         <template v-slot:item.actions="{ item }">
           <div class="d-flex ga-2 justify-end align-center">
             <v-tooltip
-              text="Ver detalles"
+              text="Cambiar Estado"
               location="top"
             >
               <template v-slot:activator="{ props }">
                 <v-btn
-                  v-if="can('purchases:view')"
+                  v-if="can('purchases:edit')"
                   v-bind="props"
                   icon
                   variant="text"
                   size="small"
-                  color="info"
-                  @click="viewPurchase(item.id)"
+                  color="secondary"
+                  @click="openStatusModal(item.id)"
                 >
-                  <v-icon icon="mdi-eye" />
+                  <v-icon icon="mdi-swap-horizontal" />
                 </v-btn>
               </template>
             </v-tooltip>
@@ -84,11 +84,58 @@
                 </v-btn>
               </template>
             </v-tooltip>
+
+            <v-tooltip
+              text="Ver detalles"
+              location="top"
+            >
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-if="can('purchases:view')"
+                  v-bind="props"
+                  icon
+                  variant="text"
+                  size="small"
+                  color="info"
+                  @click="viewPurchase(item.id)"
+                >
+                  <v-icon icon="mdi-eye" />
+                </v-btn>
+              </template>
+            </v-tooltip>
           </div>
         </template>
       </v-data-table-server>
     </v-col>
   </v-row>
+
+  <v-dialog v-model="isStatusModalOpen" max-width="500px">
+    <v-card>
+      <v-card-title>
+        <span class="text-h5">Cambiar Estado</span>
+      </v-card-title>
+      <v-card-text>
+        <v-select
+          v-model="selectedStatusId"
+          :items="availableStatuses"
+          item-title="name"
+          item-value="id"
+          label="Estado"
+          :loading="loadingStatuses"
+          required
+        ></v-select>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="error" variant="text" @click="closeStatusModal">
+          Cancelar
+        </v-btn>
+        <v-btn color="primary" variant="text" :loading="isUpdatingStatus" @click="updateStatus">
+          Guardar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -136,16 +183,88 @@ const purchases = ref<Purchase[]>([])
 const loading = ref(true)
 const totalItems = ref(0)
 
-const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
+let currentTableOptions: DataTableOptions | null = null
+
+const loadItems = async (options: DataTableOptions) => {
+  currentTableOptions = options
   loading.value = true
   try {
-    const response = await purchasesStore.getPurchases(page, itemsPerPage)
+    const response = await purchasesStore.getPurchases(options.page, options.itemsPerPage)
     purchases.value = response.purchases
     totalItems.value = response.total
   } catch (error) {
     console.error("Error loading purchases", error)
   } finally {
     loading.value = false
+  }
+}
+
+interface PurchaseStatus {
+  id: number
+  name: string
+}
+
+const isStatusModalOpen = ref(false)
+const selectedPurchaseId = ref<number | null>(null)
+const selectedStatusId = ref<number | null>(null)
+const availableStatuses = ref<PurchaseStatus[]>([])
+const loadingStatuses = ref(false)
+const isUpdatingStatus = ref(false)
+
+// Fachada para obtener los estados elegibles (A reemplazar cuando el endpoint esté listo)
+const fetchEligibleStatuses = async (purchaseId: number): Promise<PurchaseStatus[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { id: 1, name: 'Pendiente' },
+        { id: 2, name: 'En proceso' },
+        { id: 3, name: 'Completado' },
+        { id: 4, name: 'Cancelado' }
+      ])
+    }, 500)
+  })
+}
+
+const openStatusModal = async (purchaseId: number) => {
+  selectedPurchaseId.value = purchaseId
+  isStatusModalOpen.value = true
+  loadingStatuses.value = true
+  try {
+    availableStatuses.value = await fetchEligibleStatuses(purchaseId)
+  } catch (error) {
+    console.error("Error fetching statuses", error)
+  } finally {
+    loadingStatuses.value = false
+  }
+}
+
+const closeStatusModal = () => {
+  isStatusModalOpen.value = false
+  selectedPurchaseId.value = null
+  selectedStatusId.value = null
+  availableStatuses.value = []
+}
+
+const updateStatus = async () => {
+  if (!selectedPurchaseId.value || !selectedStatusId.value) return
+
+  isUpdatingStatus.value = true
+  try {
+    // TODO: Reemplazar por el llamado real al endpoint cuando esté listo
+    // await purchasesStore.updatePurchaseStatus(selectedPurchaseId.value, selectedStatusId.value)
+
+    // Simulamos una demora
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    // Recargar la tabla si es posible
+    if (currentTableOptions) {
+      await loadItems(currentTableOptions)
+    }
+    closeStatusModal()
+  } catch (error) {
+    console.error("Error updating status", error)
+  } finally {
+    isUpdatingStatus.value = false
   }
 }
 </script>
