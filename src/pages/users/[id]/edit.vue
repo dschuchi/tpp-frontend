@@ -41,6 +41,7 @@ const userFormRef = ref()
 const loading = ref(false)
 
 const form = ref<UpdateUserRequest>({
+  employee_id: '',
   username: '',
   lastname: '',
   email: '',
@@ -53,6 +54,7 @@ onMounted(async () => {
   try {
     const user = await usersStore.getUser(props.id)
     if (user) {
+      form.value.employee_id = user.employee_id
       form.value.username = user.username
       form.value.lastname = user.lastname
       form.value.email = user.email

@@ -34,6 +34,7 @@ export interface UsersState {
 
 export interface UserListItem {
   id: string,
+  employee_id: string,
   username: string,
   lastname: string,
   email: string,
@@ -43,6 +44,7 @@ export interface UserListItem {
 }
 
 export interface CreateUserRequest {
+  employee_id: string
   username: string
   lastname: string
   email: string
@@ -54,6 +56,7 @@ export interface CreateUserResponse {
 }
 
 export interface UpdateUserRequest {
+  employee_id: string
   username: string
   lastname: string
   email: string

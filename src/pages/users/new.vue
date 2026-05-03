@@ -76,6 +76,7 @@ const generatedPassword = ref('')
 const copied = ref(false)
 
 const form = ref<CreateUserRequest>({
+  employee_id: '',
   username: '',
   lastname: '',
   email: ''
