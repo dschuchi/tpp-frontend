@@ -27,7 +27,9 @@ import { ref, onMounted } from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PurchaseForm from '@/components/PurchaseForm.vue'
 import { usePurchasesStore } from '@/stores/purchases.store'
-import type { Purchase, PurchaseFormItem } from '@/types/purchases.types'
+import type { Purchase } from '@/models/purchase.model'
+import type { PurchaseItem } from '@/models/purchase-item.model'
+
 
 definePage({
   props: true,
@@ -42,15 +44,9 @@ const purchasesStore = usePurchasesStore()
 
 const loading = ref(false)
 
-const form = ref<Partial<Purchase>>({
-  supplier_id: undefined,
-  scheduled_date: '',
-  received_date: '',
-  observation: '',
-  status_id: 1
-})
+const form = ref<Partial<Purchase>>({})
 
-const items = ref<PurchaseFormItem[]>([])
+const items = ref<PurchaseItem[]>([])
 
 onMounted(async () => {
   loading.value = true
@@ -61,7 +57,7 @@ onMounted(async () => {
         ...purchase,
       }
 
-      items.value = purchase.purchase_items
+      items.value = purchase.items
     }
   } catch (error) {
     console.error("Error cargando compra", error)

@@ -33,9 +33,9 @@ import { useRouter } from 'vue-router'
 import PageHeader from '@/components/PageHeader.vue'
 import PurchaseForm from '@/components/PurchaseForm.vue'
 import { usePurchasesStore } from '@/stores/purchases.store'
-import type { Purchase, PurchaseFormItem } from '@/types/purchases.types'
-import { useRawMaterialsStore } from '@/stores/rawMaterials.store'
-import { usePackagingMaterialsStore } from '@/stores/packagingMaterials.store'
+import type { Purchase } from '@/models/purchase.model'
+import type { PurchaseItem } from '@/models/purchase-item.model'
+
 
 definePage({
   props: true,
@@ -52,15 +52,9 @@ const purchasesStore = usePurchasesStore()
 const purchaseFormRef = ref()
 const loading = ref(false)
 
-const form = ref<Partial<Purchase>>({
-  supplier_id: undefined,
-  scheduled_date: '',
-  received_date: '',
-  observation: '',
-  status_id: 1
-})
+const form = ref<Partial<Purchase>>({})
 
-const items = ref<PurchaseFormItem[]>([])
+const items = ref<PurchaseItem[]>([])
 
 onMounted(async () => {
   loading.value = true
@@ -70,7 +64,7 @@ onMounted(async () => {
       form.value = {
         ...purchase
       }
-      items.value = purchase.purchase_items
+      items.value = purchase.items
     }
   } catch (error) {
     console.error("Error cargando compra", error)
@@ -81,19 +75,19 @@ onMounted(async () => {
 
 const handleSave = async () => {
   const { valid } = await purchaseFormRef.value.validate()
-  if (!valid || !form.value.supplier_id) return
+  if (!valid || !form.value.supplierId) return
 
   loading.value = true
   try {
     const payload = {
       ...form.value,
-      scheduled_date: form.value.scheduled_date ? new Date(form.value.scheduled_date).toISOString() : undefined,
-      received_date: form.value.received_date ? new Date(form.value.received_date).toISOString() : undefined,
+      scheduled_date: form.value.scheduledDate ? new Date(form.value.scheduledDate).toISOString() : undefined,
+      received_date: form.value.receivedDate ? new Date(form.value.receivedDate).toISOString() : undefined,
       purchase_items: items.value.map(i => ({
-        raw_material_id: i.raw_material_id || undefined,
-        packaging_material_id: i.packaging_material_id || undefined,
+        raw_material_id: i.rawMaterialId || undefined,
+        packaging_material_id: i.packagingMaterialId || undefined,
         quantity: i.quantity,
-        unit_price: i.unit_price
+        unit_price: i.unitPrice
       }))
     }
 

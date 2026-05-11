@@ -33,7 +33,9 @@ import { useRouter } from 'vue-router'
 import PageHeader from '@/components/PageHeader.vue'
 import PurchaseForm from '@/components/PurchaseForm.vue'
 import { usePurchasesStore } from '@/stores/purchases.store'
-import type { Purchase, PurchaseFormItem } from '@/types/purchases.types'
+import type { Purchase } from '@/models/purchase.model'
+import type { PurchaseItem } from '@/models/purchase-item.model'
+
 
 definePage({
   meta: {
@@ -48,34 +50,23 @@ const purchaseFormRef = ref()
 const loading = ref(false)
 
 const form = ref<Partial<Purchase>>({
-  supplier_id: undefined,
-  scheduled_date: '',
-  received_date: '',
+  supplierId: undefined,
+  statusId: undefined,
   observation: '',
-  status_id: 1
+  scheduledDate: undefined,
+  receivedDate: undefined,
+  items: []
 })
 
-const items = ref<PurchaseFormItem[]>([])
+const items = ref<PurchaseItem[]>([])
 
 const handleSave = async () => {
   const { valid } = await purchaseFormRef.value.validate()
-  if (!valid || !form.value.supplier_id) return
+  if (!valid || !form.value.supplierId) return
 
   loading.value = true
   try {
-    const payload = {
-      ...form.value,
-      scheduled_date: form.value.scheduled_date ? new Date(form.value.scheduled_date).toISOString() : undefined,
-      received_date: form.value.received_date ? new Date(form.value.received_date).toISOString() : undefined,
-      purchase_items: items.value.map(i => ({
-        raw_material_id: i.raw_material_id || undefined,
-        packaging_material_id: i.packaging_material_id || undefined,
-        quantity: i.quantity,
-        unit_price: i.unit_price
-      }))
-    }
-
-    await purchasesStore.create(payload)
+    await purchasesStore.create(form.value)
     await router.push('/purchases')
   } catch (error) {
     console.error(error)

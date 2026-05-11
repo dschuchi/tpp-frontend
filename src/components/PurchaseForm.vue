@@ -4,11 +4,11 @@
       <v-form ref="formRef" :readonly="readonly" @submit.prevent>
         <v-row>
           <v-col cols="12">
-            <supplier-selector v-model="model.supplier_id" :rules="[required]" :readonly="readonly" />
+            <supplier-selector v-model="model.supplierId" :rules="[required]" :readonly="readonly" />
           </v-col>
           <v-col cols="12">
             <v-select
-              v-model="model.status_id"
+              v-model="model.statusId"
               :items="statuses"
               item-title="name"
               item-value="id"
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              v-model="model.scheduled_date"
+              v-model="model.scheduledDate"
               label="Fecha Programada"
               type="date"
               variant="outlined"
@@ -30,7 +30,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              v-model="model.received_date"
+              v-model="model.receivedDate"
               label="Fecha de Recepción"
               type="date"
               variant="outlined"
@@ -64,8 +64,15 @@
         :items="items"
         hover
       >
-        <template #item.unit_price="{ item }">
-          ${{ item.unit_price }}
+        <template #item.materialType="{ item }">
+          <span v-if="item.materialType == 'raw_material'">MP</span>
+          <span v-if="item.materialType == 'packaging_material'">ME</span>
+        </template>
+        <template #item.code="{ item }">
+          {{ item.rawMaterialId ?? item.packagingMaterialId ?? 'Error' }}
+        </template>
+        <template #item.unitPrice="{ item }">
+          ${{ item.unitPrice }}
         </template>
         <template #item.actions="{ index }">
           <div class="d-flex justify-end">
@@ -102,16 +109,16 @@
           <v-row>
             <v-col cols="12">
               <raw-material-selector
-                v-model="itemForm.raw_material_id"
+                v-model="itemForm.rawMaterialId"
                 clearable
-                :disabled="!!itemForm.packaging_material_id"
+                :disabled="!!itemForm.packagingMaterialId"
               />
             </v-col>
             <v-col cols="12">
               <packaging-material-selector
-                v-model="itemForm.packaging_material_id"
+                v-model="itemForm.packagingMaterialId"
                 clearable
-                :disabled="!!itemForm.raw_material_id"
+                :disabled="!!itemForm.rawMaterialId"
               />
             </v-col>
             <v-col cols="12" md="6">
@@ -134,7 +141,7 @@
             </v-col>
             <v-col cols="12">
               <v-text-field
-                v-model="itemForm.unit_price"
+                v-model="itemForm.unitPrice"
                 label="Precio Unitario"
                 prefix="$"
                 :rules="[v => !!v || 'Requerido']"
@@ -162,14 +169,16 @@ import { useRawMaterialsStore } from '@/stores/rawMaterials.store'
 import { usePackagingMaterialsStore } from '@/stores/packagingMaterials.store'
 import type { DataTableHeader } from 'vuetify'
 import type { VForm } from 'vuetify/components'
-import type { Purchase, PurchaseFormItem } from '@/types/purchases.types'
+import type { Purchase } from '@/models/purchase.model'
+import type { PurchaseItem } from '@/models/purchase-item.model'
+
 
 const props = defineProps({
   readonly: { type: Boolean, default: false }
 })
 
 const model = defineModel<Partial<Purchase>>({ required: true })
-const items = defineModel<PurchaseFormItem[]>('items', { required: true })
+const items = defineModel<PurchaseItem[]>('items', { required: true })
 
 const rawMaterialsStore = useRawMaterialsStore()
 const packagingMaterialsStore = usePackagingMaterialsStore()
@@ -188,23 +197,26 @@ const savingItem = ref(false)
 const errorMessage = ref('')
 
 const itemsHeaders: DataTableHeader[] = [
-  { title: 'Materia Prima', key: 'raw_material_name' },
-  { title: 'Mat. Empaque', key: 'packaging_material_name' },
+  { title: 'Tipo', key: 'materialType' },
+  { title: 'Codigo', key: 'code' },
+  { title: 'Nombre', key: 'materialName' },
   { title: 'Cantidad', key: 'quantity' },
   { title: 'Unidad', key: 'unit' },
-  { title: 'Precio Unit.', key: 'unit_price' }
+  { title: 'Precio Unit.', key: 'unitPrice' }
 ]
 
 if (!props.readonly) {
   itemsHeaders.push({ title: 'Acciones', key: 'actions', align: 'end', sortable: false })
 }
 
-const emptyItemForm = () => ({
-  raw_material_id: null as number | null,
-  packaging_material_id: null as number | null,
+const emptyItemForm = (): PurchaseItem => ({
+  id: 0,
+  rawMaterialId: null,
+  packagingMaterialId: null,
+  materialName: '',
+  materialType: 'raw_material',
   quantity: 0,
-  unit: '',
-  unit_price: ''
+  unitPrice: 0
 })
 
 const itemForm = ref(emptyItemForm())
@@ -223,37 +235,37 @@ const handleAddItem = async () => {
   errorMessage.value = ''
   const { valid } = await itemFormRef.value!.validate()
   if (!valid) return
-  if (!itemForm.value.raw_material_id && !itemForm.value.packaging_material_id) {
+  if (!itemForm.value.rawMaterialId && !itemForm.value.packagingMaterialId) {
     errorMessage.value = 'Debe seleccionar una Materia Prima o un Material de Empaque.'
     return
   }
-  if (itemForm.value.raw_material_id && itemForm.value.packaging_material_id) {
+  if (itemForm.value.rawMaterialId && itemForm.value.packagingMaterialId) {
     errorMessage.value = 'Debe seleccionar una Materia Prima o un Material de Empaque.'
     return
   }
 
   savingItem.value = true
   try {
-    let raw_material_name = ''
-    let packaging_material_name = ''
-
-    if (itemForm.value.raw_material_id) {
-      const rm = await rawMaterialsStore.getRawMaterial(itemForm.value.raw_material_id)
-      raw_material_name = rm?.name ?? ''
+    if (itemForm.value.rawMaterialId) {
+      const rm = await rawMaterialsStore.getRawMaterial(itemForm.value.rawMaterialId)
+      itemForm.value.materialName = rm?.name
+      itemForm.value.materialType = 'raw_material'
     }
-    if (itemForm.value.packaging_material_id) {
-      const pm = await packagingMaterialsStore.getPackagingMaterial(itemForm.value.packaging_material_id)
-      packaging_material_name = pm?.code ?? ''
+    if (itemForm.value.packagingMaterialId) {
+      const pm = await packagingMaterialsStore.getPackagingMaterial(itemForm.value.packagingMaterialId)
+      itemForm.value.materialName = pm?.code
+      itemForm.value.materialType = 'packaging_material'
     }
 
     items.value.push({
-      raw_material_id: itemForm.value.raw_material_id,
-      raw_material_name,
-      packaging_material_id: itemForm.value.packaging_material_id,
-      packaging_material_name,
+      rawMaterialId: itemForm.value.rawMaterialId,
+      packagingMaterialId: itemForm.value.packagingMaterialId,
       quantity: itemForm.value.quantity,
-      unit: itemForm.value.unit,
-      unit_price: itemForm.value.unit_price
+      //unit: itemForm.value.unit,
+      unitPrice: itemForm.value.unitPrice,
+      id: itemForm.value.id,
+      materialName: itemForm.value.materialName,
+      materialType: itemForm.value.materialType
     })
     closeDialog()
   } catch (error) {

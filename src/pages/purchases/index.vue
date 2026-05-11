@@ -28,20 +28,20 @@
         hover
         @update:options="loadItems"
       >
-        <template #item.scheduled_date="{ item }">
-          {{ item.scheduled_date ? new Date(item.scheduled_date).toLocaleDateString() : '-' }}
+        <template #item.scheduledDate="{ item }">
+          {{ item.scheduledDate ? new Date(item.scheduledDate).toLocaleDateString() : '-' }}
         </template>
 
-        <template #item.received_date="{ item }">
-          {{ item.received_date ? new Date(item.received_date).toLocaleDateString() : '-' }}
+        <template #item.receivedDate="{ item }">
+          {{ item.receivedDate ? new Date(item.receivedDate).toLocaleDateString() : '-' }}
         </template>
 
         <template #item.status="{ item }">
           <v-chip
-            :color="getStatusColor(item.status_id)"
+            :color="getStatusColor(item.statusId)"
             size="small"
           >
-            {{ item.status }}
+            {{ item.statusName }}
           </v-chip>
         </template>
 
@@ -96,9 +96,10 @@
 import { usePurchasesStore } from '@/stores/purchases.store'
 import type { DataTableHeader } from 'vuetify'
 import PageHeader from '@/components/PageHeader.vue'
-import type { Purchase } from '@/types/purchases.types'
+
 import { useUserStore } from '@/stores/user.store'
 import type { DataTableOptions } from '@/types/table.types'
+import type { Purchase } from '@/models/purchase.model'
 
 definePage({
   meta: {
@@ -112,9 +113,9 @@ const router = useRouter()
 
 const headers: DataTableHeader[] = [
   { title: 'Codigo', key: 'id' },
-  { title: 'Proveedor', key: 'supplier_name' },
-  { title: 'Fecha Programada', key: 'scheduled_date' },
-  { title: 'Fecha Recibida', key: 'received_date' },
+  { title: 'Proveedor', key: 'supplierName' },
+  { title: 'Fecha Programada', key: 'scheduledDate' },
+  { title: 'Fecha Recibida', key: 'receivedDate' },
   { title: 'Estado', key: 'status' },
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
@@ -144,7 +145,7 @@ const loadItems = async (options: DataTableOptions) => {
   loading.value = true
   try {
     const response = await purchasesStore.getPurchases(options.page, options.itemsPerPage)
-    purchases.value = response.purchases
+    purchases.value = response.items
     totalItems.value = response.total
   } catch (error) {
     console.error("Error loading purchases", error)
