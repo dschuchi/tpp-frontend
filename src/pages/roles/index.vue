@@ -77,20 +77,6 @@
       </v-data-table-server>
     </v-col>
   </v-row>
-
-  <v-dialog v-model="copyModal" max-width="500px">
-    <v-card>
-      <v-card-title class="pa-4 pb-0 text-h5">Copiar Rol</v-card-title>
-      <v-card-text class="pa-4 pt-2">
-        <RoleForm ref="copyFormRef" v-model="copyData" title="" />
-      </v-card-text>
-      <v-card-actions class="pa-4 pt-0">
-        <v-spacer></v-spacer>
-        <v-btn color="error" variant="text" @click="closeCopyModal">Cancelar</v-btn>
-        <v-btn color="primary" variant="flat" :loading="copying" @click="submitCopy">Copiar</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -98,8 +84,7 @@ import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
 import { useConfirm } from '@/composables/useConfirm'
 import PageHeader from '@/components/PageHeader.vue'
-import RoleForm from '@/components/RoleForm.vue'
-import type { Role, CreateRoleRequest } from '@/types/roles.types'
+import type { Role } from '@/types/roles.types'
 import { useUserStore } from '@/stores/user.store'
 import type { DataTableOptions } from '@/types/table.types'
 import { useSnackbarStore } from '@/stores/snackbar.store'
@@ -142,51 +127,8 @@ const toggleStatus = async (item: Role) => {
   }
 }
 
-const snackbarStore = useSnackbarStore()
-
-const copyModal = ref(false)
-const copying = ref(false)
-const copyFormRef = ref()
-const copyingRoleId = ref<number | null>(null)
-const copyData = ref<CreateRoleRequest>({ name: '', description: '' })
-
-const handleCopy = async (id: number) => {
-  try {
-    const role = await rolesStore.getRole(id)
-    copyData.value = {
-      name: `${role.name} (copia)`,
-      description: role.description
-    }
-    copyingRoleId.value = id
-    copyModal.value = true
-  } catch (error) {
-    snackbarStore.showMessage({ message: 'Ocurrió un error al obtener los datos del rol', color: 'error' })
-  }
-}
-
-const submitCopy = async () => {
-  const { valid } = await copyFormRef.value.validate()
-  if (!valid) return
-
-  if (!copyingRoleId.value) return
-
-  copying.value = true
-  try {
-    await rolesStore.duplicateRole(copyingRoleId.value, copyData.value)
-    snackbarStore.showMessage({ message: 'Rol copiado exitosamente', color: 'success' })
-    copyModal.value = false
-    loadItems({ page: 1, itemsPerPage: itemsPerPage.value })
-  } catch (error) {
-    snackbarStore.showMessage({ message: 'Ocurrió un error al copiar el rol', color: 'error' })
-  } finally {
-    copying.value = false
-  }
-}
-
-const closeCopyModal = () => {
-  copyModal.value = false
-  copyingRoleId.value = null
-  copyData.value = { name: '', description: '' }
+const handleCopy = (id: number) => {
+  router.push({ name: '/roles/[id]/duplicate', params: { id } })
 }
 
 const itemsPerPage = ref(10)
