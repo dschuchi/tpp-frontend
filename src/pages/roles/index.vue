@@ -87,7 +87,6 @@ import PageHeader from '@/components/PageHeader.vue'
 import type { Role } from '@/types/roles.types'
 import { useUserStore } from '@/stores/user.store'
 import type { DataTableOptions } from '@/types/table.types'
-import { useSnackbarStore } from '@/stores/snackbar.store'
 
 definePage({
   meta: {

@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <page-header title="Duplicar Rol"
+      <page-header :title="title"
         subtitle="Crea un nuevo rol basado en uno existente, ajustando los detalles y permisos según sea necesario."
         :back-route="{name:'/roles/'}" back-text="Roles">
         <template #actions>
@@ -29,7 +29,7 @@
 import PageHeader from '@/components/PageHeader.vue'
 import RoleForm from '@/components/RoleForm.vue'
 import { useRolesStore } from '@/stores/roles.store'
-import type { CreateRoleRequest } from '@/types/roles.types'
+import type { CreateRoleRequest, Role } from '@/types/roles.types'
 import { useSnackbarStore } from '@/stores/snackbar.store'
 
 definePage({
@@ -52,13 +52,16 @@ const form = ref<CreateRoleRequest>({
   description: ''
 })
 
+const role = ref<Role | null>(null)
+const title = computed(() => role.value ? `Duplicar Rol - ${role.value.name}` : 'Duplicar Rol')
+
 onMounted(async () => {
   const id = Number(route.params.id)
   try {
-    const role = await rolesStore.getRole(id)
+    role.value = await rolesStore.getRole(id)
     form.value = {
-      name: `${role.name} (copia)`,
-      description: role.description
+      name: `${role.value.name} (copia)`,
+      description: role.value.description
     }
   } catch (error) {
     snackbarStore.showMessage({ message: 'Ocurrió un error al cargar los datos del rol', color: 'error' })
