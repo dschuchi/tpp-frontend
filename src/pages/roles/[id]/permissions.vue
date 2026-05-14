@@ -49,6 +49,7 @@
         item-value="name"
         hover
         @update:options="loadItems"
+        disable-sort
       >
         <template #[`item.assigned`]="{ item }">
           <v-checkbox
@@ -99,9 +100,10 @@ const handleSearch = () => {
 }
 
 const headers: DataTableHeader[] = [
-  { title: 'Nombre', key: 'name', align: 'start', width: '200px' },
+  { title: 'Codigo', key: 'name', align: 'start', width: '200px' },
+  { title: 'Título', key: 'publicName', align: 'start' },
   { title: 'Descripción', key: 'description', align: 'start' },
-  { title: 'Habilitado', key: 'assigned', align: 'center', sortable: false, width: '100px' },
+  { title: 'Habilitado', key: 'assigned', align: 'center', width: '100px' },
 ]
 
 const toAdd = ref<number[]>([])

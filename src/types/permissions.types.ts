@@ -5,6 +5,7 @@ export interface PermissionsState {
 export interface Permission {
   id: number
   name: string
+  publicName: string
   description: string
 }
 
