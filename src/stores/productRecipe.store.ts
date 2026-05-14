@@ -8,14 +8,14 @@ export const useProductRecipeStore = defineStore('product-recipe', {
       return await http.get(PRODUCT_RECIPES_ENDPOINTS.PRODUCT_RECIPE_BY_PRODUCT_ID(productId))
     },
 
-    async createRecipeItems(productId: number, items: { raw_material_id: number; quantity: number; unit: string }[]) {
+    async createRecipeItems(productId: number, items: { raw_material_id: number; percentage: number; observation: string }[]) {
       return await http.post(PRODUCT_RECIPES_ENDPOINTS.PRODUCT_RECIPE, {
         product_id: productId,
         items
       })
     },
 
-    async updateRecipeItem(id: number, data: Partial<Pick<ProductRecipeItem, 'raw_material_id' | 'quantity' | 'unit'>>) {
+    async updateRecipeItem(id: number, data: Partial<Pick<ProductRecipeItem, 'raw_material_id' | 'percentage' | 'observation'>>) {
       return await http.put(PRODUCT_RECIPES_ENDPOINTS.PRODUCT_RECIPE_BY_ID(id), data)
     },
 

@@ -3,8 +3,8 @@ export interface ProductRecipeItem {
   product_id: number
   raw_material_id: number
   raw_material_name?: string | null
-  quantity: number
-  unit: string
+  percentage: number
+  observation: string
   is_active?: boolean
 }
 

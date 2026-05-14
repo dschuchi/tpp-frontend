@@ -78,21 +78,20 @@
                 :fetch-by-id-fn="(id) => rawMaterialsStore.getRawMaterial(Number(id))"
               />
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12">
               <v-text-field
-                v-model.number="form.quantity"
-                label="Cantidad"
+                v-model.number="form.percentage"
+                label="Porcentaje"
                 type="number"
-                :rules="[v => !!v || 'Requerido', v => v > 0 || 'Debe ser mayor a 0']"
+                :rules="[v => !!v || 'Requerido', v => v > 0 || 'Debe ser mayor a 0', v => v <= 100 || 'Debe ser menor o igual a 100']"
                 :readonly="saving"
               />
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12">
               <v-text-field
-                v-model="form.unit"
-                label="Unidad"
+                v-model="form.observation"
+                label="Observación"
                 :rules="[v => !!v || 'Requerido']"
-                placeholder="kg, L, g, mL..."
                 :readonly="saving"
               />
             </v-col>
@@ -132,8 +131,8 @@ const rawMaterialsStore = useRawMaterialsStore()
 
 const headers: DataTableHeader[] = [
   { title: 'Materia Prima', key: 'raw_material_name' },
-  { title: 'Cantidad', key: 'quantity' },
-  { title: 'Unidad', key: 'unit' },
+  { title: 'Porcentaje', key: 'percentage' },
+  { title: 'Observación', key: 'observation' },
   { title: 'Estado', key: 'is_active' },
   { title: 'Acciones', key: 'actions', align: 'end', sortable: false }
 ]
@@ -146,7 +145,7 @@ const saving = ref(false)
 const editingId = ref<number | null>(null)
 const formRef = ref()
 
-const emptyForm = () => ({ raw_material_id: null as number | null, quantity: 0, unit: '' })
+const emptyForm = () => ({ raw_material_id: null as number | null, percentage: 0, observation: '' })
 const form = ref(emptyForm())
 
 const loadRawMaterials = async (page: number, search: string) => {
@@ -181,8 +180,8 @@ const openEditDialog = (item: ProductRecipeItem) => {
   editingId.value = item.id ?? null
   form.value = {
     raw_material_id: item.raw_material_id,
-    quantity: item.quantity,
-    unit: item.unit
+    percentage: item.percentage,
+    observation: item.observation
   }
   dialog.value = true
 }
@@ -200,14 +199,14 @@ const handleSave = async () => {
     if (editingId.value) {
       await recipeStore.updateRecipeItem(editingId.value, {
         raw_material_id: form.value.raw_material_id,
-        quantity: form.value.quantity,
-        unit: form.value.unit
+        percentage: form.value.percentage,
+        observation: form.value.observation
       })
     } else {
       await recipeStore.createRecipeItems(Number(props.id), [{
         raw_material_id: form.value.raw_material_id!,
-        quantity: form.value.quantity,
-        unit: form.value.unit
+        percentage: form.value.percentage,
+        observation: form.value.observation
       }])
     }
     closeDialog()
