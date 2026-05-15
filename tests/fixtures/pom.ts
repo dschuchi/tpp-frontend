@@ -29,6 +29,11 @@ import { EditPackagingMaterialPage } from '../pages/packaging-materials/EditPack
 import { ProductsPage } from '../pages/products/ProductsPage';
 import { NewProductPage } from '../pages/products/NewProductPage';
 import { EditProductPage } from '../pages/products/EditProductPage';
+
+import { PurchasesPage } from '../pages/purchases/PurchasesPage';
+import { NewPurchasePage } from '../pages/purchases/NewPurchasePage';
+import { EditPurchasePage } from '../pages/purchases/EditPurchasePage';
+
 import { ProfilePage } from '../pages/profile/ProfilePage';
 import { UpdatedPasswordDialog } from '../pages/profile/UpdatedPasswordDialog';
 import { getAuthContext } from '../utils/api-client';
@@ -66,6 +71,11 @@ type POMFixtures = {
   productsPage: ProductsPage
   newProductPage: NewProductPage
   editProductPage: EditProductPage
+
+  purchasesPage: PurchasesPage
+  newPurchasePage: NewPurchasePage
+  editPurchasePage: EditPurchasePage
+
   profilePage: ProfilePage
   updatedPasswordDialog: UpdatedPasswordDialog
 };
@@ -151,6 +161,16 @@ export const test = base.extend<POMFixtures>({
   },
   editProductPage: async ({ page }, use) => {
     await use(new EditProductPage(page));
+  },
+
+  purchasesPage: async ({ page }, use) => {
+    await use(new PurchasesPage(page));
+  },
+  newPurchasePage: async ({ page }, use) => {
+    await use(new NewPurchasePage(page));
+  },
+  editPurchasePage: async ({ page }, use) => {
+    await use(new EditPurchasePage(page));
   },
 
   profilePage: async ({ page }, use) => {

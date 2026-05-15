@@ -8,11 +8,12 @@ export const useRawMaterialsStore = defineStore('raw-materials', {
   }),
 
   actions: {
-    async getRawMaterials(page: number, limit: number) {
+    async getRawMaterials(page: number, limit: number, filters?: any) {
       const response: RawMaterialsResponse = await http.get(RAW_MATERIALS_ENDPOINTS.RAW_MATERIALS, {
         params: {
           page,
-          limit
+          limit,
+          ...filters
         }
       })
       this.rawMaterials = response.rawMaterials

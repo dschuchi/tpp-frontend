@@ -3,7 +3,7 @@
     v-model="internalValue"
     :items="items"
     :loading="loading"
-    :item-title="itemTitle"
+    :item-title="(itemTitle as any)"
     :item-value="itemValue"
     :label="label"
     return-object
@@ -12,7 +12,7 @@
   >
     <template #selection="{ item }">
       <template v-if="item?.raw">
-        {{ (item.raw as T)[itemTitle] }}
+        {{ typeof itemTitle === 'function' ? itemTitle(item.raw as T) : (item.raw as T)[itemTitle as keyof T] }}
       </template>
     </template>
 
@@ -49,7 +49,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 export interface Props<T> {
   modelValue?: number | string | null
   label: string
-  itemTitle: keyof T & string
+  itemTitle: (keyof T & string) | ((item: T) => string)
   itemValue?: keyof T & string
   loadFn: (page: number, search: string) => Promise<{ items: T[], total: number }>
   fetchByIdFn: (id: number | string) => Promise<T | undefined | null>

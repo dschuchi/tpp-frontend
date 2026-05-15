@@ -100,3 +100,8 @@ export const PRODUCT_ORDERS_ENDPOINTS = {
   PRODUCT_ORDER_ITEM: (orderId: number) => `/product-order/${orderId}/item`,
   PRODUCT_ORDER_ITEM_BY_ID: (orderId: number, itemId: number) => `/product-order/${orderId}/item/${itemId}`,
 } as const
+
+export const PURCHASES_ENDPOINTS = {
+  PURCHASES: '/purchase',
+  PURCHASE_BY_ID: (id: number) => `/purchase/${id}`
+} as const
