@@ -1,6 +1,7 @@
 import { USERS_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
 import type { CreateUserRequest, CreateUserResponse, UpdateUserRequest, UserListItem, UsersResponse, UsersState } from "@/types/users.types"
+import type { Filters } from "@/types/filters.types"
 
 export const useUsersStore = defineStore('users', {
   state: (): UsersState => ({
@@ -8,11 +9,14 @@ export const useUsersStore = defineStore('users', {
   }),
 
   actions: {
-    async getUsers(page: number, limit: number) {
+    async getUsers(page: number, limit: number, filters?: Filters) {
+      const { search, ...rest } = filters ?? {}
       const response: UsersResponse = await http.get(USERS_ENDPOINTS.USERS, {
         params: {
           page,
-          limit
+          limit,
+          username: search,
+          ...rest
         }
       })
       this.users = response.users

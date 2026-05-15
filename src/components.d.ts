@@ -31,6 +31,8 @@ declare module 'vue' {
     StatusChip: typeof import('./components/StatusChip.vue')['default']
     SupplierForm: typeof import('./components/SupplierForm.vue')['default']
     SupplierSelector: typeof import('./components/SupplierSelector.vue')['default']
+    TableFilters: typeof import('./components/TableFilters.vue')['default']
+    TheFilters: typeof import('./components/TheFilters.vue')['default']
     UserForm: typeof import('./components/UserForm.vue')['default']
     UserInformation: typeof import('./components/UserInformation.vue')['default']
   }

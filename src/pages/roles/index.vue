@@ -3,6 +3,15 @@
     <v-col cols="12">
       <page-header title="Roles" subtitle="Administra los roles y define los permisos de acceso para los usuarios.">
         <template #actions>
+          <v-btn variant="tonal" prepend-icon="mdi-filter-variant" @click="filtersOpen = true">
+            Filtros
+            <v-badge
+              v-if="activeFilterCount > 0"
+              :content="activeFilterCount"
+              color="primary"
+              floating
+            />
+          </v-btn>
           <v-btn v-if="can('roles:create')" to="/roles/new">
             Nuevo Rol
           </v-btn>
@@ -14,6 +23,7 @@
   <v-row>
     <v-col cols="12">
       <v-data-table-server
+        v-model:page="currentPage"
         :headers="headers"
         v-model:items-per-page="itemsPerPage"
         :items="roles"
@@ -68,6 +78,12 @@
       </v-data-table-server>
     </v-col>
   </v-row>
+
+  <TheFilters
+    v-model="filtersOpen"
+    :applied-filters="currentFilters"
+    @apply="onFiltersApply"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -75,9 +91,11 @@ import { useRolesStore } from '@/stores/roles.store'
 import type { DataTableHeader } from 'vuetify'
 import { useConfirm } from '@/composables/useConfirm'
 import PageHeader from '@/components/PageHeader.vue'
+import TheFilters from '@/components/TheFilters.vue'
 import type { Role } from '@/types/roles.types'
 import { useUserStore } from '@/stores/user.store'
 import type { DataTableOptions } from '@/types/table.types'
+import type { Filters } from '@/types/filters.types'
 
 definePage({
   meta: {
@@ -118,16 +136,32 @@ const toggleStatus = async (item: Role) => {
 }
 
 const itemsPerPage = ref(10)
+const currentPage = ref(1)
 const roles = ref<Role[]>([])
 const loading = ref(true)
 const totalItems = ref(0)
+const filtersOpen = ref(false)
+const currentFilters = ref<Filters>({})
+
+const activeFilterCount = computed(() =>
+  Object.values(currentFilters.value).filter(v => v != null && v !== '').length
+)
 
 const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
   loading.value = true
-  const response = await rolesStore.getRoles(page, itemsPerPage)
+  const response = await rolesStore.getRoles(page, itemsPerPage, currentFilters.value)
 
   roles.value = response.roles
   totalItems.value = response.total
   loading.value = false
+}
+
+const onFiltersApply = async (filters: Filters) => {
+  currentFilters.value = filters
+  if (currentPage.value !== 1) {
+    currentPage.value = 1
+  } else {
+    await loadItems({ page: 1, itemsPerPage: itemsPerPage.value })
+  }
 }
 </script>

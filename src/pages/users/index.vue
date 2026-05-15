@@ -6,6 +6,15 @@
         subtitle="Administra los usuarios del sistema."
       >
         <template #actions>
+          <v-btn variant="tonal" prepend-icon="mdi-filter-variant" @click="filtersOpen = true">
+            Filtros
+            <v-badge
+              v-if="activeFilterCount > 0"
+              :content="activeFilterCount"
+              color="primary"
+              floating
+            />
+          </v-btn>
           <v-btn
             v-if="can('users:create')"
             to="/users/new"
@@ -20,6 +29,7 @@
   <v-row>
     <v-col cols="12">
       <v-data-table-server
+        v-model:page="currentPage"
         :headers="headers"
         v-model:items-per-page="itemsPerPage"
         :items="users"
@@ -94,15 +104,23 @@
       </v-data-table-server>
     </v-col>
   </v-row>
+
+  <TheFilters
+    v-model="filtersOpen"
+    :applied-filters="currentFilters"
+    @apply="onFiltersApply"
+  />
 </template>
 
 <script lang="ts" setup>
 import PageHeader from '@/components/PageHeader.vue';
+import TheFilters from '@/components/TheFilters.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.store';
 import { useUsersStore } from '@/stores/users.store';
 import type { UserListItem } from '@/types/users.types';
+import type { Filters } from '@/types/filters.types';
 import type { DataTableHeader } from 'vuetify';
 import type { DataTableOptions } from '@/types/table.types';
 
@@ -149,17 +167,32 @@ const toggleStatus = async (item: UserListItem) => {
 }
 
 const itemsPerPage = ref(10)
+const currentPage = ref(1)
 const users = ref<UserListItem[]>([])
 const loading = ref(true)
 const totalItems = ref(0)
+const filtersOpen = ref(false)
+const currentFilters = ref<Filters>({})
+
+const activeFilterCount = computed(() =>
+  Object.values(currentFilters.value).filter(v => v != null && v !== '').length
+)
 
 const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
   loading.value = true
-  const response = await usersStore.getUsers(page, itemsPerPage)
+  const response = await usersStore.getUsers(page, itemsPerPage, currentFilters.value)
 
   users.value = response.users
   totalItems.value = response.total
   loading.value = false
 }
 
+const onFiltersApply = async (filters: Filters) => {
+  currentFilters.value = filters
+  if (currentPage.value !== 1) {
+    currentPage.value = 1
+  } else {
+    await loadItems({ page: 1, itemsPerPage: itemsPerPage.value })
+  }
+}
 </script>

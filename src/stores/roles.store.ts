@@ -1,6 +1,7 @@
 import { ROLES_ENDPOINTS } from "@/api/endpoints"
 import http from "@/api/http"
 import type { CreateRoleRequest, Role, RolesResponse, RolesState, UpdateRoleRequest } from "@/types/roles.types"
+import type { Filters } from "@/types/filters.types"
 
 export const useRolesStore = defineStore('roles', {
   state: () => ({}),
@@ -10,12 +11,14 @@ export const useRolesStore = defineStore('roles', {
   },
 
   actions: {
-    async getRoles(page: number, limit: number, filters?: any) {
+    async getRoles(page: number, limit: number, filters?: Filters) {
+      const { search, ...rest } = filters ?? {}
       const response: RolesResponse = await http.get(ROLES_ENDPOINTS.ROLES, {
         params: {
           page,
           limit,
-          ...filters
+          name: search,
+          ...rest
         }
       })
       return response

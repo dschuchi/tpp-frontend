@@ -8,10 +8,19 @@
         back-text="Roles"
       >
         <template #actions>
+          <v-btn variant="tonal" prepend-icon="mdi-filter-variant" @click="filtersOpen = true">
+            Filtros
+            <v-badge
+              v-if="activeFilterCount > 0"
+              :content="activeFilterCount"
+              color="primary"
+              floating
+            />
+          </v-btn>
           <v-btn
-            @click="handleSave"
             color="primary"
             variant="flat"
+            @click="handleSave"
           >
             Guardar
           </v-btn>
@@ -22,30 +31,13 @@
 
   <v-row>
     <v-col cols="12">
-      <v-form @submit.prevent="handleSearch">
-        <v-text-field
-          v-model="searchInput"
-          label="Nombre"
-          clearable
-          @click:clear="activeSearch = ''"
-        >
-          <template #append>
-            <v-btn
-              prepend-icon="mdi-magnify"
-              size="large"
-              @click="handleSearch"
-            > Buscar </v-btn>
-          </template>
-        </v-text-field>
-      </v-form>
-
       <v-data-table-server
+        v-model:page="currentPage"
         v-model:items-per-page="itemsPerPage"
         :headers="headers"
         :items="serverItems"
         :items-length="totalItems"
         :loading="loading"
-        :search="activeSearch"
         item-value="name"
         hover
         @update:options="loadItems"
@@ -54,23 +46,32 @@
         <template #[`item.assigned`]="{ item }">
           <v-checkbox
             :model-value="isAssigned(item)"
-            @update:model-value="togglePermission(item)"
             color="primary"
             density="compact"
             hide-details
-          ></v-checkbox>
+            @update:model-value="togglePermission(item)"
+          />
         </template>
       </v-data-table-server>
     </v-col>
   </v-row>
+
+  <TheFilters
+    v-model="filtersOpen"
+    :applied-filters="currentFilters"
+    :show-status="false"
+    @apply="onFiltersApply"
+  />
 </template>
 
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue';
+import TheFilters from '@/components/TheFilters.vue';
 import { usePermissionsStore } from '@/stores/permissions.store';
 import { useRolesStore } from '@/stores/roles.store';
 import type { Permission } from '@/types/permissions.types';
 import type { Role } from '@/types/roles.types';
+import type { Filters } from '@/types/filters.types';
 import type { DataTableOptions } from '@/types/table.types';
 import type { DataTableHeader } from 'vuetify';
 
@@ -91,13 +92,6 @@ onMounted(async () => {
     role.value = await rolesStore.getRole(Number(props.id))
   }
 })
-
-const activeSearch = ref('')
-const searchInput = ref('')
-
-const handleSearch = () => {
-  activeSearch.value = searchInput.value
-}
 
 const headers: DataTableHeader[] = [
   { title: 'Codigo', key: 'name', align: 'start', width: '200px' },
@@ -140,17 +134,33 @@ const togglePermission = async (permission: Permission) => {
 }
 
 const itemsPerPage = ref(10)
+const currentPage = ref(1)
 const serverItems = ref<Permission[]>([])
 const loading = ref(true)
 const totalItems = ref(0)
+const filtersOpen = ref(false)
+const currentFilters = ref<Filters>({})
 
-const loadItems = async ({ page, itemsPerPage, search }: DataTableOptions) => {
+const activeFilterCount = computed(() =>
+  Object.values(currentFilters.value).filter(v => v != null && v !== '').length
+)
+
+const loadItems = async ({ page, itemsPerPage }: DataTableOptions) => {
   loading.value = true
-  const response = await permissionsStore.getPermissions(page, itemsPerPage, search)
+  const response = await permissionsStore.getPermissions(page, itemsPerPage, currentFilters.value.search)
 
   serverItems.value = response.permissions
   totalItems.value = response.total
   loading.value = false
+}
+
+const onFiltersApply = async (filters: Filters) => {
+  currentFilters.value = filters
+  if (currentPage.value !== 1) {
+    currentPage.value = 1
+  } else {
+    await loadItems({ page: 1, itemsPerPage: itemsPerPage.value })
+  }
 }
 
 const handleSave = async () => {
