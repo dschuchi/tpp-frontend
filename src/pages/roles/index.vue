@@ -47,6 +47,15 @@
               </template>
             </v-tooltip>
 
+            <v-tooltip text="Copiar rol" location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
+                  @click="handleCopy(item.id)">
+                  <v-icon icon="mdi-content-copy" />
+                </v-btn>
+              </template>
+            </v-tooltip>
+
             <v-tooltip text="Configurar permisos" location="top">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
@@ -133,6 +142,10 @@ const toggleStatus = async (item: Role) => {
     isDeactivating ? rolesStore.deactivateRole(id) : rolesStore.activateRole(id)
     item.is_active = !item.is_active
   }
+}
+
+const handleCopy = (id: number) => {
+  router.push({ name: '/roles/[id]/duplicate', params: { id } })
 }
 
 const itemsPerPage = ref(10)

@@ -49,6 +49,7 @@ declare module 'vue-router/auto-routes' {
     '/raw-materials/new': RouteRecordInfo<'/raw-materials/new', '/raw-materials/new', Record<never, never>, Record<never, never>>,
     '/roles/': RouteRecordInfo<'/roles/', '/roles', Record<never, never>, Record<never, never>>,
     '/roles/[id]/': RouteRecordInfo<'/roles/[id]/', '/roles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/roles/[id]/duplicate': RouteRecordInfo<'/roles/[id]/duplicate', '/roles/:id/duplicate', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/[id]/edit': RouteRecordInfo<'/roles/[id]/edit', '/roles/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/[id]/permissions': RouteRecordInfo<'/roles/[id]/permissions', '/roles/:id/permissions', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/roles/new': RouteRecordInfo<'/roles/new', '/roles/new', Record<never, never>, Record<never, never>>,
@@ -194,6 +195,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/roles/[id]/index.vue': {
       routes: '/roles/[id]/'
+      views: never
+    }
+    'src/pages/roles/[id]/duplicate.vue': {
+      routes: '/roles/[id]/duplicate'
       views: never
     }
     'src/pages/roles/[id]/edit.vue': {
