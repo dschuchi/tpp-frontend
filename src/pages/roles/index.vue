@@ -49,7 +49,7 @@
 
             <v-tooltip text="Copiar rol" location="top">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
+                <v-btn v-if="can('roles:create')" v-bind="props" icon size="small" variant="text" color="secondary"
                   @click="handleCopy(item.id)">
                   <v-icon icon="mdi-content-copy" />
                 </v-btn>
@@ -58,7 +58,7 @@
 
             <v-tooltip text="Configurar permisos" location="top">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" icon size="small" variant="text" color="secondary"
+                <v-btn v-if="can('permissions:view')" v-bind="props" icon size="small" variant="text" color="secondary"
                   :to="`/roles/${item.id}/permissions`">
                   <v-icon icon="mdi-key" />
                 </v-btn>

@@ -18,6 +18,7 @@
             />
           </v-btn>
           <v-btn
+            v-if="can('roles:edit')"
             color="primary"
             variant="flat"
             @click="handleSave"
@@ -74,14 +75,17 @@ import type { Role } from '@/types/roles.types';
 import type { Filters } from '@/types/filters.types';
 import type { DataTableOptions } from '@/types/table.types';
 import type { DataTableHeader } from 'vuetify';
+import { useUserStore } from '@/stores/user.store';
 
 definePage({
   props: true,
   meta: {
-    permission: 'roles:edit'
+    permission: 'permissions:view'
   }
 })
 const props = defineProps<{ id: string }>()
+
+const { can } = useUserStore()
 
 const rolesStore = useRolesStore()
 const permissionsStore = usePermissionsStore()
