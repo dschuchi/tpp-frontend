@@ -17,7 +17,7 @@ const rolId = defineModel<number>()
 const rolesStore = useRolesStore()
 
 const loadRoles = async (page: number, search: string) => {
-  const res = await rolesStore.getRoles(page, 5, { name: search })
+  const res = await rolesStore.getRoles(page, 5, { search })
   return {
     items: res.roles,
     total: res.total
