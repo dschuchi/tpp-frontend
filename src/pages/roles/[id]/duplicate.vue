@@ -1,26 +1,42 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <page-header :title="title"
+      <page-header
+        :title="title"
         subtitle="Crea un nuevo rol basado en uno existente, ajustando los detalles y permisos según sea necesario."
-        :back-route="{name:'/roles/'}" back-text="Roles">
+        :back-route="{ name: '/roles/' }"
+        back-text="Roles"
+      >
         <template #actions>
           <v-btn @click="handleCancel"> Cancelar </v-btn>
-          <v-btn color="primary" :loading="saving" @click="handleSave"> Guardar </v-btn>
+          <v-btn
+            color="primary"
+            :loading="saving"
+            @click="handleSave"
+          > Guardar </v-btn>
         </template>
       </page-header>
     </v-col>
   </v-row>
 
   <v-row v-if="loading">
-    <v-col cols="12" class="text-center">
-      <v-progress-circular indeterminate color="primary" />
+    <v-col
+      cols="12"
+      class="text-center"
+    >
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      />
     </v-col>
   </v-row>
 
   <v-row v-else>
     <v-col cols="12">
-      <role-form ref="roleFormRef" v-model="form" />
+      <role-form
+        ref="roleFormRef"
+        v-model="form"
+      />
     </v-col>
   </v-row>
 </template>
@@ -31,6 +47,7 @@ import RoleForm from '@/components/RoleForm.vue'
 import { useRolesStore } from '@/stores/roles.store'
 import type { CreateRoleRequest, Role } from '@/types/roles.types'
 import { useSnackbarStore } from '@/stores/snackbar.store'
+import { AxiosError } from 'axios'
 
 definePage({
   meta: {
@@ -82,7 +99,16 @@ const handleSave = async () => {
     snackbarStore.showMessage({ message: 'Rol duplicado exitosamente', color: 'success' })
     router.push({ name: '/roles/' })
   } catch (error) {
-    snackbarStore.showMessage({ message: 'Ocurrió un error al duplicar el rol', color: 'error' })
+    if (error instanceof AxiosError) {
+      const { message } = error.response?.data
+      snackbarStore.showMessage({
+        message
+      })
+    } else {
+      snackbarStore.showMessage({
+        message: "Error inesperado"
+      })
+    }
   } finally {
     saving.value = false
   }
